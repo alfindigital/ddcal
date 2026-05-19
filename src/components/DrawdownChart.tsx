@@ -36,7 +36,7 @@ export function DrawdownChart({ active }: { active: number }) {
   const activeLabel = `${nearestBucket}%`;
 
   return (
-    <div className="h-[340px] w-full">
+    <div className="h-[260px] w-full sm:h-[340px]">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ top: 10, right: 16, left: 0, bottom: 8 }}>
           <CartesianGrid stroke="hsl(var(--muted-foreground) / 0.15)" vertical={false} />
