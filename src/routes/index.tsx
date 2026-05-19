@@ -35,7 +35,7 @@ function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="mx-auto flex max-w-2xl flex-col gap-5 px-4 py-6 sm:py-10">
+      <div className="mx-auto flex max-w-2xl flex-col gap-4 px-3 py-5 sm:gap-5 sm:px-4 sm:py-10">
         <Header />
 
         <Card>
