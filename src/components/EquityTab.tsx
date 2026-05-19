@@ -48,7 +48,7 @@ function Field({
         inputMode="numeric"
         value={formatRupiah(value)}
         onChange={(e) => onChange(parseRupiah(e.target.value))}
-        className="h-9 w-44 text-right tabular-nums"
+        className="h-9 w-36 text-right tabular-nums sm:w-44"
       />
     </div>
   );
