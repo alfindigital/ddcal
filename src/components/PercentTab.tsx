@@ -11,9 +11,9 @@ export function PercentTab({
   const ticks = [1, 25, 50, 75, 99];
   return (
     <div className="space-y-5">
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center justify-between gap-3">
         <label className="text-sm text-muted-foreground">Drawdown</label>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <Input
             type="number"
             min={1}
@@ -23,7 +23,7 @@ export function PercentTab({
               const n = Math.max(1, Math.min(99, Number(e.target.value) || 0));
               onChange(n);
             }}
-            className="h-9 w-20 text-right tabular-nums"
+            className="h-9 w-16 text-right tabular-nums sm:w-20"
           />
           <span className="text-sm text-muted-foreground">%</span>
         </div>
