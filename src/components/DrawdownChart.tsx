@@ -66,10 +66,10 @@ export function DrawdownChart({ active }: { active: number }) {
             domain={[2, 10000]}
             ticks={Y_TICKS}
             tickFormatter={(v) => `${v}%`}
-            tick={{ fill: "var(--muted-foreground)", fontSize: 11 }}
+            tick={{ fill: "var(--muted-foreground)", fontSize: 10 }}
             tickLine={false}
             axisLine={false}
-            width={56}
+            width={48}
           />
           <ReferenceLine
             x={activeLabel}
