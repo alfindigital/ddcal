@@ -44,8 +44,8 @@ function Row({
   valueClass: string;
 }) {
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+    <div className="flex items-center justify-between gap-3">
+      <div className="flex min-w-0 items-center gap-1.5 text-sm text-muted-foreground">
         {label}
         <Tooltip>
           <TooltipTrigger asChild>
@@ -56,7 +56,7 @@ function Row({
           <TooltipContent className="max-w-xs">{tip}</TooltipContent>
         </Tooltip>
       </div>
-      <div className={`text-base tabular-nums ${valueClass}`}>{value}</div>
+      <div className={`whitespace-nowrap text-base tabular-nums ${valueClass}`}>{value}</div>
     </div>
   );
 }
