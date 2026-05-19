@@ -54,7 +54,7 @@ function Home() {
                 Equity
               </TabsTrigger>
             </TabsList>
-            <div className="space-y-5 p-5">
+            <div className="space-y-5 p-4 sm:p-5">
               <TabsContent value="pct" className="mt-0">
                 <PercentTab value={drawdown} onChange={setDrawdown} />
               </TabsContent>
