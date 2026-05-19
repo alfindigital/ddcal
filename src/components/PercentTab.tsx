@@ -37,7 +37,7 @@ export function PercentTab({
         onValueChange={(v) => onChange(v[0])}
       />
 
-      <div className="flex justify-between text-xs text-muted-foreground tabular-nums">
+      <div className="flex justify-between text-[10px] text-muted-foreground tabular-nums sm:text-xs">
         {ticks.map((t) => (
           <span key={t}>{t}%</span>
         ))}
