@@ -13,7 +13,7 @@ export function ResultCard({ drawdown }: { drawdown: number }) {
     <TooltipProvider delayDuration={150}>
       <div className="relative overflow-hidden rounded-2xl border bg-primary-soft/60 pl-1">
         <div className="absolute inset-y-0 left-0 w-1 bg-primary" />
-        <div className="space-y-2 px-5 py-4">
+        <div className="space-y-2 px-4 py-3.5 sm:px-5 sm:py-4">
           <Row
             label="Drawdown"
             tip="Persentase penurunan modal dari titik tertinggi."
