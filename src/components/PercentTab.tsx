@@ -26,7 +26,8 @@ export function PercentTab({
               onChange(n);
             }}
             className="h-8 w-14 text-right font-display font-semibold tabular"
-          />
+            className="h-8 w-16 text-right font-display font-semibold tabular"
+
           <span className="text-sm text-muted-foreground">%</span>
         </div>
       </div>
