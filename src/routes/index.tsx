@@ -56,13 +56,16 @@ function Home() {
                 <EquityTab onDerivedDrawdown={setDrawdown} />
               </TabsContent>
               <ResultCard drawdown={drawdown} />
-              <div ref={chartRef}>
-                <DrawdownChart active={drawdown} />
-              </div>
-
-              <ActionsRow drawdown={drawdown} chartRef={chartRef} />
             </div>
           </Tabs>
+          <div ref={chartRef} className="border-t p-3 sm:p-4">
+            <DrawdownChart active={drawdown} />
+          </div>
+          <div className="border-t p-3 sm:p-4">
+            <ActionsRow drawdown={drawdown} chartRef={chartRef} />
+          </div>
+        </main>
+
         </main>
 
         <footer className="text-center text-[11px] text-muted-foreground">
