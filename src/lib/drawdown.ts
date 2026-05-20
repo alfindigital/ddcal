@@ -28,7 +28,7 @@ export const parseRupiah = (s: string) => {
 
 export const REFERENCE_BUCKETS = [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 99];
 
-// Smooth green -> amber -> red -> dark red gradient
+// Indigo -> violet -> magenta gradient (escalating severity)
 function hexToRgb(h: string) {
   return [
     parseInt(h.slice(1, 3), 16),
@@ -46,8 +46,8 @@ function lerp(a: string, b: string, t: number) {
 }
 
 export function bucketColor(dd: number): string {
-  if (dd <= 10) return lerp("#86efac", "#fbbf24", dd / 10);
-  if (dd <= 30) return lerp("#fbbf24", "#f87171", (dd - 10) / 20);
-  if (dd <= 60) return lerp("#f87171", "#b91c1c", (dd - 30) / 30);
-  return lerp("#b91c1c", "#7f1d1d", Math.min((dd - 60) / 39, 1));
+  if (dd <= 20) return lerp("#a5b4fc", "#6366f1", dd / 20);
+  if (dd <= 50) return lerp("#6366f1", "#7c3aed", (dd - 20) / 30);
+  if (dd <= 80) return lerp("#7c3aed", "#c026d3", (dd - 50) / 30);
+  return lerp("#c026d3", "#831843", Math.min((dd - 80) / 19, 1));
 }

@@ -18,7 +18,7 @@ export function ActionsRow({
   const onCopy = async () => {
     try {
       await navigator.clipboard.writeText(summary);
-      toast.success("Disalin ke clipboard");
+      toast.success("Disalin");
     } catch {
       toast.error("Gagal menyalin");
     }
@@ -41,12 +41,12 @@ export function ActionsRow({
   };
 
   return (
-    <div className="grid grid-cols-2 gap-3">
-      <Button variant="outline" className="h-12 rounded-xl gap-2" onClick={onCopy}>
-        <Copy className="h-4 w-4" /> Salin
+    <div className="grid grid-cols-2 gap-2">
+      <Button variant="outline" size="sm" className="h-9 gap-1.5 text-xs" onClick={onCopy}>
+        <Copy className="h-3.5 w-3.5" /> Salin
       </Button>
-      <Button className="h-12 rounded-xl gap-2" onClick={onDownload}>
-        <Download className="h-4 w-4" /> Unduh
+      <Button size="sm" className="h-9 gap-1.5 text-xs" onClick={onDownload}>
+        <Download className="h-3.5 w-3.5" /> Unduh PNG
       </Button>
     </div>
   );

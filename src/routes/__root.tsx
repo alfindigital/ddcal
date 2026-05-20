@@ -72,19 +72,31 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "DrawdownCal — Kalkulator Drawdown & Pemulihan" },
+      {
+        name: "description",
+        content:
+          "Hitung berapa persen kenaikan yang dibutuhkan untuk pulih dari drawdown trading.",
+      },
+      { property: "og:title", content: "DrawdownCal" },
+      {
+        property: "og:description",
+        content: "Makin besar drawdown, makin berat pulih.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      {
+        rel: "preconnect",
+        href: "https://fonts.gstatic.com",
+        crossOrigin: "anonymous",
+      },
       {
         rel: "stylesheet",
-        href: appCss,
+        href: "https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap",
       },
       {
         rel: "icon",
@@ -92,11 +104,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href:
           "data:image/svg+xml;utf8," +
           encodeURIComponent(
-            `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="24" height="24" rx="6" fill="#dc2626" stroke="none"/><polyline points="16,17 22,17 22,11" transform="translate(-2,-1)"/><path d="M3 7l6 6 4-4 7 7" transform="translate(0,-1)"/></svg>`,
+            `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#4f46e5"/><path d="M4 8l4 4 3-3 4 4 5-7" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
           ),
       },
     ],
   }),
+
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,

@@ -17,17 +17,9 @@ export function EquityTab({
   }, [initial, current, onDerivedDrawdown]);
 
   return (
-    <div className="space-y-4">
-      <Field
-        label="Modal awal"
-        value={initial}
-        onChange={setInitial}
-      />
-      <Field
-        label="Modal sekarang"
-        value={current}
-        onChange={setCurrent}
-      />
+    <div className="space-y-2.5">
+      <Field label="Modal awal" value={initial} onChange={setInitial} />
+      <Field label="Modal sekarang" value={current} onChange={setCurrent} />
     </div>
   );
 }
@@ -42,13 +34,15 @@ function Field({
   onChange: (n: number) => void;
 }) {
   return (
-    <div className="flex items-center justify-between gap-4">
-      <label className="text-sm text-muted-foreground">{label}</label>
+    <div className="flex items-center justify-between gap-3">
+      <label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+        {label}
+      </label>
       <Input
         inputMode="numeric"
         value={formatRupiah(value)}
         onChange={(e) => onChange(parseRupiah(e.target.value))}
-        className="h-9 w-36 text-right tabular-nums sm:w-44"
+        className="h-8 w-32 text-right font-display font-semibold tabular sm:w-40"
       />
     </div>
   );

@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
-import { Flame } from "lucide-react";
 import { Header } from "@/components/Header";
 import { PercentTab } from "@/components/PercentTab";
 import { EquityTab } from "@/components/EquityTab";
@@ -17,12 +16,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Hitung berapa persen kenaikan yang dibutuhkan untuk pulih dari drawdown. Tersedia mode persentase dan equity.",
-      },
-      { property: "og:title", content: "DrawdownCal" },
-      {
-        property: "og:description",
-        content: "Makin besar drawdown, makin berat pulih.",
+          "Hitung berapa persen kenaikan yang dibutuhkan untuk pulih dari drawdown. Mode persentase & equity.",
       },
     ],
   }),
@@ -35,26 +29,26 @@ function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="mx-auto flex max-w-2xl flex-col gap-4 px-3 py-5 sm:gap-5 sm:px-4 sm:py-10">
+      <div className="mx-auto flex max-w-xl flex-col gap-3 px-3 py-3 sm:gap-4 sm:px-4 sm:py-6">
         <Header />
 
-        <Card>
+        <main className="overflow-hidden rounded-xl border bg-card shadow-sm">
           <Tabs defaultValue="pct" className="w-full">
             <TabsList className="grid h-auto w-full grid-cols-2 rounded-none border-b bg-transparent p-0">
               <TabsTrigger
                 value="pct"
-                className="rounded-none border-b-2 border-transparent py-3 data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
+                className="rounded-none border-b-2 border-transparent py-2 text-xs font-semibold uppercase tracking-wide data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
               >
                 Persentase
               </TabsTrigger>
               <TabsTrigger
                 value="eq"
-                className="rounded-none border-b-2 border-transparent py-3 data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
+                className="rounded-none border-b-2 border-transparent py-2 text-xs font-semibold uppercase tracking-wide data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
               >
                 Equity
               </TabsTrigger>
             </TabsList>
-            <div className="space-y-5 p-4 sm:p-5">
+            <div className="space-y-3 p-3 sm:p-4">
               <TabsContent value="pct" className="mt-0">
                 <PercentTab value={drawdown} onChange={setDrawdown} />
               </TabsContent>
@@ -62,41 +56,27 @@ function Home() {
                 <EquityTab onDerivedDrawdown={setDrawdown} />
               </TabsContent>
               <ResultCard drawdown={drawdown} />
+              <div ref={chartRef} className="-mx-1">
+                <DrawdownChart active={drawdown} />
+              </div>
+              <ActionsRow drawdown={drawdown} chartRef={chartRef} />
             </div>
           </Tabs>
-        </Card>
+        </main>
 
-        <Card>
-          <div ref={chartRef} className="p-4 sm:p-5">
-            <DrawdownChart active={drawdown} />
-          </div>
-        </Card>
-
-        <ActionsRow drawdown={drawdown} chartRef={chartRef} />
-
-        <footer className="pt-2 pb-6 text-center text-xs text-muted-foreground">
-          <span className="inline-flex items-center gap-1.5">
-            Made with <Flame className="h-3.5 w-3.5 text-primary" /> by{" "}
-            <a
-              href="https://instagram.com/alfndigital"
-              target="_blank"
-              rel="noreferrer"
-              className="text-primary hover:underline"
-            >
-              @alfndigital
-            </a>
-          </span>
+        <footer className="text-center text-[11px] text-muted-foreground">
+          built by{" "}
+          <a
+            href="https://instagram.com/alfndigital"
+            target="_blank"
+            rel="noreferrer"
+            className="text-primary hover:underline"
+          >
+            @alfndigital
+          </a>
         </footer>
       </div>
       <Toaster />
-    </div>
-  );
-}
-
-function Card({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="overflow-hidden rounded-2xl border bg-card shadow-sm">
-      {children}
     </div>
   );
 }
