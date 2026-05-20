@@ -66,7 +66,7 @@ function Home() {
           </div>
         </main>
 
-        </main>
+
 
         <footer className="text-center text-[11px] text-muted-foreground">
           built by{" "}
