@@ -37,42 +37,27 @@ export function DrawdownChart({ active }: { active: number }) {
   return (
     <div className="h-[220px] w-full sm:h-[280px]">
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} margin={{ top: 6, right: 4, left: -8, bottom: 0 }}>
-          <CartesianGrid stroke="var(--muted)" vertical={false} />
+        <BarChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 4 }}>
+          <CartesianGrid stroke="hsl(0 0% 0% / 0.06)" vertical={false} />
           <XAxis
             dataKey="label"
             tickLine={false}
             axisLine={false}
-            tick={(props) => {
-              const { x, y, payload } = props;
-              const isActive = payload.value === activeLabel;
-              return (
-                <text
-                  x={x}
-                  y={y + 10}
-                  textAnchor="middle"
-                  fill={isActive ? "var(--primary)" : "var(--muted-foreground)"}
-                  fontSize={10}
-                  fontWeight={isActive ? 700 : 500}
-                >
-                  {payload.value}
-                </text>
-              );
-            }}
+            tick={{ fontSize: 10, fill: "#6b7280" }}
           />
           <YAxis
             scale="log"
             domain={[2, 10000]}
             ticks={Y_TICKS}
             tickFormatter={(v) => `${v}%`}
-            tick={{ fill: "var(--muted-foreground)", fontSize: 9 }}
+            tick={{ fill: "#6b7280", fontSize: 9 }}
             tickLine={false}
             axisLine={false}
-            width={40}
+            width={42}
           />
           <ReferenceLine
             x={activeLabel}
-            stroke="var(--primary)"
+            stroke="#4f46e5"
             strokeDasharray="3 3"
           />
           <Bar dataKey="recovery" radius={[4, 4, 0, 0]} isAnimationActive={false}>
@@ -80,7 +65,8 @@ export function DrawdownChart({ active }: { active: number }) {
               <Cell
                 key={d.label}
                 fill={d.color}
-                fillOpacity={d.label === activeLabel ? 1 : 0.55}
+                stroke={d.label === activeLabel ? "#1e1b4b" : "transparent"}
+                strokeWidth={d.label === activeLabel ? 2 : 0}
               />
             ))}
           </Bar>
