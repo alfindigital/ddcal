@@ -34,16 +34,16 @@ function Home() {
 
         <main className="overflow-hidden rounded-xl border bg-card shadow-sm">
           <Tabs defaultValue="pct" className="w-full">
-            <TabsList className="grid h-auto w-full grid-cols-2 rounded-none border-b bg-transparent p-0">
+            <TabsList className="flex h-auto w-full rounded-none border-b bg-transparent p-1">
               <TabsTrigger
                 value="pct"
-                className="rounded-none border-b-2 border-transparent py-2 text-xs font-semibold uppercase tracking-wide data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
+                className="flex-1 min-w-1 rounded-none border-b-2 border-transparent py-2 text-xs font-semibold uppercase tracking-wide truncate data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
               >
                 Persentase
               </TabsTrigger>
               <TabsTrigger
                 value="eq"
-                className="rounded-none border-b-2 border-transparent py-2 text-xs font-semibold uppercase tracking-wide data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
+                className="flex-1 min-w-1 rounded-none border-b-2 border-transparent py-2 text-xs font-semibold uppercase tracking-wide truncate data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
               >
                 Equity
               </TabsTrigger>
