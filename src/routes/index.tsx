@@ -56,9 +56,10 @@ function Home() {
                 <EquityTab onDerivedDrawdown={setDrawdown} />
               </TabsContent>
               <ResultCard drawdown={drawdown} />
-              <div ref={chartRef} className="-mx-1">
+              <div ref={chartRef}>
                 <DrawdownChart active={drawdown} />
               </div>
+
               <ActionsRow drawdown={drawdown} chartRef={chartRef} />
             </div>
           </Tabs>
