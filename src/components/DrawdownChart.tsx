@@ -15,7 +15,7 @@ import {
 } from "@/lib/drawdown";
 import { useMemo } from "react";
 
-const Y_TICKS = [2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 4000, 10000];
+const Y_TICKS = [2, 10, 50, 200, 1000, 10000];
 
 export function DrawdownChart({ active }: { active: number }) {
   const data = useMemo(
@@ -29,59 +29,39 @@ export function DrawdownChart({ active }: { active: number }) {
     [],
   );
 
-  // Snap active to closest bucket for highlight
   const nearestBucket = REFERENCE_BUCKETS.reduce((p, c) =>
     Math.abs(c - active) < Math.abs(p - active) ? c : p,
   );
   const activeLabel = `${nearestBucket}%`;
-
   return (
-    <div className="h-[260px] w-full sm:h-[340px]">
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} margin={{ top: 10, right: 16, left: 0, bottom: 8 }}>
-          <CartesianGrid stroke="hsl(var(--muted-foreground) / 0.15)" vertical={false} />
+    <div className="w-full overflow-x-auto">
+      <ResponsiveContainer width="100%" height={240} minWidth={280}>
+        <BarChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 4 }}>
+          <CartesianGrid stroke="rgba(0,0,0,0.06)" vertical={false} />
           <XAxis
             dataKey="label"
             tickLine={false}
             axisLine={false}
-            tick={(props) => {
-              const { x, y, payload } = props;
-              const isActive = payload.value === activeLabel;
-              return (
-                <text
-                  x={x}
-                  y={y + 12}
-                  textAnchor="middle"
-                  fill={isActive ? "var(--primary)" : "var(--muted-foreground)"}
-                  fontSize={12}
-                  fontWeight={isActive ? 700 : 400}
-                >
-                  {payload.value}
-                </text>
-              );
-            }}
+            tick={{ fontSize: 10, fill: "#6b7280" }}
+            interval={0}
           />
           <YAxis
             scale="log"
             domain={[2, 10000]}
             ticks={Y_TICKS}
             tickFormatter={(v) => `${v}%`}
-            tick={{ fill: "var(--muted-foreground)", fontSize: 10 }}
+            tick={{ fill: "#6b7280", fontSize: 9 }}
             tickLine={false}
             axisLine={false}
-            width={48}
+            width={42}
           />
-          <ReferenceLine
-            x={activeLabel}
-            stroke="var(--primary)"
-            strokeDasharray="4 4"
-          />
-          <Bar dataKey="recovery" radius={[6, 6, 0, 0]} isAnimationActive={false}>
+          <ReferenceLine x={activeLabel} stroke="#4f46e5" strokeDasharray="3 3" />
+          <Bar dataKey="recovery" radius={[4, 4, 0, 0]} isAnimationActive={false}>
             {data.map((d) => (
               <Cell
                 key={d.label}
                 fill={d.color}
-                stroke={d.label === activeLabel ? "#111" : "transparent"}
+                stroke={d.label === activeLabel ? "#1e1b4b" : "transparent"}
                 strokeWidth={d.label === activeLabel ? 2 : 0}
               />
             ))}
@@ -91,3 +71,4 @@ export function DrawdownChart({ active }: { active: number }) {
     </div>
   );
 }
+
