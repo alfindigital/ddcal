@@ -66,8 +66,9 @@ export function DrawdownChart({ active }: { active: number }) {
               />
             ))}
           </Bar>
-
+        </BarChart>
       </ResponsiveContainer>
     </div>
   );
 }
+
