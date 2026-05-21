@@ -3,7 +3,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
 export const Route = createFileRoute("/about")({
-export const Route = createFileRoute("/about")({
+
   head: () => ({
     meta: [
       { title: "Tentang Drawdown — DrawdownCal" },
@@ -52,7 +52,7 @@ export const Route = createFileRoute("/about")({
   component: AboutPage,
 });
 
-});
+
 
 function AboutPage() {
   return (
