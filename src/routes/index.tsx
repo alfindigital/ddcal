@@ -12,21 +12,25 @@ import { Toaster } from "@/components/ui/sonner";
 
 export const Route = createFileRoute("/")({
   head: () => ({
-
     meta: [
-      { title: "DrawdownCal — Kalkulator Drawdown & Pemulihan" },
+      { title: "DrawdownCal — Kalkulator Drawdown & Pemulihan Modal Trading" },
       {
         name: "description",
         content:
-          "Hitung berapa persen kenaikan yang dibutuhkan untuk pulih dari drawdown. Mode persentase & equity.",
+          "Hitung persen kenaikan yang dibutuhkan untuk pulih dari minus trading. Mode persentase & equity dalam satu alat simpel.",
       },
-      { property: "og:title", content: "DrawdownCal — Kalkulator Drawdown & Pemulihan" },
+      {
+        property: "og:title",
+        content: "DrawdownCal — Kalkulator Drawdown & Pemulihan Modal Trading",
+      },
       {
         property: "og:description",
         content:
-          "Kalkulator interaktif: hitung kenaikan yang dibutuhkan untuk pulih dari drawdown trading.",
+          "Hitung persen kenaikan yang dibutuhkan untuk pulih dari minus trading. Mode persentase & equity dalam satu alat simpel.",
       },
       { property: "og:url", content: "https://drawdowncal.lovable.app/" },
+      { property: "og:image", content: "https://drawdowncal.lovable.app/og-image.jpg" },
+      { name: "twitter:image", content: "https://drawdowncal.lovable.app/og-image.jpg" },
     ],
     links: [{ rel: "canonical", href: "https://drawdowncal.lovable.app/" }],
   }),

@@ -3,22 +3,26 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
 export const Route = createFileRoute("/about")({
-
   head: () => ({
     meta: [
-      { title: "Tentang Drawdown — DrawdownCal" },
+      { title: "Mengenal Drawdown & Recovery — DrawdownCal" },
       {
         name: "description",
         content:
-          "Pengertian drawdown, rumus pemulihan, dan kenapa pemulihan modal bersifat asimetris bagi trader.",
+          "Pahami kenapa pemulihan modal trading lebih berat dari penurunannya. Rumus, tabel, dan penjelasan asimetris drawdown.",
       },
-      { property: "og:title", content: "Tentang Drawdown — DrawdownCal" },
+      {
+        property: "og:title",
+        content: "Mengenal Drawdown & Recovery — DrawdownCal",
+      },
       {
         property: "og:description",
         content:
-          "Definisi drawdown, rumus recovery = dd/(100−dd)×100, dan tabel contoh pemulihan.",
+          "Pahami kenapa pemulihan modal trading lebih berat dari penurunannya. Rumus, tabel, dan penjelasan asimetris drawdown.",
       },
       { property: "og:url", content: "https://drawdowncal.lovable.app/about" },
+      { property: "og:image", content: "https://drawdowncal.lovable.app/og-image.jpg" },
+      { name: "twitter:image", content: "https://drawdowncal.lovable.app/og-image.jpg" },
     ],
     links: [{ rel: "canonical", href: "https://drawdowncal.lovable.app/about" }],
     scripts: [

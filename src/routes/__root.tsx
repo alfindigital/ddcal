@@ -76,20 +76,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Hitung berapa persen kenaikan yang dibutuhkan untuk pulih dari drawdown trading. Mode persentase & equity.",
+          "Alat bantu trader hitung pemulihan modal dari drawdown. Simpel, cepat, akurat. Mode persentase & equity.",
       },
       { property: "og:site_name", content: "DrawdownCal" },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      { name: "twitter:card", content: "summary_large_image" },
       {
         property: "og:image",
-        content:
-          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c03548df-272a-4136-b928-cdfa212ff4e9/id-preview-01e1c149--844049fb-f741-407a-937f-a4d945574438.lovable.app-1779331224775.png",
+        content: "https://drawdowncal.lovable.app/og-image.jpg",
       },
       {
         name: "twitter:image",
-        content:
-          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c03548df-272a-4136-b928-cdfa212ff4e9/id-preview-01e1c149--844049fb-f741-407a-937f-a4d945574438.lovable.app-1779331224775.png",
+        content: "https://drawdowncal.lovable.app/og-image.jpg",
       },
     ],
     links: [
