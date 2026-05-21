@@ -78,13 +78,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Hitung berapa persen kenaikan yang dibutuhkan untuk pulih dari drawdown trading.",
       },
-      { property: "og:title", content: "DrawdownCal" },
+      { property: "og:title", content: "DrawdownCal — Kalkulator Drawdown & Pemulihan" },
       {
         property: "og:description",
         content: "Makin besar drawdown, makin berat pulih.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "DrawdownCal — Kalkulator Drawdown & Pemulihan" },
+      { name: "description", content: "My Awesome App is a responsive web application for financial data visualization and analysis." },
+      { property: "og:description", content: "My Awesome App is a responsive web application for financial data visualization and analysis." },
+      { name: "twitter:description", content: "My Awesome App is a responsive web application for financial data visualization and analysis." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c03548df-272a-4136-b928-cdfa212ff4e9/id-preview-01e1c149--844049fb-f741-407a-937f-a4d945574438.lovable.app-1779331224775.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c03548df-272a-4136-b928-cdfa212ff4e9/id-preview-01e1c149--844049fb-f741-407a-937f-a4d945574438.lovable.app-1779331224775.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
