@@ -1,45 +1,58 @@
 import { Link } from "@tanstack/react-router";
+import { Info } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 
 export function Header() {
   return (
     <header className="flex items-center justify-between gap-2">
       <Link to="/" className="flex min-w-0 items-center gap-2">
-        <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-primary text-primary-foreground shadow-sm">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2.5}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-4 w-4"
-          >
-            <path d="M4 8l4 4 3-3 4 4 5-7" />
-          </svg>
+        <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-primary to-accent text-primary-foreground shadow-sm">
+          <BearishCandleIcon />
         </div>
         <span className="font-display truncate text-base font-bold tracking-tight">
           drawdown<span className="text-primary">cal</span>
         </span>
       </Link>
-      <nav className="flex items-center gap-1 text-xs font-medium">
-        <NavLink to="/about">Tentang</NavLink>
-        <NavLink to="/tips">Tips</NavLink>
+      <nav className="flex items-center gap-1">
+        <Link
+          to="/about"
+          aria-label="Tentang"
+          title="Tentang"
+          className="grid h-9 w-9 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          activeProps={{ className: "text-foreground bg-muted" }}
+        >
+          <Info className="h-4 w-4" />
+        </Link>
         <ThemeToggle />
       </nav>
     </header>
   );
 }
 
-function NavLink({ to, children }: { to: string; children: React.ReactNode }) {
+function BearishCandleIcon() {
   return (
-    <Link
-      to={to}
-      className="rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-      activeProps={{ className: "text-foreground bg-muted" }}
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-[18px] w-[18px]"
+      aria-hidden="true"
     >
-      {children}
-    </Link>
+      {/* bullish candle (small, left) */}
+      <path d="M6 6v3" />
+      <rect x="4.5" y="9" width="3" height="4" rx="0.5" fill="currentColor" stroke="none" opacity="0.55" />
+      <path d="M6 13v2" />
+      {/* bearish candle (large, middle) */}
+      <path d="M12 4v2" />
+      <rect x="10.5" y="6" width="3" height="9" rx="0.5" fill="currentColor" stroke="none" />
+      <path d="M12 15v3" />
+      {/* down arrow (right) */}
+      <path d="M18 8l0 10" />
+      <path d="M15 15l3 3 3-3" />
+    </svg>
   );
 }

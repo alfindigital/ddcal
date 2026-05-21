@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { PercentTab } from "@/components/PercentTab";
 import { EquityTab } from "@/components/EquityTab";
 import { ResultCard } from "@/components/ResultCard";
@@ -68,17 +69,7 @@ function Home() {
 
 
 
-        <footer className="text-center text-[11px] text-muted-foreground">
-          built by{" "}
-          <a
-            href="https://instagram.com/alfndigital"
-            target="_blank"
-            rel="noreferrer"
-            className="text-primary hover:underline"
-          >
-            @alfndigital
-          </a>
-        </footer>
+        <Footer />
       </div>
       <Toaster />
     </div>
