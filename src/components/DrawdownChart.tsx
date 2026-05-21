@@ -54,6 +54,7 @@ export function DrawdownChart({ active }: { active: number }) {
             tickLine={false}
             axisLine={false}
             width={42}
+          />
           <ReferenceLine x={activeLabel} stroke="#b91c1c" strokeDasharray="3 3" />
           <Bar dataKey="recovery" radius={[4, 4, 0, 0]} isAnimationActive={false}>
             {data.map((d) => (
@@ -65,7 +66,6 @@ export function DrawdownChart({ active }: { active: number }) {
               />
             ))}
 
-            ))}
           </Bar>
         </BarChart>
       </ResponsiveContainer>
