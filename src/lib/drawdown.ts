@@ -46,8 +46,10 @@ function lerp(a: string, b: string, t: number) {
 }
 
 export function bucketColor(dd: number): string {
-  if (dd <= 20) return lerp("#a5b4fc", "#6366f1", dd / 20);
-  if (dd <= 50) return lerp("#6366f1", "#7c3aed", (dd - 20) / 30);
-  if (dd <= 80) return lerp("#7c3aed", "#c026d3", (dd - 50) / 30);
-  return lerp("#c026d3", "#831843", Math.min((dd - 80) / 19, 1));
+export function bucketColor(dd: number): string {
+  // Light rose -> red -> deep crimson (escalating severity)
+  if (dd <= 20) return lerp("#fecaca", "#f87171", dd / 20);
+  if (dd <= 50) return lerp("#f87171", "#dc2626", (dd - 20) / 30);
+  if (dd <= 80) return lerp("#dc2626", "#991b1b", (dd - 50) / 30);
+  return lerp("#991b1b", "#450a0a", Math.min((dd - 80) / 19, 1));
 }
