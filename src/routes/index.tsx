@@ -39,8 +39,10 @@ function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground">
       <div className="mx-auto flex max-w-xl flex-col gap-3 px-3 py-3 sm:gap-4 sm:px-4 sm:py-6">
         <Header />
+        <h1 className="sr-only">Kalkulator Drawdown & Pemulihan</h1>
 
         <main className="overflow-hidden rounded-xl border bg-card shadow-sm">
           <Tabs defaultValue="pct" className="w-full">
