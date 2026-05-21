@@ -10,7 +10,7 @@ export function Header() {
           <BearishCandleIcon />
         </div>
         <span className="font-display truncate text-base font-bold tracking-tight">
-          drawdown<span className="text-primary">cal</span>
+          Drawdown<span className="text-primary">CAL</span>
         </span>
       </Link>
       <nav className="flex items-center gap-1">
