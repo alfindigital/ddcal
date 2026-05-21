@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 
@@ -9,14 +10,19 @@ export function PercentTab({
   onChange: (n: number) => void;
 }) {
   const ticks = [1, 25, 50, 75, 99];
+  const inputId = useId();
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between gap-3">
-        <label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+        <label
+          htmlFor={inputId}
+          className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
+        >
           Drawdown
         </label>
         <div className="flex items-center gap-1">
           <Input
+            id={inputId}
             type="number"
             min={1}
             max={99}
@@ -33,6 +39,7 @@ export function PercentTab({
       </div>
 
       <Slider
+        aria-label="Persentase drawdown"
         min={1}
         max={99}
         step={1}

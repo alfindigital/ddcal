@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://drawdowncal.lovable.app/sitemap.xml

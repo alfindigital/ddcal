@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { formatRupiah, parseRupiah, calcDrawdownFromCapital } from "@/lib/drawdown";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 
 export function EquityTab({
   onDerivedDrawdown,
@@ -33,12 +33,17 @@ function Field({
   value: number;
   onChange: (n: number) => void;
 }) {
+  const id = useId();
   return (
     <div className="flex items-center justify-between gap-3">
-      <label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+      <label
+        htmlFor={id}
+        className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
+      >
         {label}
       </label>
       <Input
+        id={id}
         inputMode="numeric"
         value={formatRupiah(value)}
         onChange={(e) => onChange(parseRupiah(e.target.value))}

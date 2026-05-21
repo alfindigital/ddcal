@@ -3,25 +3,56 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
 export const Route = createFileRoute("/about")({
+
   head: () => ({
     meta: [
       { title: "Tentang Drawdown — DrawdownCal" },
       {
         name: "description",
         content:
-          "Apa itu drawdown, kenapa pemulihan bersifat eksponensial, dan rumusnya.",
+          "Pengertian drawdown, rumus pemulihan, dan kenapa pemulihan modal bersifat asimetris bagi trader.",
       },
-      { property: "og:title", content: "Tentang Drawdown" },
+      { property: "og:title", content: "Tentang Drawdown — DrawdownCal" },
       {
         property: "og:description",
-        content: "Makin besar drawdown, makin berat pulih.",
+        content:
+          "Definisi drawdown, rumus recovery = dd/(100−dd)×100, dan tabel contoh pemulihan.",
       },
-      { property: "og:url", content: "/about" },
+      { property: "og:url", content: "https://drawdowncal.lovable.app/about" },
     ],
-    links: [{ rel: "canonical", href: "/about" }],
+    links: [{ rel: "canonical", href: "https://drawdowncal.lovable.app/about" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: [
+            {
+              "@type": "Question",
+              name: "Apa itu drawdown?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "Drawdown adalah persentase penurunan modal dari titik tertinggi (peak) ke titik terendah (trough) sebelum naik kembali.",
+              },
+            },
+            {
+              "@type": "Question",
+              name: "Kenapa pemulihan drawdown asimetris?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "Saat modal turun, basis kalkulasi ikut mengecil. Untuk kembali ke modal awal, kenaikan persentasenya harus lebih besar dari penurunannya. Rumusnya: recovery % = dd / (100 − dd) × 100.",
+              },
+            },
+          ],
+        }),
+      },
+    ],
   }),
   component: AboutPage,
 });
+
+
 
 function AboutPage() {
   return (
