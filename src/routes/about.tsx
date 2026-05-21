@@ -78,6 +78,7 @@ function AboutPage() {
             ))}
           </ul>
         </article>
+        <Footer />
       </div>
     </div>
   );
