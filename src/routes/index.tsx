@@ -12,6 +12,8 @@ import { Toaster } from "@/components/ui/sonner";
 
 export const Route = createFileRoute("/")({
   head: () => ({
+export const Route = createFileRoute("/")({
+  head: () => ({
     meta: [
       { title: "DrawdownCal — Kalkulator Drawdown & Pemulihan" },
       {
@@ -19,7 +21,15 @@ export const Route = createFileRoute("/")({
         content:
           "Hitung berapa persen kenaikan yang dibutuhkan untuk pulih dari drawdown. Mode persentase & equity.",
       },
+      { property: "og:title", content: "DrawdownCal — Kalkulator Drawdown & Pemulihan" },
+      {
+        property: "og:description",
+        content:
+          "Kalkulator interaktif: hitung kenaikan yang dibutuhkan untuk pulih dari drawdown trading.",
+      },
+      { property: "og:url", content: "https://drawdowncal.lovable.app/" },
     ],
+    links: [{ rel: "canonical", href: "https://drawdowncal.lovable.app/" }],
   }),
   component: Home,
 });
