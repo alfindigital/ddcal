@@ -12,8 +12,7 @@ import { Toaster } from "@/components/ui/sonner";
 
 export const Route = createFileRoute("/")({
   head: () => ({
-export const Route = createFileRoute("/")({
-  head: () => ({
+
     meta: [
       { title: "DrawdownCal — Kalkulator Drawdown & Pemulihan" },
       {
