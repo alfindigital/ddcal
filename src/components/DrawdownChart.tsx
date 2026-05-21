@@ -54,16 +54,17 @@ export function DrawdownChart({ active }: { active: number }) {
             tickLine={false}
             axisLine={false}
             width={42}
-          />
-          <ReferenceLine x={activeLabel} stroke="#4f46e5" strokeDasharray="3 3" />
+          <ReferenceLine x={activeLabel} stroke="#b91c1c" strokeDasharray="3 3" />
           <Bar dataKey="recovery" radius={[4, 4, 0, 0]} isAnimationActive={false}>
             {data.map((d) => (
               <Cell
                 key={d.label}
                 fill={d.color}
-                stroke={d.label === activeLabel ? "#1e1b4b" : "transparent"}
+                stroke={d.label === activeLabel ? "#450a0a" : "transparent"}
                 strokeWidth={d.label === activeLabel ? 2 : 0}
               />
+            ))}
+
             ))}
           </Bar>
         </BarChart>
