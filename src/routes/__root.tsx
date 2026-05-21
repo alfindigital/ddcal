@@ -73,12 +73,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "DrawdownCal — Kalkulator Drawdown & Pemulihan" },
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "DrawdownCal — Kalkulator Drawdown & Pemulihan" },
       {
         name: "description",
         content:
@@ -87,10 +81,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:site_name", content: "DrawdownCal" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c03548df-272a-4136-b928-cdfa212ff4e9/id-preview-01e1c149--844049fb-f741-407a-937f-a4d945574438.lovable.app-1779331224775.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c03548df-272a-4136-b928-cdfa212ff4e9/id-preview-01e1c149--844049fb-f741-407a-937f-a4d945574438.lovable.app-1779331224775.png" },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c03548df-272a-4136-b928-cdfa212ff4e9/id-preview-01e1c149--844049fb-f741-407a-937f-a4d945574438.lovable.app-1779331224775.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c03548df-272a-4136-b928-cdfa212ff4e9/id-preview-01e1c149--844049fb-f741-407a-937f-a4d945574438.lovable.app-1779331224775.png",
+      },
     ],
-
+    links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      {
+        rel: "preconnect",
         href: "https://fonts.gstatic.com",
         crossOrigin: "anonymous",
       },
@@ -108,6 +114,26 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           ),
       },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              name: "DrawdownCal",
+              url: "https://drawdowncal.lovable.app",
+            },
+            {
+              "@type": "WebSite",
+              name: "DrawdownCal",
+              url: "https://drawdowncal.lovable.app",
+            },
+          ],
+        }),
+      },
+    ],
   }),
 
   shellComponent: RootShell,
@@ -115,6 +141,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
 });
+
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
