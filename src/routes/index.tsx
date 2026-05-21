@@ -35,9 +35,6 @@ function Home() {
 
         <main className="overflow-hidden rounded-xl border bg-card shadow-sm">
           <Tabs defaultValue="pct" className="w-full">
-            <TabsList className="flex h-auto w-full rounded-none border-b bg-transparent p-0">
-              <TabsTrigger
-                value="pct"
             <TabsList className="grid h-auto w-full grid-cols-2 rounded-none border-b bg-transparent p-0">
               <TabsTrigger
                 value="pct"
@@ -52,6 +49,8 @@ function Home() {
                 Equity
               </TabsTrigger>
             </TabsList>
+            <div className="space-y-3 p-3 sm:p-4">
+              <TabsContent value="pct" className="mt-0">
                 <PercentTab value={drawdown} onChange={setDrawdown} />
               </TabsContent>
               <TabsContent value="eq" className="mt-0">
