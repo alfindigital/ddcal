@@ -1,0 +1,10 @@
+# DrawdownCal
+
+> Kalkulator drawdown dan pemulihan untuk trader. Hitung berapa persen kenaikan yang dibutuhkan untuk pulih dari penurunan modal.
+
+DrawdownCal membantu trader memahami asimetri drawdown: makin besar penurunan modal, makin besar persentase kenaikan yang dibutuhkan untuk kembali ke titik awal. Tersedia dua mode: input persentase langsung atau hitung dari modal awal dan modal sekarang.
+
+## Pages
+
+- [Beranda](/): Kalkulator drawdown interaktif dengan grafik pemulihan.
+- [Tentang](/about): Penjelasan konsep drawdown, rumus pemulihan, dan contoh kasus.

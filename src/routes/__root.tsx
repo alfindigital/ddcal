@@ -73,30 +73,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "DrawdownCal — Kalkulator Drawdown & Pemulihan" },
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  head: () => ({
+    meta: [
+      { charSet: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { title: "DrawdownCal — Kalkulator Drawdown & Pemulihan" },
       {
         name: "description",
         content:
-          "Hitung berapa persen kenaikan yang dibutuhkan untuk pulih dari drawdown trading.",
+          "Hitung berapa persen kenaikan yang dibutuhkan untuk pulih dari drawdown trading. Mode persentase & equity.",
       },
-      { property: "og:title", content: "DrawdownCal — Kalkulator Drawdown & Pemulihan" },
-      {
-        property: "og:description",
-        content: "Makin besar drawdown, makin berat pulih.",
-      },
+      { property: "og:site_name", content: "DrawdownCal" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:title", content: "DrawdownCal — Kalkulator Drawdown & Pemulihan" },
-      { name: "description", content: "My Awesome App is a responsive web application for financial data visualization and analysis." },
-      { property: "og:description", content: "My Awesome App is a responsive web application for financial data visualization and analysis." },
-      { name: "twitter:description", content: "My Awesome App is a responsive web application for financial data visualization and analysis." },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c03548df-272a-4136-b928-cdfa212ff4e9/id-preview-01e1c149--844049fb-f741-407a-937f-a4d945574438.lovable.app-1779331224775.png" },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c03548df-272a-4136-b928-cdfa212ff4e9/id-preview-01e1c149--844049fb-f741-407a-937f-a4d945574438.lovable.app-1779331224775.png" },
     ],
-    links: [
-      { rel: "stylesheet", href: appCss },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      {
-        rel: "preconnect",
+
         href: "https://fonts.gstatic.com",
         crossOrigin: "anonymous",
       },
