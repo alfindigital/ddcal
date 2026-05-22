@@ -55,16 +55,35 @@ export function DrawdownChart({ active }: { active: number }) {
             axisLine={false}
             width={42}
           />
-          <ReferenceLine x={activeLabel} stroke="#b91c1c" strokeDasharray="3 3" />
-          <Bar dataKey="recovery" radius={[4, 4, 0, 0]} isAnimationActive={false}>
-            {data.map((d) => (
-              <Cell
-                key={d.label}
-                fill={d.color}
-                stroke={d.label === activeLabel ? "#450a0a" : "transparent"}
-                strokeWidth={d.label === activeLabel ? 2 : 0}
-              />
-            ))}
+          <ReferenceLine
+            x={activeLabel}
+            stroke="#b91c1c"
+            strokeDasharray="3 3"
+            ifOverflow="extendDomain"
+          />
+          <Bar
+            dataKey="recovery"
+            radius={[4, 4, 0, 0]}
+            isAnimationActive={true}
+            animationDuration={550}
+            animationEasing="ease-out"
+          >
+            {data.map((d) => {
+              const isActive = d.label === activeLabel;
+              return (
+                <Cell
+                  key={d.label}
+                  fill={d.color}
+                  stroke={isActive ? "#450a0a" : "transparent"}
+                  strokeWidth={isActive ? 2 : 0}
+                  fillOpacity={isActive ? 1 : 0.55}
+                  style={{
+                    transition:
+                      "fill-opacity 350ms ease-out, stroke-width 350ms ease-out",
+                  }}
+                />
+              );
+            })}
 
           </Bar>
         </BarChart>
