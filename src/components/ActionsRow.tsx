@@ -45,7 +45,7 @@ export function ActionsRow({ drawdown }: { drawdown: number }) {
           <Copy className="h-3.5 w-3.5" /> Salin
         </Button>
         <Button size="sm" className="h-9 gap-1.5 text-xs" onClick={onDownload}>
-          <Download className="h-3.5 w-3.5" /> Unduh PNG
+          <Download className="h-3.5 w-3.5" /> Unduh
         </Button>
       </div>
       {/* Off-screen share card used to render the downloadable PNG. */}
