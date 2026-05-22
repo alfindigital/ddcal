@@ -39,7 +39,6 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   const [drawdown, setDrawdown] = useState(30);
-  const chartRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -74,11 +73,11 @@ function Home() {
               <ResultCard drawdown={drawdown} />
             </div>
           </Tabs>
-          <div ref={chartRef} className="border-t p-3 sm:p-4">
+          <div className="border-t p-3 sm:p-4">
             <DrawdownChart active={drawdown} />
           </div>
           <div className="border-t p-3 sm:p-4">
-            <ActionsRow drawdown={drawdown} chartRef={chartRef} />
+            <ActionsRow drawdown={drawdown} />
           </div>
         </main>
 
