@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Info } from "lucide-react";
+import { AboutDialog } from "./AboutDialog";
 import { ThemeToggle } from "./ThemeToggle";
 
 export function Header() {
@@ -14,15 +14,7 @@ export function Header() {
         </span>
       </Link>
       <nav className="flex items-center gap-1">
-        <Link
-          to="/about"
-          aria-label="Tentang"
-          title="Tentang"
-          className="grid h-9 w-9 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-          activeProps={{ className: "text-foreground bg-muted" }}
-        >
-          <Info className="h-4 w-4" />
-        </Link>
+        <AboutDialog />
         <ThemeToggle />
       </nav>
     </header>
@@ -42,15 +34,12 @@ function BearishCandleIcon() {
       className="h-[18px] w-[18px]"
       aria-hidden="true"
     >
-      {/* bullish candle (small, left) */}
       <path d="M6 6v3" />
       <rect x="4.5" y="9" width="3" height="4" rx="0.5" fill="currentColor" stroke="none" opacity="0.55" />
       <path d="M6 13v2" />
-      {/* bearish candle (large, middle) */}
       <path d="M12 4v2" />
       <rect x="10.5" y="6" width="3" height="9" rx="0.5" fill="currentColor" stroke="none" />
       <path d="M12 15v3" />
-      {/* down arrow (right) */}
       <path d="M18 8l0 10" />
       <path d="M15 15l3 3 3-3" />
     </svg>
