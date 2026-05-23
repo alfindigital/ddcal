@@ -9,10 +9,11 @@ export function useSpringValue(target: number, duration = 350) {
   useEffect(() => {
     fromRef.current = display;
     startRef.current = performance.now();
+    const d = Math.max(80, duration);
 
     const tick = (now: number) => {
       const elapsed = now - startRef.current;
-      const progress = Math.min(elapsed / duration, 1);
+      const progress = Math.min(elapsed / d, 1);
       // ease-out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
       const current = fromRef.current + (target - fromRef.current) * eased;
@@ -24,6 +25,7 @@ export function useSpringValue(target: number, duration = 350) {
 
     rafRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [target, duration]);
 
   return display;
@@ -32,10 +34,12 @@ export function useSpringValue(target: number, duration = 350) {
 export function AnimatedNumber({
   value,
   format,
+  duration,
 }: {
   value: number;
   format: (n: number) => string;
+  duration?: number;
 }) {
-  const smooth = useSpringValue(value);
+  const smooth = useSpringValue(value, duration);
   return <>{format(smooth)}</>;
 }

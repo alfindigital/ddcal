@@ -1,19 +1,27 @@
 import { formatPercent, calcRecovery } from "@/lib/drawdown";
 import { AnimatedNumber } from "./AnimatedValue";
 
-export function ResultCard({ drawdown }: { drawdown: number }) {
+export function ResultCard({
+  drawdown,
+  animationDuration,
+}: {
+  drawdown: number;
+  animationDuration?: number;
+}) {
   const recovery = calcRecovery(drawdown);
   return (
     <div className="grid grid-cols-2 overflow-hidden rounded-xl border bg-primary-soft/50">
       <Cell label="Drawdown">
         <AnimatedNumber
           value={drawdown}
+          duration={animationDuration}
           format={(n) => `-${formatPercent(n)}%`}
         />
       </Cell>
       <Cell label="Butuh pulih" emphasis>
         <AnimatedNumber
           value={recovery}
+          duration={animationDuration}
           format={(n) => `+${formatPercent(n)}%`}
         />
       </Cell>
