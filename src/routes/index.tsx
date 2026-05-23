@@ -112,6 +112,7 @@ function Home() {
               active={effectiveDrawdown}
               onActiveChange={handleChartActive}
               smoothEnabled={smoothAnim}
+              animationDuration={animDuration}
             />
           </div>
           <div className="border-t p-3 sm:p-4">

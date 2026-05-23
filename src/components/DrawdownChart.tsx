@@ -15,20 +15,93 @@ import {
   calcRecovery,
   formatPercent,
 } from "@/lib/drawdown";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useSpringValue } from "@/components/AnimatedValue";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  createContext,
+  useContext,
+} from "react";
 
 const Y_TICKS = [2, 10, 50, 200, 1000, 10000];
 const BUCKET_WIDTH = 72; // px per bucket on the scrollable canvas
 const Y_AXIS_WIDTH = 42;
 
+const TooltipCtx = createContext({ duration: 350, enabled: true });
+
+function TooltipContent({ dd, recovery }: { dd: number; recovery: number }) {
+  const { duration, enabled } = useContext(TooltipCtx);
+  const animDd = useSpringValue(dd, duration, enabled);
+  const animRec = useSpringValue(recovery, duration, enabled);
+  return (
+    <div className="rounded-lg border bg-background px-3 py-2 shadow-lg">
+      <div className="text-xs font-medium text-foreground">
+        Drawdown <span>{animDd.toFixed(0)}%</span>
+      </div>
+      <div className="mt-1 text-xs text-muted-foreground">
+        Butuh pulih{" "}
+        <span className="font-semibold text-primary">
+          +{formatPercent(animRec)}%
+        </span>
+      </div>
+    </div>
+  );
+}
+
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (!active || !payload || !payload.length) return null;
+  const dd = Number(label?.replace("%", ""));
+  const recovery = calcRecovery(dd);
+  return <TooltipContent dd={dd} recovery={recovery} />;
+};
+
+function ActiveTooltip({
+  dd,
+  recovery,
+  duration,
+  enabled,
+  left,
+}: {
+  dd: number;
+  recovery: number;
+  duration?: number;
+  enabled?: boolean;
+  left: number;
+}) {
+  const animDd = useSpringValue(dd, duration ?? 350, enabled);
+  const animRec = useSpringValue(recovery, duration ?? 350, enabled);
+  return (
+    <div
+      className="pointer-events-none absolute z-10 -translate-x-1/2"
+      style={{ left, top: 4 }}
+    >
+      <div className="rounded-md border bg-popover px-2.5 py-1 shadow-md">
+        <div className="flex items-center gap-1.5 text-[10px] font-semibold text-foreground">
+          <span className="rounded bg-primary/10 px-1 py-0.5 text-primary">
+            DD {animDd.toFixed(0)}%
+          </span>
+          <span className="text-muted-foreground">|</span>
+          <span className="rounded bg-emerald-500/10 px-1 py-0.5 text-emerald-600">
+            Pulih +{formatPercent(animRec)}%
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function DrawdownChart({
   active,
   onActiveChange,
   smoothEnabled,
+  animationDuration,
 }: {
   active: number;
   onActiveChange?: (dd: number, velocity?: number) => void;
   smoothEnabled?: boolean;
+  animationDuration?: number;
 }) {
   const data = useMemo(
     () =>
@@ -44,6 +117,7 @@ export function DrawdownChart({
   const nearestBucket = REFERENCE_BUCKETS.reduce((p, c) =>
     Math.abs(c - active) < Math.abs(p - active) ? c : p,
   );
+  const activeIdx = REFERENCE_BUCKETS.indexOf(nearestBucket);
   const activeLabel = `${nearestBucket}%`;
 
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -127,65 +201,80 @@ export function DrawdownChart({
           className="relative"
           style={{ width: canvasWidth, height: 240 }}
         >
-          <ResponsiveContainer width="100%" height={240}>
-            <BarChart
-              data={data}
-              margin={{ top: 8, right: 8, left: 0, bottom: 4 }}
-            >
-              <CartesianGrid stroke="rgba(0,0,0,0.06)" vertical={false} />
-              <XAxis
-                dataKey="label"
-                tickLine={false}
-                axisLine={false}
-                tick={{ fontSize: 10, fill: "#6b7280" }}
-                interval={0}
-              />
-              <YAxis
-                scale="log"
-                domain={[2, 10000]}
-                ticks={Y_TICKS}
-                tickFormatter={(v) => `${v}%`}
-                tick={{ fill: "#6b7280", fontSize: 9 }}
-                tickLine={false}
-                axisLine={false}
-                width={Y_AXIS_WIDTH}
-              />
-              <Tooltip
-                cursor={{ fill: "rgba(0,0,0,0.04)" }}
-                content={<CustomTooltip />}
-              />
-              <ReferenceLine
-                x={activeLabel}
-                stroke="#b91c1c"
-                strokeDasharray="3 3"
-                ifOverflow="extendDomain"
-              />
-              <Bar
-                dataKey="recovery"
-                radius={[4, 4, 0, 0]}
-                isAnimationActive={smoothEnabled ?? true}
-                animationDuration={550}
-                animationEasing="ease-out"
+          <TooltipCtx.Provider
+            value={{
+              duration: animationDuration ?? 350,
+              enabled: smoothEnabled ?? true,
+            }}
+          >
+            <ResponsiveContainer width="100%" height={240}>
+              <BarChart
+                data={data}
+                margin={{ top: 8, right: 8, left: 0, bottom: 4 }}
               >
-                {data.map((d) => {
-                  const isActive = d.label === activeLabel;
-                  return (
-                    <Cell
-                      key={d.label}
-                      fill={d.color}
-                      stroke={isActive ? "#450a0a" : "transparent"}
-                      strokeWidth={isActive ? 2 : 1}
-                      fillOpacity={isActive ? 1 : 0.55}
-                      style={{
-                        transition:
-                          "fill-opacity 350ms ease-out, stroke-width 350ms ease-out",
-                      }}
-                    />
-                  );
-                })}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+                <CartesianGrid stroke="rgba(0,0,0,0.06)" vertical={false} />
+                <XAxis
+                  dataKey="label"
+                  tickLine={false}
+                  axisLine={false}
+                  tick={{ fontSize: 10, fill: "#6b7280" }}
+                  interval={0}
+                />
+                <YAxis
+                  scale="log"
+                  domain={[2, 10000]}
+                  ticks={Y_TICKS}
+                  tickFormatter={(v) => `${v}%`}
+                  tick={{ fill: "#6b7280", fontSize: 9 }}
+                  tickLine={false}
+                  axisLine={false}
+                  width={Y_AXIS_WIDTH}
+                />
+                <Tooltip
+                  cursor={{ fill: "rgba(0,0,0,0.04)" }}
+                  content={<CustomTooltip />}
+                />
+                <ReferenceLine
+                  x={activeLabel}
+                  stroke="#b91c1c"
+                  strokeDasharray="3 3"
+                  ifOverflow="extendDomain"
+                />
+                <Bar
+                  dataKey="recovery"
+                  radius={[4, 4, 0, 0]}
+                  isAnimationActive={smoothEnabled ?? true}
+                  animationDuration={550}
+                  animationEasing="ease-out"
+                >
+                  {data.map((d) => {
+                    const isActive = d.label === activeLabel;
+                    return (
+                      <Cell
+                        key={d.label}
+                        fill={d.color}
+                        stroke={isActive ? "#450a0a" : "transparent"}
+                        strokeWidth={isActive ? 2 : 1}
+                        fillOpacity={isActive ? 1 : 0.55}
+                        style={{
+                          transition:
+                            "fill-opacity 350ms ease-out, stroke-width 350ms ease-out",
+                        }}
+                      />
+                    );
+                  })}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </TooltipCtx.Provider>
+
+          <ActiveTooltip
+            dd={nearestBucket}
+            recovery={calcRecovery(nearestBucket)}
+            duration={animationDuration}
+            enabled={smoothEnabled}
+            left={Y_AXIS_WIDTH + activeIdx * BUCKET_WIDTH + BUCKET_WIDTH / 2}
+          />
 
           {/* Invisible snap targets aligned with each bucket */}
           <div
