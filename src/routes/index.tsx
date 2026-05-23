@@ -96,13 +96,22 @@ function Home() {
               <TabsContent value="eq" className="mt-0">
                 <EquityTab onDerivedDrawdown={handleEquityChange} />
               </TabsContent>
-              <ResultCard drawdown={effectiveDrawdown} animationDuration={animDuration} />
+              <div className="flex items-center justify-end gap-2">
+                <span className="text-[11px] text-muted-foreground">Animasi halus</span>
+                <Switch
+                  checked={smoothAnim}
+                  onCheckedChange={setSmoothAnim}
+                  aria-label="Animasi halus"
+                />
+              </div>
+              <ResultCard drawdown={effectiveDrawdown} animationDuration={animDuration} smoothEnabled={smoothAnim} />
             </div>
           </Tabs>
           <div className="border-t p-3 sm:p-4">
             <DrawdownChart
               active={effectiveDrawdown}
               onActiveChange={handleChartActive}
+              smoothEnabled={smoothAnim}
             />
           </div>
           <div className="border-t p-3 sm:p-4">
