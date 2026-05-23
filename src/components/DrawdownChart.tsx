@@ -5,6 +5,7 @@ import {
   Cell,
   ReferenceLine,
   ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
@@ -12,6 +13,7 @@ import {
   REFERENCE_BUCKETS,
   bucketColor,
   calcRecovery,
+  formatPercent,
 } from "@/lib/drawdown";
 import { useMemo } from "react";
 
@@ -33,6 +35,21 @@ export function DrawdownChart({ active }: { active: number }) {
     Math.abs(c - active) < Math.abs(p - active) ? c : p,
   );
   const activeLabel = `${nearestBucket}%`;
+
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (!active || !payload || !payload.length) return null;
+    const dd = Number(label?.replace('%', ''));
+    const recovery = calcRecovery(dd);
+    return (
+      <div className="rounded-lg border bg-background px-3 py-2 shadow-lg">
+        <div className="text-xs font-medium text-foreground">Drawdown {label}</div>
+        <div className="mt-1 text-xs text-muted-foreground">
+          Butuh pulih <span className="font-semibold text-primary">+{formatPercent(recovery)}%</span>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="w-full overflow-x-auto">
       <ResponsiveContainer width="100%" height={240} minWidth={280}>
@@ -55,6 +72,10 @@ export function DrawdownChart({ active }: { active: number }) {
             axisLine={false}
             width={42}
           />
+          <Tooltip
+            cursor={{ fill: "rgba(0,0,0,0.04)" }}
+            content={<CustomTooltip />}
+          />
           <ReferenceLine
             x={activeLabel}
             stroke="#b91c1c"
@@ -75,7 +96,7 @@ export function DrawdownChart({ active }: { active: number }) {
                   key={d.label}
                   fill={d.color}
                   stroke={isActive ? "#450a0a" : "transparent"}
-                  strokeWidth={isActive ? 2 : 0}
+                  strokeWidth={isActive ? 2 : 1}
                   fillOpacity={isActive ? 1 : 0.55}
                   style={{
                     transition:
@@ -84,7 +105,6 @@ export function DrawdownChart({ active }: { active: number }) {
                 />
               );
             })}
-
           </Bar>
         </BarChart>
       </ResponsiveContainer>
