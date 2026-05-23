@@ -40,19 +40,27 @@ export const Route = createFileRoute("/")({
 function Home() {
   const [drawdown, setDrawdown] = useState(30);
   const [chartDrawdown, setChartDrawdown] = useState<number | null>(null);
+  const [animDuration, setAnimDuration] = useState<number>(350);
   const effectiveDrawdown = chartDrawdown ?? drawdown;
 
   const handleSliderChange = (n: number) => {
     setChartDrawdown(null);
+    setAnimDuration(350);
     setDrawdown(n);
   };
 
   const handleEquityChange = (n: number) => {
     setChartDrawdown(null);
+    setAnimDuration(350);
     setDrawdown(n);
   };
 
-  const handleChartActive = (n: number) => {
+  const handleChartActive = (n: number, velocity?: number) => {
+    // velocity in px/ms. Fast scroll → snappier (shorter duration),
+    // slow scroll → softer (longer duration). Clamp to a comfortable range.
+    const v = velocity ?? 0;
+    const duration = Math.max(120, Math.min(500, 400 - v * 120));
+    setAnimDuration(duration);
     setChartDrawdown(n);
   };
 
