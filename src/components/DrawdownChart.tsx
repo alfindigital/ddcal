@@ -48,6 +48,7 @@ export function DrawdownChart({
   const [centeredIdx, setCenteredIdx] = useState(
     REFERENCE_BUCKETS.indexOf(nearestBucket),
   );
+  const reportTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Auto-scroll active bucket into view when the slider moves
   useEffect(() => {
@@ -59,6 +60,19 @@ export function DrawdownChart({
       Y_AXIS_WIDTH + idx * BUCKET_WIDTH + BUCKET_WIDTH / 2 - el.clientWidth / 2;
     el.scrollTo({ left: Math.max(0, target), behavior: "smooth" });
   }, [nearestBucket]);
+
+  // Report centered bucket to parent (throttled)
+  useEffect(() => {
+    if (!onActiveChange) return;
+    if (reportTimeoutRef.current) clearTimeout(reportTimeoutRef.current);
+    reportTimeoutRef.current = setTimeout(() => {
+      const dd = REFERENCE_BUCKETS[centeredIdx];
+      if (dd !== active) onActiveChange(dd);
+    }, 80);
+    return () => {
+      if (reportTimeoutRef.current) clearTimeout(reportTimeoutRef.current);
+    };
+  }, [centeredIdx, active, onActiveChange]);
 
   const handleScroll = () => {
     const el = scrollRef.current;
