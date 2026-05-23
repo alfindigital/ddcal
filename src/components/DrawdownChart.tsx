@@ -5,6 +5,7 @@ import {
   Cell,
   ReferenceLine,
   ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
@@ -12,6 +13,7 @@ import {
   REFERENCE_BUCKETS,
   bucketColor,
   calcRecovery,
+  formatPercent,
 } from "@/lib/drawdown";
 import { useMemo } from "react";
 
