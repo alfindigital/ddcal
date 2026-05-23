@@ -125,8 +125,11 @@ export function DrawdownChart({
     REFERENCE_BUCKETS.indexOf(nearestBucket),
   );
   const reportTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const lastEmitRef = useRef<{ t: number; dd: number }>({ t: 0, dd: active });
   const lastScrollRef = useRef<{ left: number; t: number }>({ left: 0, t: 0 });
   const velocityRef = useRef(0); // px per ms
+  const pendingIdxRef = useRef(centeredIdx);
 
   // Auto-scroll active bucket into view when the slider moves
   useEffect(() => {
@@ -139,18 +142,46 @@ export function DrawdownChart({
     el.scrollTo({ left: Math.max(0, target), behavior: "smooth" });
   }, [nearestBucket]);
 
-  // Report centered bucket to parent (throttled)
-  useEffect(() => {
+  // Adaptive leading + trailing throttle keyed off scroll velocity.
+  // - Slow scroll: emit on the leading edge so numbers feel live.
+  // - Fast scroll: skip intermediate buckets to avoid flicker; trailing
+  //   timeout always commits the final resting bucket.
+  const emit = (dd: number) => {
     if (!onActiveChange) return;
+    if (dd === lastEmitRef.current.dd) return;
+    lastEmitRef.current = { t: performance.now(), dd };
+    onActiveChange(dd, velocityRef.current);
+  };
+
+  const scheduleEmit = (idx: number) => {
+    pendingIdxRef.current = idx;
+    if (!onActiveChange) return;
+    const v = velocityRef.current;
+    const now = performance.now();
+    const sinceLast = now - lastEmitRef.current.t;
+    const minGap = Math.max(60, Math.min(180, 60 + v * 90));
+    const dd = REFERENCE_BUCKETS[idx];
+
+    if (sinceLast >= minGap && v < 0.6) {
+      // Coalesce within a frame for smooth leading-edge emits
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => emit(dd));
+    }
+
+    // Always (re)arm the trailing settle emit so the resting bucket wins
     if (reportTimeoutRef.current) clearTimeout(reportTimeoutRef.current);
+    const settle = Math.max(90, Math.min(220, 90 + v * 110));
     reportTimeoutRef.current = setTimeout(() => {
-      const dd = REFERENCE_BUCKETS[centeredIdx];
-      if (dd !== active) onActiveChange(dd, velocityRef.current);
-    }, 80);
+      emit(REFERENCE_BUCKETS[pendingIdxRef.current]);
+    }, settle);
+  };
+
+  useEffect(() => {
     return () => {
       if (reportTimeoutRef.current) clearTimeout(reportTimeoutRef.current);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [centeredIdx, active, onActiveChange]);
+  }, []);
 
   const handleScroll = () => {
     const el = scrollRef.current;
@@ -168,7 +199,10 @@ export function DrawdownChart({
     const centerX = el.scrollLeft + el.clientWidth / 2 - Y_AXIS_WIDTH;
     const idx = Math.round(centerX / BUCKET_WIDTH - 0.5);
     const clamped = Math.max(0, Math.min(REFERENCE_BUCKETS.length - 1, idx));
-    if (clamped !== centeredIdx) setCenteredIdx(clamped);
+    if (clamped !== centeredIdx) {
+      setCenteredIdx(clamped);
+      scheduleEmit(clamped);
+    }
   };
 
   const CustomTooltip = ({ active, payload, label }: any) => {
