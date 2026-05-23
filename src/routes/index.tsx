@@ -94,7 +94,7 @@ function Home() {
               <TabsContent value="eq" className="mt-0">
                 <EquityTab onDerivedDrawdown={handleEquityChange} />
               </TabsContent>
-              <ResultCard drawdown={effectiveDrawdown} />
+              <ResultCard drawdown={effectiveDrawdown} animationDuration={animDuration} />
             </div>
           </Tabs>
           <div className="border-t p-3 sm:p-4">
