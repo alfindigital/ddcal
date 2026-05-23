@@ -26,7 +26,7 @@ export function DrawdownChart({
   onActiveChange,
 }: {
   active: number;
-  onActiveChange?: (dd: number) => void;
+  onActiveChange?: (dd: number, velocity?: number) => void;
 }) {
   const data = useMemo(
     () =>
@@ -49,6 +49,8 @@ export function DrawdownChart({
     REFERENCE_BUCKETS.indexOf(nearestBucket),
   );
   const reportTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastScrollRef = useRef<{ left: number; t: number }>({ left: 0, t: 0 });
+  const velocityRef = useRef(0); // px per ms
 
   // Auto-scroll active bucket into view when the slider moves
   useEffect(() => {
@@ -67,7 +69,7 @@ export function DrawdownChart({
     if (reportTimeoutRef.current) clearTimeout(reportTimeoutRef.current);
     reportTimeoutRef.current = setTimeout(() => {
       const dd = REFERENCE_BUCKETS[centeredIdx];
-      if (dd !== active) onActiveChange(dd);
+      if (dd !== active) onActiveChange(dd, velocityRef.current);
     }, 80);
     return () => {
       if (reportTimeoutRef.current) clearTimeout(reportTimeoutRef.current);
@@ -77,6 +79,16 @@ export function DrawdownChart({
   const handleScroll = () => {
     const el = scrollRef.current;
     if (!el) return;
+    const now = performance.now();
+    const last = lastScrollRef.current;
+    if (last.t) {
+      const dt = Math.max(1, now - last.t);
+      const dx = Math.abs(el.scrollLeft - last.left);
+      // Low-pass filter for smoother velocity readings
+      velocityRef.current = velocityRef.current * 0.5 + (dx / dt) * 0.5;
+    }
+    lastScrollRef.current = { left: el.scrollLeft, t: now };
+
     const centerX = el.scrollLeft + el.clientWidth / 2 - Y_AXIS_WIDTH;
     const idx = Math.round(centerX / BUCKET_WIDTH - 0.5);
     const clamped = Math.max(0, Math.min(REFERENCE_BUCKETS.length - 1, idx));
