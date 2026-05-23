@@ -24,9 +24,11 @@ const Y_AXIS_WIDTH = 42;
 export function DrawdownChart({
   active,
   onActiveChange,
+  smoothEnabled,
 }: {
   active: number;
   onActiveChange?: (dd: number, velocity?: number) => void;
+  smoothEnabled?: boolean;
 }) {
   const data = useMemo(
     () =>
@@ -161,7 +163,7 @@ export function DrawdownChart({
               <Bar
                 dataKey="recovery"
                 radius={[4, 4, 0, 0]}
-                isAnimationActive={true}
+                isAnimationActive={smoothEnabled ?? true}
                 animationDuration={550}
                 animationEasing="ease-out"
               >
