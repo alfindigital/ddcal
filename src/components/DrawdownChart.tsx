@@ -163,7 +163,7 @@ export function DrawdownChart({
               <Bar
                 dataKey="recovery"
                 radius={[4, 4, 0, 0]}
-                isAnimationActive={true}
+                isAnimationActive={smoothEnabled ?? true}
                 animationDuration={550}
                 animationEasing="ease-out"
               >
