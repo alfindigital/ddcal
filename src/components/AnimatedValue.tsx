@@ -1,12 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 
-export function useSpringValue(target: number, duration = 350) {
+export function useSpringValue(target: number, duration = 350, enabled = true) {
   const [display, setDisplay] = useState(target);
   const rafRef = useRef<number>(0);
   const startRef = useRef<number>(0);
   const fromRef = useRef<number>(target);
 
   useEffect(() => {
+    if (!enabled) {
+      setDisplay(target);
+      return;
+    }
     fromRef.current = display;
     startRef.current = performance.now();
     const d = Math.max(80, duration);
@@ -26,7 +30,7 @@ export function useSpringValue(target: number, duration = 350) {
     rafRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafRef.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [target, duration]);
+  }, [target, duration, enabled]);
 
   return display;
 }
@@ -35,11 +39,13 @@ export function AnimatedNumber({
   value,
   format,
   duration,
+  enabled,
 }: {
   value: number;
   format: (n: number) => string;
   duration?: number;
+  enabled?: boolean;
 }) {
-  const smooth = useSpringValue(value, duration);
+  const smooth = useSpringValue(value, duration, enabled);
   return <>{format(smooth)}</>;
 }
