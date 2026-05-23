@@ -21,7 +21,13 @@ const Y_TICKS = [2, 10, 50, 200, 1000, 10000];
 const BUCKET_WIDTH = 72; // px per bucket on the scrollable canvas
 const Y_AXIS_WIDTH = 42;
 
-export function DrawdownChart({ active }: { active: number }) {
+export function DrawdownChart({
+  active,
+  onActiveChange,
+}: {
+  active: number;
+  onActiveChange?: (dd: number) => void;
+}) {
   const data = useMemo(
     () =>
       REFERENCE_BUCKETS.map((dd) => ({
