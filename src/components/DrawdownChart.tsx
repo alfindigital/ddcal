@@ -24,9 +24,11 @@ const Y_AXIS_WIDTH = 42;
 export function DrawdownChart({
   active,
   onActiveChange,
+  smoothEnabled,
 }: {
   active: number;
   onActiveChange?: (dd: number, velocity?: number) => void;
+  smoothEnabled?: boolean;
 }) {
   const data = useMemo(
     () =>
