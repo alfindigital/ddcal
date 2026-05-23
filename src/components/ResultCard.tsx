@@ -4,9 +4,11 @@ import { AnimatedNumber } from "./AnimatedValue";
 export function ResultCard({
   drawdown,
   animationDuration,
+  smoothEnabled,
 }: {
   drawdown: number;
   animationDuration?: number;
+  smoothEnabled?: boolean;
 }) {
   const recovery = calcRecovery(drawdown);
   return (
@@ -15,6 +17,7 @@ export function ResultCard({
         <AnimatedNumber
           value={drawdown}
           duration={animationDuration}
+          enabled={smoothEnabled}
           format={(n) => `-${formatPercent(n)}%`}
         />
       </Cell>
@@ -22,6 +25,7 @@ export function ResultCard({
         <AnimatedNumber
           value={recovery}
           duration={animationDuration}
+          enabled={smoothEnabled}
           format={(n) => `+${formatPercent(n)}%`}
         />
       </Cell>
