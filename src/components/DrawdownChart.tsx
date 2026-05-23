@@ -21,7 +21,13 @@ const Y_TICKS = [2, 10, 50, 200, 1000, 10000];
 const BUCKET_WIDTH = 72; // px per bucket on the scrollable canvas
 const Y_AXIS_WIDTH = 42;
 
-export function DrawdownChart({ active }: { active: number }) {
+export function DrawdownChart({
+  active,
+  onActiveChange,
+}: {
+  active: number;
+  onActiveChange?: (dd: number) => void;
+}) {
   const data = useMemo(
     () =>
       REFERENCE_BUCKETS.map((dd) => ({
@@ -42,6 +48,7 @@ export function DrawdownChart({ active }: { active: number }) {
   const [centeredIdx, setCenteredIdx] = useState(
     REFERENCE_BUCKETS.indexOf(nearestBucket),
   );
+  const reportTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Auto-scroll active bucket into view when the slider moves
   useEffect(() => {
@@ -53,6 +60,19 @@ export function DrawdownChart({ active }: { active: number }) {
       Y_AXIS_WIDTH + idx * BUCKET_WIDTH + BUCKET_WIDTH / 2 - el.clientWidth / 2;
     el.scrollTo({ left: Math.max(0, target), behavior: "smooth" });
   }, [nearestBucket]);
+
+  // Report centered bucket to parent (throttled)
+  useEffect(() => {
+    if (!onActiveChange) return;
+    if (reportTimeoutRef.current) clearTimeout(reportTimeoutRef.current);
+    reportTimeoutRef.current = setTimeout(() => {
+      const dd = REFERENCE_BUCKETS[centeredIdx];
+      if (dd !== active) onActiveChange(dd);
+    }, 80);
+    return () => {
+      if (reportTimeoutRef.current) clearTimeout(reportTimeoutRef.current);
+    };
+  }, [centeredIdx, active, onActiveChange]);
 
   const handleScroll = () => {
     const el = scrollRef.current;

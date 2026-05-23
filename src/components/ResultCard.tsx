@@ -1,26 +1,33 @@
 import { formatPercent, calcRecovery } from "@/lib/drawdown";
+import { AnimatedNumber } from "./AnimatedValue";
 
 export function ResultCard({ drawdown }: { drawdown: number }) {
   const recovery = calcRecovery(drawdown);
   return (
     <div className="grid grid-cols-2 overflow-hidden rounded-xl border bg-primary-soft/50">
-      <Cell label="Drawdown" value={`-${formatPercent(drawdown)}%`} />
-      <Cell
-        label="Butuh pulih"
-        value={`+${formatPercent(recovery)}%`}
-        emphasis
-      />
+      <Cell label="Drawdown">
+        <AnimatedNumber
+          value={drawdown}
+          format={(n) => `-${formatPercent(n)}%`}
+        />
+      </Cell>
+      <Cell label="Butuh pulih" emphasis>
+        <AnimatedNumber
+          value={recovery}
+          format={(n) => `+${formatPercent(n)}%`}
+        />
+      </Cell>
     </div>
   );
 }
 
 function Cell({
   label,
-  value,
+  children,
   emphasis,
 }: {
   label: string;
-  value: string;
+  children: React.ReactNode;
   emphasis?: boolean;
 }) {
   return (
@@ -33,7 +40,7 @@ function Cell({
           emphasis ? "text-primary" : "text-foreground"
         }`}
       >
-        {value}
+        {children}
       </span>
     </div>
   );

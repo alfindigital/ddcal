@@ -39,6 +39,22 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   const [drawdown, setDrawdown] = useState(30);
+  const [chartDrawdown, setChartDrawdown] = useState<number | null>(null);
+  const effectiveDrawdown = chartDrawdown ?? drawdown;
+
+  const handleSliderChange = (n: number) => {
+    setChartDrawdown(null);
+    setDrawdown(n);
+  };
+
+  const handleEquityChange = (n: number) => {
+    setChartDrawdown(null);
+    setDrawdown(n);
+  };
+
+  const handleChartActive = (n: number) => {
+    setChartDrawdown(n);
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -65,19 +81,22 @@ function Home() {
             </TabsList>
             <div className="space-y-3 p-3 sm:p-4">
               <TabsContent value="pct" className="mt-0">
-                <PercentTab value={drawdown} onChange={setDrawdown} />
+                <PercentTab value={drawdown} onChange={handleSliderChange} />
               </TabsContent>
               <TabsContent value="eq" className="mt-0">
-                <EquityTab onDerivedDrawdown={setDrawdown} />
+                <EquityTab onDerivedDrawdown={handleEquityChange} />
               </TabsContent>
-              <ResultCard drawdown={drawdown} />
+              <ResultCard drawdown={effectiveDrawdown} />
             </div>
           </Tabs>
           <div className="border-t p-3 sm:p-4">
-            <DrawdownChart active={drawdown} />
+            <DrawdownChart
+              active={effectiveDrawdown}
+              onActiveChange={handleChartActive}
+            />
           </div>
           <div className="border-t p-3 sm:p-4">
-            <ActionsRow drawdown={drawdown} />
+            <ActionsRow drawdown={effectiveDrawdown} />
           </div>
         </main>
 
