@@ -99,23 +99,17 @@ export function DrawdownChart({
     if (!onActiveChange) return;
     if (e.key === "ArrowLeft") {
       e.preventDefault();
-      const idx = Math.max(1, currentIdx);
-      if (idx > 1) {
-        onActiveChange(REFERENCE_BUCKETS[idx - 1], 0);
+      if (currentIdx > 0) {
+        onActiveChange(REFERENCE_BUCKETS[currentIdx - 1], 0);
       }
     } else if (e.key === "ArrowRight") {
       e.preventDefault();
-      const idx = Math.max(0, currentIdx);
-      if (idx >= 1 && idx < REFERENCE_BUCKETS.length - 1) {
-        onActiveChange(REFERENCE_BUCKETS[idx + 1], 0);
-      } else if (idx === 1 && currentIdx === -1) {
-        onActiveChange(REFERENCE_BUCKETS[2], 1);
-      } else if (currentIdx < REFERENCE_BUCKETS.length - 1) {
+      if (currentIdx >= 0 && currentIdx < REFERENCE_BUCKETS.length - 1) {
         onActiveChange(REFERENCE_BUCKETS[currentIdx + 1], 0);
       }
     } else if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      onActiveChange(nearestBucket, 0);
+      onActiveChange(nearestBucket, 1);
     }
   };
 
