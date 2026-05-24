@@ -224,7 +224,7 @@ export function DrawdownChart({
                         "fill-opacity 350ms ease-out, stroke-width 350ms ease-out",
                       cursor: "pointer",
                     }}
-                    onClick={(_: any, __: number, e: React.MouseEvent) => {
+                    onClick={(e: React.MouseEvent<SVGElement>) => {
                       e.stopPropagation();
                       setPinnedLabel(d.label);
                       onActiveChange?.(d.dd, 1);
