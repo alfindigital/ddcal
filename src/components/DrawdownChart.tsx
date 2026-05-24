@@ -93,8 +93,41 @@ export function DrawdownChart({
     return () => ro.disconnect();
   }, []);
 
+  const currentIdx = REFERENCE_BUCKETS.indexOf(nearestBucket);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!onActiveChange) return;
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      const idx = Math.max(1, currentIdx);
+      if (idx > 1) {
+        onActiveChange(REFERENCE_BUCKETS[idx - 1], 0);
+      }
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      const idx = Math.max(0, currentIdx);
+      if (idx >= 1 && idx < REFERENCE_BUCKETS.length - 1) {
+        onActiveChange(REFERENCE_BUCKETS[idx + 1], 0);
+      } else if (idx === 1 && currentIdx === -1) {
+        onActiveChange(REFERENCE_BUCKETS[2], 1);
+      } else if (currentIdx < REFERENCE_BUCKETS.length - 1) {
+        onActiveChange(REFERENCE_BUCKETS[currentIdx + 1], 0);
+      }
+    } else if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onActiveChange(nearestBucket, 0);
+    }
+  };
+
   return (
-    <div ref={containerRef} className="w-full">
+    <div
+      ref={containerRef}
+      className="w-full rounded-md outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      tabIndex={0}
+      role="group"
+      aria-label="Diagram drawdown"
+      onKeyDown={handleKeyDown}
+    >
       <TooltipCtx.Provider
         value={{
           duration: animationDuration ?? 350,
