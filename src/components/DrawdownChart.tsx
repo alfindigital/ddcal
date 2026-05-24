@@ -77,13 +77,15 @@ export function DrawdownChart({
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [chartHeight, setChartHeight] = useState(220);
+  const [chartWidth, setChartWidth] = useState(0);
+  const [pinnedLabel, setPinnedLabel] = useState<string | null>(null);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const compute = () => {
       const w = el.clientWidth;
-      // Proportional: ~55% of width, clamped so Y-axis & tooltip never crop.
+      setChartWidth(w);
       const h = Math.round(Math.max(200, Math.min(360, w * 0.55)));
       setChartHeight(h);
     };
@@ -91,6 +93,20 @@ export function DrawdownChart({
     const ro = new ResizeObserver(compute);
     ro.observe(el);
     return () => ro.disconnect();
+  }, []);
+
+  /* Hilangkan tooltip pinned saat klik di luar chart */
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
+        setPinnedLabel(null);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
   const currentIdx = REFERENCE_BUCKETS.indexOf(nearestBucket);
@@ -113,14 +129,27 @@ export function DrawdownChart({
     }
   };
 
+  /* Posisi tooltip pinned */
+  const pinnedIndex = pinnedLabel ? data.findIndex((d) => d.label === pinnedLabel) : -1;
+  const pinnedPos = useMemo(() => {
+    if (pinnedIndex < 1 || chartWidth <= 0) return null;
+    const n = data.length;
+    const plotWidth = Math.max(0, chartWidth - 36 - 8); // YAxis(36) + right margin(8)
+    const bandWidth = plotWidth / n;
+    const xCenter = 36 + pinnedIndex * bandWidth + bandWidth / 2;
+    const leftPct = (xCenter / chartWidth) * 100;
+    return { leftPct, dd: REFERENCE_BUCKETS[pinnedIndex] };
+  }, [pinnedIndex, chartWidth, data.length]);
+
   return (
     <div
       ref={containerRef}
-      className="w-full rounded-md outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      className="relative w-full rounded-md outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       tabIndex={0}
       role="group"
       aria-label="Diagram drawdown"
       onKeyDown={handleKeyDown}
+      onClick={() => setPinnedLabel(null)}
     >
       <TooltipCtx.Provider
         value={{
@@ -132,12 +161,17 @@ export function DrawdownChart({
           <BarChart
             data={data}
             margin={{ top: 8, right: 8, left: 0, bottom: 4 }}
-            onClick={(state: any) => {
+            onClick={(state: any, e: React.MouseEvent) => {
               const label = state?.activeLabel;
-              if (!label) return;
-              const dd = Number(String(label).replace("%", ""));
-              if (!Number.isFinite(dd)) return;
-              onActiveChange?.(dd, 0);
+              if (label) {
+                const dd = Number(String(label).replace("%", ""));
+                if (Number.isFinite(dd)) {
+                  e.stopPropagation();
+                  setPinnedLabel(label);
+                  onActiveChange?.(dd, 1);
+                }
+              }
+              // Jika tidak ada activeLabel, event bubble ke container onClick → tooltip hilang
             }}
           >
             <CartesianGrid stroke="rgba(0,0,0,0.06)" vertical={false} />
@@ -159,7 +193,8 @@ export function DrawdownChart({
               width={36}
             />
             <Tooltip
-              cursor={{ fill: "rgba(0,0,0,0.04)" }}
+              wrapperStyle={{ display: pinnedLabel ? "none" : "block" }}
+              cursor={{ fill: pinnedLabel ? "transparent" : "rgba(0,0,0,0.04)" }}
               content={<CustomTooltip />}
             />
             <ReferenceLine
@@ -189,13 +224,35 @@ export function DrawdownChart({
                         "fill-opacity 350ms ease-out, stroke-width 350ms ease-out",
                       cursor: "pointer",
                     }}
+                    onClick={(e: React.MouseEvent<SVGElement>) => {
+                      e.stopPropagation();
+                      setPinnedLabel(d.label);
+                      onActiveChange?.(d.dd, 1);
+                    }}
                   />
                 );
               })}
             </Bar>
           </BarChart>
         </ResponsiveContainer>
+
+        {pinnedPos && (
+          <div
+            className="absolute z-20 pointer-events-none"
+            style={{
+              left: `${pinnedPos.leftPct}%`,
+              top: 8,
+              transform: "translateX(-50%)",
+            }}
+          >
+            <TooltipContent
+              dd={pinnedPos.dd}
+              recovery={calcRecovery(pinnedPos.dd)}
+            />
+          </div>
+        )}
       </TooltipCtx.Provider>
     </div>
   );
 }
+
