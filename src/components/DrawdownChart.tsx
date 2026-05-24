@@ -16,7 +16,7 @@ import {
   formatPercent,
 } from "@/lib/drawdown";
 import { useSpringValue } from "@/components/AnimatedValue";
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 
 const Y_TICKS = [2, 10, 50, 200, 1000, 10000];
 
@@ -75,15 +75,33 @@ export function DrawdownChart({
   );
   const activeLabel = `${nearestBucket}%`;
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [chartHeight, setChartHeight] = useState(220);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const compute = () => {
+      const w = el.clientWidth;
+      // Proportional: ~55% of width, clamped so Y-axis & tooltip never crop.
+      const h = Math.round(Math.max(200, Math.min(360, w * 0.55)));
+      setChartHeight(h);
+    };
+    compute();
+    const ro = new ResizeObserver(compute);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   return (
-    <div className="w-full">
+    <div ref={containerRef} className="w-full">
       <TooltipCtx.Provider
         value={{
           duration: animationDuration ?? 350,
           enabled: smoothEnabled ?? true,
         }}
       >
-        <ResponsiveContainer width="100%" height={220}>
+        <ResponsiveContainer width="100%" height={chartHeight}>
           <BarChart
             data={data}
             margin={{ top: 8, right: 8, left: 0, bottom: 4 }}
