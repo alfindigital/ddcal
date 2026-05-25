@@ -237,21 +237,8 @@ export function DrawdownChart({
           </BarChart>
         </ResponsiveContainer>
 
-        {pinnedPos && (
-          <div
-            className="absolute z-20 pointer-events-none"
-            style={{
-              left: `${pinnedPos.leftPct}%`,
-              top: 8,
-              transform: "translateX(-50%)",
-            }}
-          >
-            <TooltipContent
-              dd={pinnedPos.dd}
-              recovery={calcRecovery(pinnedPos.dd)}
-            />
-          </div>
-        )}
+
+
       </TooltipCtx.Provider>
     </div>
   );
