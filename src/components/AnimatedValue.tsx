@@ -1,13 +1,28 @@
 import { useEffect, useRef, useState } from "react";
 
+export function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReduced(mq.matches);
+    update();
+    mq.addEventListener?.("change", update);
+    return () => mq.removeEventListener?.("change", update);
+  }, []);
+  return reduced;
+}
+
 export function useSpringValue(target: number, duration = 350, enabled = true) {
+  const reduced = usePrefersReducedMotion();
+  const active = enabled && !reduced;
   const [display, setDisplay] = useState(target);
   const rafRef = useRef<number>(0);
   const startRef = useRef<number>(0);
   const fromRef = useRef<number>(target);
 
   useEffect(() => {
-    if (!enabled) {
+    if (!active) {
       setDisplay(target);
       return;
     }
@@ -30,7 +45,7 @@ export function useSpringValue(target: number, duration = 350, enabled = true) {
     rafRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafRef.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [target, duration, enabled]);
+  }, [target, duration, active]);
 
   return display;
 }
