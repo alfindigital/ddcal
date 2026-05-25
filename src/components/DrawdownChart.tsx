@@ -193,10 +193,11 @@ export function DrawdownChart({
               width={36}
             />
             <Tooltip
-              wrapperStyle={{ display: pinnedLabel ? "none" : "block" }}
-              cursor={{ fill: pinnedLabel ? "transparent" : "rgba(0,0,0,0.04)" }}
-              content={<CustomTooltip />}
+              wrapperStyle={{ display: "none" }}
+              cursor={{ fill: "rgba(0,0,0,0.04)" }}
+              content={() => null}
             />
+
             <ReferenceLine
               x={activeLabel}
               stroke="#b91c1c"
