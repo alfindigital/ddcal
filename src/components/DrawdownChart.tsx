@@ -193,10 +193,11 @@ export function DrawdownChart({
               width={36}
             />
             <Tooltip
-              wrapperStyle={{ display: pinnedLabel ? "none" : "block" }}
-              cursor={{ fill: pinnedLabel ? "transparent" : "rgba(0,0,0,0.04)" }}
-              content={<CustomTooltip />}
+              wrapperStyle={{ display: "none" }}
+              cursor={{ fill: "rgba(0,0,0,0.04)" }}
+              content={() => null}
             />
+
             <ReferenceLine
               x={activeLabel}
               stroke="#b91c1c"
@@ -236,21 +237,8 @@ export function DrawdownChart({
           </BarChart>
         </ResponsiveContainer>
 
-        {pinnedPos && (
-          <div
-            className="absolute z-20 pointer-events-none"
-            style={{
-              left: `${pinnedPos.leftPct}%`,
-              top: 8,
-              transform: "translateX(-50%)",
-            }}
-          >
-            <TooltipContent
-              dd={pinnedPos.dd}
-              recovery={calcRecovery(pinnedPos.dd)}
-            />
-          </div>
-        )}
+
+
       </TooltipCtx.Provider>
     </div>
   );
