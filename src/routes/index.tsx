@@ -92,14 +92,6 @@ function Home() {
             <div className="space-y-3 p-3 sm:p-4">
               <TabsContent value="pct" className="mt-0 space-y-3">
                 <PercentTab value={drawdown} onChange={handleSliderChange} />
-                <div className="flex items-center justify-end gap-2">
-                  <span className="text-[11px] text-muted-foreground">Animasi halus</span>
-                  <Switch
-                    checked={smoothAnim}
-                    onCheckedChange={setSmoothAnim}
-                    aria-label="Animasi halus"
-                  />
-                </div>
               </TabsContent>
               <TabsContent value="eq" className="mt-0">
                 <EquityTab onDerivedDrawdown={handleEquityChange} />
