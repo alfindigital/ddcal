@@ -63,7 +63,7 @@ export function AboutDialog() {
               className="flex justify-between border-b border-border/50 py-1 last:border-0"
             >
               <span className="text-muted-foreground">{dd}</span>
-              <span className="font-display tabular font-bold text-primary">
+              <span className="font-display tabular tracking-tight font-bold text-primary">
                 {rec}
               </span>
             </li>
