@@ -76,8 +76,8 @@ export const ShareCard = forwardRef<HTMLDivElement, { drawdown: number }>(
             <span className="text-[11px] text-muted-foreground">
               drawdowncal.lovable.app
             </span>
-            <span className="text-[11px] font-medium text-muted-foreground">
-              by <span className="text-foreground">@alfindigital</span>
+            <span className="text-[11px] text-muted-foreground">
+              by <span className="font-medium text-foreground">@alfindigital</span>
             </span>
           </div>
         </div>
