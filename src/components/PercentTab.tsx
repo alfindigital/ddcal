@@ -83,7 +83,7 @@ export function PercentTab({
         </Tooltip>
       </TooltipProvider>
 
-      <div className="flex justify-between text-[10px] tabular text-muted-foreground">
+      <div className="flex justify-between text-[11px] tabular text-muted-foreground">
         {ticks.map((t) => (
           <span key={t}>{t}%</span>
         ))}
