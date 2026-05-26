@@ -26,7 +26,7 @@ export function PercentTab({
       <div className="flex items-center justify-between gap-3">
         <label
           htmlFor={inputId}
-          className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
+          className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground"
         >
           Drawdown
         </label>
@@ -41,10 +41,10 @@ export function PercentTab({
               const n = Math.max(1, Math.min(99, Number(e.target.value) || 0));
               onChange(n);
             }}
-            className="h-8 w-16 text-right font-display font-semibold tabular"
+            className="h-8 w-16 text-right font-display font-bold tabular tracking-tight"
           />
 
-          <span className="text-sm text-muted-foreground">%</span>
+          <span className="text-[11px] text-muted-foreground">%</span>
         </div>
       </div>
 
@@ -83,7 +83,7 @@ export function PercentTab({
         </Tooltip>
       </TooltipProvider>
 
-      <div className="flex justify-between text-[10px] tabular text-muted-foreground">
+      <div className="flex justify-between text-[11px] tabular text-muted-foreground">
         {ticks.map((t) => (
           <span key={t}>{t}%</span>
         ))}

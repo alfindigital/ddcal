@@ -41,7 +41,7 @@ export const ShareCard = forwardRef<HTMLDivElement, { drawdown: number }>(
                 Drawdown<span className="text-primary">CAL</span>
               </div>
             </div>
-            <div className="text-[11px] uppercase tracking-wider text-muted-foreground">
+            <div className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
               Kalkulator Pemulihan
             </div>
           </div>
@@ -49,18 +49,18 @@ export const ShareCard = forwardRef<HTMLDivElement, { drawdown: number }>(
           {/* Values */}
           <div className="grid grid-cols-2 overflow-hidden rounded-xl border bg-primary-soft/50">
             <div className="flex flex-col gap-1 px-5 py-4">
-              <span className="text-[11px] uppercase tracking-wide text-muted-foreground">
+              <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
                 Drawdown
               </span>
-              <span className="font-display tabular text-3xl font-bold text-foreground">
+              <span className="font-display tabular tracking-tight text-3xl font-bold text-foreground">
                 -{formatPercent(drawdown)}%
               </span>
             </div>
             <div className="flex flex-col gap-1 border-l px-5 py-4">
-              <span className="text-[11px] uppercase tracking-wide text-muted-foreground">
+              <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
                 Butuh pulih
               </span>
-              <span className="font-display tabular text-3xl font-bold text-primary">
+              <span className="font-display tabular tracking-tight text-3xl font-bold text-primary">
                 +{formatPercent(recovery)}%
               </span>
             </div>
@@ -76,8 +76,8 @@ export const ShareCard = forwardRef<HTMLDivElement, { drawdown: number }>(
             <span className="text-[11px] text-muted-foreground">
               drawdowncal.lovable.app
             </span>
-            <span className="text-[11px] font-medium text-muted-foreground">
-              by <span className="text-foreground">@alfindigital</span>
+            <span className="text-[11px] text-muted-foreground">
+              by <span className="font-medium text-foreground">@alfindigital</span>
             </span>
           </div>
         </div>

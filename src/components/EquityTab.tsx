@@ -38,7 +38,7 @@ function Field({
     <div className="flex items-center justify-between gap-3">
       <label
         htmlFor={id}
-        className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
+        className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground"
       >
         {label}
       </label>
@@ -47,7 +47,7 @@ function Field({
         inputMode="numeric"
         value={formatRupiah(value)}
         onChange={(e) => onChange(parseRupiah(e.target.value))}
-        className="h-8 w-32 text-right font-display font-semibold tabular sm:w-40"
+        className="h-8 w-32 text-right font-display font-bold tabular tracking-tight sm:w-40"
       />
     </div>
   );
