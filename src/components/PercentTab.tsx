@@ -41,10 +41,10 @@ export function PercentTab({
               const n = Math.max(1, Math.min(99, Number(e.target.value) || 0));
               onChange(n);
             }}
-            className="h-8 w-16 text-right font-display font-semibold tabular"
+            className="h-8 w-16 text-right font-display font-bold tabular tracking-tight"
           />
 
-          <span className="text-sm text-muted-foreground">%</span>
+          <span className="text-[11px] text-muted-foreground">%</span>
         </div>
       </div>
 
