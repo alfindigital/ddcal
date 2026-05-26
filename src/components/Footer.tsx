@@ -58,9 +58,9 @@ export function Footer() {
           <TelegramIcon />
         </a>
       </div>
-      <span aria-hidden="true" className="text-muted-foreground/40">·</span>
+      <span aria-hidden="true" className="text-muted-foreground">·</span>
       <span>
-        by <span className="font-medium text-muted-foreground">@alfindigital</span>
+        by <span className="font-medium text-foreground">@alfindigital</span>
       </span>
     </footer>
   );
