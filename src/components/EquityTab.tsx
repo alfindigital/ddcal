@@ -38,7 +38,7 @@ function Field({
     <div className="flex items-center justify-between gap-3">
       <label
         htmlFor={id}
-        className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
+        className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground"
       >
         {label}
       </label>
