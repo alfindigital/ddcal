@@ -8,7 +8,7 @@ import { ResultCard } from "@/components/ResultCard";
 import { DrawdownChart } from "@/components/DrawdownChart";
 import { ActionsRow } from "@/components/ActionsRow";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Switch } from "@/components/ui/switch";
+
 import { Toaster } from "@/components/ui/sonner";
 
 export const Route = createFileRoute("/")({
