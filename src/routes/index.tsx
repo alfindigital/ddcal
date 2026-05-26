@@ -42,7 +42,7 @@ function Home() {
   const [drawdown, setDrawdown] = useState(30);
   const [chartDrawdown, setChartDrawdown] = useState<number | null>(null);
   const [animDuration, setAnimDuration] = useState<number>(350);
-  const [smoothAnim, setSmoothAnim] = useState(true);
+  const smoothAnim = true;
   const effectiveDrawdown = chartDrawdown ?? drawdown;
 
   const handleSliderChange = (n: number) => {
