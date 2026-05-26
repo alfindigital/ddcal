@@ -8,7 +8,7 @@ import { ResultCard } from "@/components/ResultCard";
 import { DrawdownChart } from "@/components/DrawdownChart";
 import { ActionsRow } from "@/components/ActionsRow";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Switch } from "@/components/ui/switch";
+
 import { Toaster } from "@/components/ui/sonner";
 
 export const Route = createFileRoute("/")({
@@ -42,7 +42,7 @@ function Home() {
   const [drawdown, setDrawdown] = useState(30);
   const [chartDrawdown, setChartDrawdown] = useState<number | null>(null);
   const [animDuration, setAnimDuration] = useState<number>(350);
-  const [smoothAnim, setSmoothAnim] = useState(true);
+  const smoothAnim = true;
   const effectiveDrawdown = chartDrawdown ?? drawdown;
 
   const handleSliderChange = (n: number) => {
@@ -92,14 +92,6 @@ function Home() {
             <div className="space-y-3 p-3 sm:p-4">
               <TabsContent value="pct" className="mt-0 space-y-3">
                 <PercentTab value={drawdown} onChange={handleSliderChange} />
-                <div className="flex items-center justify-end gap-2">
-                  <span className="text-[11px] text-muted-foreground">Animasi halus</span>
-                  <Switch
-                    checked={smoothAnim}
-                    onCheckedChange={setSmoothAnim}
-                    aria-label="Animasi halus"
-                  />
-                </div>
               </TabsContent>
               <TabsContent value="eq" className="mt-0">
                 <EquityTab onDerivedDrawdown={handleEquityChange} />
