@@ -1,11 +1,11 @@
 import { Facebook, Globe } from "lucide-react";
 
 const linkClass =
-  "grid h-6 w-6 place-items-center rounded-full text-muted-foreground/70 transition-colors hover:bg-muted hover:text-primary";
+  "grid h-6 w-6 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-primary";
 
 export function Footer() {
   return (
-    <footer className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 pt-1 pb-0.5 text-[10px] tracking-wide text-muted-foreground/60">
+    <footer className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 pt-1 pb-0.5 text-[11px] tracking-wide text-muted-foreground">
       <div className="flex items-center gap-0.5">
         <a
           href="https://alfindigital.com"
