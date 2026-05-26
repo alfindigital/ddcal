@@ -44,11 +44,11 @@ function Cell({
 }) {
   return (
     <div className="flex flex-col gap-0.5 px-3 py-2.5 sm:px-4 sm:py-3 [&+&]:border-l">
-      <span className="text-[11px] uppercase tracking-wide text-muted-foreground">
+      <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
         {label}
       </span>
       <span
-        className={`font-display tabular text-lg font-bold sm:text-xl ${
+        className={`font-display tabular tracking-tight text-lg font-bold sm:text-xl ${
           emphasis ? "text-primary" : "text-foreground"
         }`}
       >
