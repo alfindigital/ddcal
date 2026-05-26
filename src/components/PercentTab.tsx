@@ -26,7 +26,7 @@ export function PercentTab({
       <div className="flex items-center justify-between gap-3">
         <label
           htmlFor={inputId}
-          className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
+          className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground"
         >
           Drawdown
         </label>
