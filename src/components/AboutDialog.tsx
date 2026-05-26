@@ -34,13 +34,13 @@ export function AboutDialog() {
           <div className="text-[11px] font-semibold uppercase tracking-wide text-primary">
             Rumus pemulihan
           </div>
-          <div className="font-display tabular mt-1 text-sm font-bold">
+          <div className="font-display tabular tracking-tight mt-1 text-sm font-bold">
             recovery % = dd / (100 − dd) × 100
           </div>
         </div>
 
         <div>
-          <h3 className="font-display text-sm font-bold">
+          <h3 className="font-display text-sm font-bold tracking-tight">
             Kenapa pemulihan asimetris?
           </h3>
           <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
