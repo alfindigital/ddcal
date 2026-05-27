@@ -139,23 +139,26 @@ function DrawdownChartImpl({
 
   const currentIdx = REFERENCE_BUCKETS.indexOf(nearestBucket);
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (!onActiveChange) return;
-    if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      if (currentIdx > 0) {
-        onActiveChange(REFERENCE_BUCKETS[currentIdx - 1], 0);
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (!onActiveChange) return;
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        if (currentIdx > 0) {
+          onActiveChange(REFERENCE_BUCKETS[currentIdx - 1], 0);
+        }
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        if (currentIdx >= 0 && currentIdx < REFERENCE_BUCKETS.length - 1) {
+          onActiveChange(REFERENCE_BUCKETS[currentIdx + 1], 0);
+        }
+      } else if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        onActiveChange(nearestBucket, 1);
       }
-    } else if (e.key === "ArrowRight") {
-      e.preventDefault();
-      if (currentIdx >= 0 && currentIdx < REFERENCE_BUCKETS.length - 1) {
-        onActiveChange(REFERENCE_BUCKETS[currentIdx + 1], 0);
-      }
-    } else if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      onActiveChange(nearestBucket, 1);
-    }
-  };
+    },
+    [onActiveChange, currentIdx, nearestBucket],
+  );
 
   /* Posisi tooltip pinned */
   const pinnedIndex = pinnedLabel ? data.findIndex((d) => d.label === pinnedLabel) : -1;
