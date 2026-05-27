@@ -2,16 +2,47 @@ import { useRef } from "react";
 import { Copy, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toPng } from "html-to-image";
-import { calcRecovery, formatPercent } from "@/lib/drawdown";
+import { calcRecovery, formatPercent, formatRupiah } from "@/lib/drawdown";
 import { toast } from "sonner";
 import { ShareCard } from "./ShareCard";
 
-export function ActionsRow({ drawdown }: { drawdown: number }) {
+const APP_URL = "https://drawdowncal.lovable.app";
+
+export function ActionsRow({
+  drawdown,
+  mode,
+  equityInitial,
+  equityCurrent,
+}: {
+  drawdown: number;
+  mode: "persen" | "equity";
+  equityInitial: number;
+  equityCurrent: number;
+}) {
   const shareRef = useRef<HTMLDivElement>(null);
 
-  const summary = `Drawdown: -${formatPercent(drawdown)}% | Pemulihan: +${formatPercent(
-    calcRecovery(drawdown),
-  )}%`;
+  const recovery = calcRecovery(drawdown);
+  const remaining = 100 - drawdown;
+  // Ratio recovery / drawdown
+  const ratio = drawdown > 0 && Number.isFinite(recovery) ? recovery / drawdown : 0;
+
+  const equityLine =
+    mode === "equity"
+      ? `Equity tersisa: ${formatRupiah(equityCurrent)} dari ${formatRupiah(equityInitial)}`
+      : `Equity tersisa: Rp${remaining} dari Rp100`;
+
+  const summary = [
+    "📉 DrawdownCal",
+    "",
+    `Drawdown: -${formatPercent(drawdown)}%`,
+    equityLine,
+    `Pemulihan dibutuhkan: +${formatPercent(recovery)}%`,
+    `Rasio pemulihan/kerugian: ${ratio.toFixed(2)}x`,
+    "",
+    `Hitung sendiri 👉 ${APP_URL}`,
+    "",
+    "by @alfindigital",
+  ].join("\n");
 
   const onCopy = async () => {
     try {
@@ -48,7 +79,6 @@ export function ActionsRow({ drawdown }: { drawdown: number }) {
           <Download className="h-3.5 w-3.5" /> Unduh
         </Button>
       </div>
-      {/* Off-screen share card used to render the downloadable PNG. */}
       <div
         aria-hidden="true"
         style={{
