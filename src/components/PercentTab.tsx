@@ -90,10 +90,9 @@ export function PercentTab({
           </div>
 
           <SliderPrimitive.Thumb
-            className="relative block h-7 w-7 cursor-pointer rounded-full border-[3.5px] border-primary bg-background shadow-xl shadow-primary/25 transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20 active:scale-95"
-          >
-            <span className="absolute inset-1.5 rounded-full bg-primary/10" />
-          </SliderPrimitive.Thumb>
+            className="block size-7 cursor-pointer rounded-full border-4 border-primary bg-background shadow-xl shadow-primary/25 transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20 active:scale-95"
+          />
+
         </SliderPrimitive.Root>
 
         {/* Tick labels */}
