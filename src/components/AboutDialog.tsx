@@ -102,10 +102,10 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
             Tips Risk Management
           </h3>
           <ul className="space-y-1.5 text-[13px] leading-relaxed text-muted-foreground">
-            <li>💡 Hubungan drawdown vs recovery itu eksponensial, bukan linear</li>
-            <li>💡 Loss 10% butuh 11% balik. Loss 50% butuh 100%. Loss 90% butuh 900%</li>
-            <li>💡 Cut loss kecil berkali-kali lebih baik daripada hold 1 floating loss besar</li>
-            <li>💡 Yang bikin profit konsisten bukan cuan besar, tapi loss kecil</li>
+            <li>💡 Drawdown vs recovery itu eksponensial, bukan linear</li>
+            <li>💡 Loss 10% → 11% balik. Loss 50% → 100%. Loss 90% → 900%</li>
+            <li>💡 Cut loss kecil lebih baik daripada hold floating loss besar</li>
+            <li>💡 Profit konsisten datang dari loss yang kecil</li>
           </ul>
         </div>
       </DialogContent>
