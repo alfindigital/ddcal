@@ -181,22 +181,22 @@ function Home() {
             onValueChange={(v) => setMode(v === "eq" ? "equity" : "persen")}
             className="w-full"
           >
-            <TabsList className="grid h-auto w-full grid-cols-2 rounded-none border-b bg-transparent p-0">
+            <TabsList className="grid h-10 w-full grid-cols-2 rounded-none border-b bg-transparent p-0">
               <TabsTrigger
                 value="pct"
-                className="rounded-none border-b-2 border-transparent py-3 text-sm font-semibold tracking-wide data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
+                className="rounded-none border-b-2 border-transparent py-2 text-[11px] font-semibold uppercase tracking-[0.18em] data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
               >
                 Persentase
               </TabsTrigger>
               <TabsTrigger
                 value="eq"
-                className="rounded-none border-b-2 border-transparent py-3 text-sm font-semibold tracking-wide data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
+                className="rounded-none border-b-2 border-transparent py-2 text-[11px] font-semibold uppercase tracking-[0.18em] data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
               >
                 Equity
               </TabsTrigger>
             </TabsList>
             <div className="space-y-3 p-3 sm:p-4">
-              <TabsContent value="pct" className="mt-0 space-y-3">
+              <TabsContent value="pct" className="mt-0">
                 <PercentTab value={drawdown} onChange={handleSliderChange} />
               </TabsContent>
               <TabsContent value="eq" className="mt-0">
