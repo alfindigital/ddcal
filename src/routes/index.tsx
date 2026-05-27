@@ -196,7 +196,7 @@ function Home() {
               </TabsTrigger>
             </TabsList>
             <div className="space-y-3 p-3 sm:p-4">
-              <TabsContent value="pct" className="mt-0 space-y-3">
+              <TabsContent value="pct" className="mt-0">
                 <PercentTab value={drawdown} onChange={handleSliderChange} />
               </TabsContent>
               <TabsContent value="eq" className="mt-0">
