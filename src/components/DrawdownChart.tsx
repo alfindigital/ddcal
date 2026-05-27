@@ -58,7 +58,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return <TooltipContent dd={dd} recovery={recovery} />;
 };
 
-export function DrawdownChart({
+function DrawdownChartImpl({
   active,
   onActiveChange,
   smoothEnabled,
@@ -69,6 +69,9 @@ export function DrawdownChart({
   smoothEnabled?: boolean;
   animationDuration?: number;
 }) {
+  // Defer rapid updates (e.g. slider drag) so chart re-renders coalesce.
+  const deferredActive = useDeferredValue(active);
+
   const data = useMemo(
     () =>
       REFERENCE_BUCKETS.map((dd) => ({
@@ -80,8 +83,12 @@ export function DrawdownChart({
     [],
   );
 
-  const nearestBucket = REFERENCE_BUCKETS.reduce((p, c) =>
-    Math.abs(c - active) < Math.abs(p - active) ? c : p,
+  const nearestBucket = useMemo(
+    () =>
+      REFERENCE_BUCKETS.reduce((p, c) =>
+        Math.abs(c - deferredActive) < Math.abs(p - deferredActive) ? c : p,
+      ),
+    [deferredActive],
   );
   const activeLabel = `${nearestBucket}%`;
 
