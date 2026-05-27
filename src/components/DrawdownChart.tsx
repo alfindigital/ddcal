@@ -16,7 +16,17 @@ import {
   formatPercent,
 } from "@/lib/drawdown";
 import { useSpringValue } from "@/components/AnimatedValue";
-import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
+import {
+  createContext,
+  memo,
+  useCallback,
+  useContext,
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 const Y_TICKS = [2, 10, 50, 200, 1000, 10000];
 
@@ -48,7 +58,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return <TooltipContent dd={dd} recovery={recovery} />;
 };
 
-export function DrawdownChart({
+function DrawdownChartImpl({
   active,
   onActiveChange,
   smoothEnabled,
@@ -59,6 +69,9 @@ export function DrawdownChart({
   smoothEnabled?: boolean;
   animationDuration?: number;
 }) {
+  // Defer rapid updates (e.g. slider drag) so chart re-renders coalesce.
+  const deferredActive = useDeferredValue(active);
+
   const data = useMemo(
     () =>
       REFERENCE_BUCKETS.map((dd) => ({
@@ -70,8 +83,12 @@ export function DrawdownChart({
     [],
   );
 
-  const nearestBucket = REFERENCE_BUCKETS.reduce((p, c) =>
-    Math.abs(c - active) < Math.abs(p - active) ? c : p,
+  const nearestBucket = useMemo(
+    () =>
+      REFERENCE_BUCKETS.reduce((p, c) =>
+        Math.abs(c - deferredActive) < Math.abs(p - deferredActive) ? c : p,
+      ),
+    [deferredActive],
   );
   const activeLabel = `${nearestBucket}%`;
 
@@ -83,16 +100,27 @@ export function DrawdownChart({
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
+    let raf = 0;
     const compute = () => {
       const w = el.clientWidth;
       setChartWidth(w);
       const h = Math.round(Math.max(200, Math.min(360, w * 0.55)));
       setChartHeight(h);
     };
+    const schedule = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        compute();
+      });
+    };
     compute();
-    const ro = new ResizeObserver(compute);
+    const ro = new ResizeObserver(schedule);
     ro.observe(el);
-    return () => ro.disconnect();
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
   }, []);
 
   /* Hilangkan tooltip pinned saat klik di luar chart */
@@ -111,23 +139,26 @@ export function DrawdownChart({
 
   const currentIdx = REFERENCE_BUCKETS.indexOf(nearestBucket);
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (!onActiveChange) return;
-    if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      if (currentIdx > 0) {
-        onActiveChange(REFERENCE_BUCKETS[currentIdx - 1], 0);
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (!onActiveChange) return;
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        if (currentIdx > 0) {
+          onActiveChange(REFERENCE_BUCKETS[currentIdx - 1], 0);
+        }
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        if (currentIdx >= 0 && currentIdx < REFERENCE_BUCKETS.length - 1) {
+          onActiveChange(REFERENCE_BUCKETS[currentIdx + 1], 0);
+        }
+      } else if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        onActiveChange(nearestBucket, 1);
       }
-    } else if (e.key === "ArrowRight") {
-      e.preventDefault();
-      if (currentIdx >= 0 && currentIdx < REFERENCE_BUCKETS.length - 1) {
-        onActiveChange(REFERENCE_BUCKETS[currentIdx + 1], 0);
-      }
-    } else if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      onActiveChange(nearestBucket, 1);
-    }
-  };
+    },
+    [onActiveChange, currentIdx, nearestBucket],
+  );
 
   /* Posisi tooltip pinned */
   const pinnedIndex = pinnedLabel ? data.findIndex((d) => d.label === pinnedLabel) : -1;
@@ -243,4 +274,19 @@ export function DrawdownChart({
     </div>
   );
 }
+
+export const DrawdownChart = memo(DrawdownChartImpl, (prev, next) => {
+  // Re-render only when the nearest bucket or visual props actually change.
+  const bucket = (v: number) =>
+    REFERENCE_BUCKETS.reduce((p, c) =>
+      Math.abs(c - v) < Math.abs(p - v) ? c : p,
+    );
+  return (
+    bucket(prev.active) === bucket(next.active) &&
+    prev.onActiveChange === next.onActiveChange &&
+    prev.smoothEnabled === next.smoothEnabled &&
+    prev.animationDuration === next.animationDuration
+  );
+});
+
 
