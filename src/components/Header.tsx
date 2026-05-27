@@ -1,8 +1,15 @@
 import { Link } from "@tanstack/react-router";
+import { History } from "lucide-react";
 import { AboutDialog } from "./AboutDialog";
 import { ThemeToggle } from "./ThemeToggle";
 
-export function Header() {
+export function Header({
+  currentDrawdown,
+  onOpenHistory,
+}: {
+  currentDrawdown: number;
+  onOpenHistory: () => void;
+}) {
   return (
     <header className="flex items-center justify-between gap-2">
       <Link to="/" className="flex min-w-0 items-center gap-2">
@@ -14,7 +21,16 @@ export function Header() {
         </span>
       </Link>
       <nav className="flex items-center gap-1">
-        <AboutDialog />
+        <AboutDialog currentDrawdown={currentDrawdown} />
+        <button
+          type="button"
+          aria-label="Riwayat"
+          title="Riwayat"
+          onClick={onOpenHistory}
+          className="grid h-9 w-9 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        >
+          <History className="h-4 w-4" />
+        </button>
         <ThemeToggle />
       </nav>
     </header>
