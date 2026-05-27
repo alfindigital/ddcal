@@ -45,15 +45,6 @@ export function HistoryDialog({ open, onOpenChange, onLoad }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger asChild>
-        <button
-          aria-label="Riwayat"
-          title="Riwayat"
-          className="grid h-9 w-9 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-        >
-          <History className="h-4 w-4" />
-        </button>
-      </DialogTrigger>
       <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="font-display text-lg font-bold tracking-tight">
