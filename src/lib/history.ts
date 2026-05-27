@@ -59,10 +59,6 @@ export function clearHistory() {
   }
 }
 
-const MONTHS = [
-  "Jan", "Feb", "Mar", "Apr", "Mei", "Jun",
-  "Jul", "Agu", "Sep", "Okt", "Nov", "Des",
-];
 const MONTHS_FULL = [
   "Januari", "Februari", "Maret", "April", "Mei", "Juni",
   "Juli", "Agustus", "September", "Oktober", "November", "Desember",
@@ -77,5 +73,3 @@ export function formatHistoryDate(iso: string): string {
   const mm = String(d.getMinutes()).padStart(2, "0");
   return `${day} ${month} ${year}, ${hh}:${mm}`;
 }
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const _unused = MONTHS;
