@@ -100,16 +100,27 @@ function DrawdownChartImpl({
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
+    let raf = 0;
     const compute = () => {
       const w = el.clientWidth;
       setChartWidth(w);
       const h = Math.round(Math.max(200, Math.min(360, w * 0.55)));
       setChartHeight(h);
     };
+    const schedule = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        compute();
+      });
+    };
     compute();
-    const ro = new ResizeObserver(compute);
+    const ro = new ResizeObserver(schedule);
     ro.observe(el);
-    return () => ro.disconnect();
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
   }, []);
 
   /* Hilangkan tooltip pinned saat klik di luar chart */
