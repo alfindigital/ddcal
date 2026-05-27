@@ -40,23 +40,17 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
 
         <div className="rounded-lg bg-primary-soft/60 p-3">
           <div className="text-[11px] font-semibold uppercase tracking-wide text-primary">
-            Rumus pemulihan
+            Rumus
           </div>
           <div className="font-display tabular tracking-tight mt-1 text-sm font-bold">
             recovery % = dd / (100 − dd) × 100
           </div>
         </div>
 
-        <div>
-          <h3 className="font-display text-sm font-bold tracking-tight">
-            Kenapa pemulihan asimetris?
-          </h3>
-          <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-            Saat modal turun, basis kalkulasi ikut mengecil. Untuk kembali ke
-            modal awal, kenaikan persentasenya harus lebih besar dari
-            penurunannya.
-          </p>
-        </div>
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          Saat modal turun, basis kalkulasi ikut mengecil — kenaikan untuk
+          balik modal selalu lebih besar dari penurunannya.
+        </p>
 
         <div>
           <h3 className="font-display text-sm font-bold tracking-tight mb-2">
@@ -108,10 +102,10 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
             Tips Risk Management
           </h3>
           <ul className="space-y-1.5 text-[13px] leading-relaxed text-muted-foreground">
-            <li>💡 Hubungan drawdown vs recovery itu eksponensial, bukan linear</li>
-            <li>💡 Loss 10% butuh 11% balik. Loss 50% butuh 100%. Loss 90% butuh 900%</li>
-            <li>💡 Cut loss kecil berkali-kali lebih baik daripada hold 1 floating loss besar</li>
-            <li>💡 Yang bikin profit konsisten bukan cuan besar, tapi loss kecil</li>
+            <li>💡 Drawdown vs recovery itu eksponensial, bukan linear</li>
+            <li>💡 Loss 10% → 11% balik. Loss 50% → 100%. Loss 90% → 900%</li>
+            <li>💡 Cut loss kecil lebih baik daripada hold floating loss besar</li>
+            <li>💡 Profit konsisten datang dari loss yang kecil</li>
           </ul>
         </div>
       </DialogContent>
