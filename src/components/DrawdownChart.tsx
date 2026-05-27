@@ -275,3 +275,18 @@ function DrawdownChartImpl({
   );
 }
 
+export const DrawdownChart = memo(DrawdownChartImpl, (prev, next) => {
+  // Re-render only when the nearest bucket or visual props actually change.
+  const bucket = (v: number) =>
+    REFERENCE_BUCKETS.reduce((p, c) =>
+      Math.abs(c - v) < Math.abs(p - v) ? c : p,
+    );
+  return (
+    bucket(prev.active) === bucket(next.active) &&
+    prev.onActiveChange === next.onActiveChange &&
+    prev.smoothEnabled === next.smoothEnabled &&
+    prev.animationDuration === next.animationDuration
+  );
+});
+
+
