@@ -7,8 +7,16 @@ import {
   DialogTrigger,
   DialogDescription,
 } from "@/components/ui/dialog";
+import {
+  REFERENCE_ROWS,
+  levelClass,
+  nearestReferenceDrawdown,
+} from "@/lib/reference-table";
+import { formatPercent } from "@/lib/drawdown";
 
-export function AboutDialog() {
+export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
+  const highlightDd = nearestReferenceDrawdown(currentDrawdown);
+
   return (
     <Dialog>
       <DialogTrigger
@@ -18,7 +26,7 @@ export function AboutDialog() {
       >
         <Info className="h-4 w-4" />
       </DialogTrigger>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="font-display text-lg font-bold tracking-tight">
             Tentang Drawdown
@@ -50,25 +58,62 @@ export function AboutDialog() {
           </p>
         </div>
 
-        <ul className="space-y-1 text-sm">
-          {[
-            ["10% drawdown", "butuh +11,1%"],
-            ["25% drawdown", "butuh +33,3%"],
-            ["50% drawdown", "butuh +100%"],
-            ["75% drawdown", "butuh +300%"],
-            ["90% drawdown", "butuh +900%"],
-          ].map(([dd, rec]) => (
-            <li
-              key={dd}
-              className="flex justify-between border-b border-border/50 py-1 last:border-0"
-            >
-              <span className="text-muted-foreground">{dd}</span>
-              <span className="font-display tabular tracking-tight font-bold text-primary">
-                {rec}
-              </span>
-            </li>
-          ))}
-        </ul>
+        <div>
+          <h3 className="font-display text-sm font-bold tracking-tight mb-2">
+            Tabel Referensi Lengkap
+          </h3>
+          <div className="max-h-72 overflow-y-auto rounded-lg border border-border/60">
+            <table className="w-full text-[13px] tabular">
+              <thead className="sticky top-0 bg-muted/80 backdrop-blur">
+                <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                  <th className="px-2 py-1.5">Drawdown</th>
+                  <th className="px-2 py-1.5">Sisa</th>
+                  <th className="px-2 py-1.5">Recovery</th>
+                  <th className="px-2 py-1.5">Level</th>
+                </tr>
+              </thead>
+              <tbody>
+                {REFERENCE_ROWS.map((r) => {
+                  const active = r.drawdown === highlightDd;
+                  return (
+                    <tr
+                      key={r.drawdown}
+                      className={
+                        "border-t border-border/40 " +
+                        (active
+                          ? "bg-primary-soft/70 font-semibold text-foreground"
+                          : "text-muted-foreground")
+                      }
+                    >
+                      <td className="px-2 py-1.5">-{r.drawdown}%</td>
+                      <td className="px-2 py-1.5">
+                        Rp{r.remaining}
+                      </td>
+                      <td className="px-2 py-1.5 text-primary">
+                        +{formatPercent(r.recovery)}%
+                      </td>
+                      <td className={"px-2 py-1.5 font-medium " + levelClass(r.level)}>
+                        {r.level}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="font-display text-sm font-bold tracking-tight mb-2">
+            Tips Risk Management
+          </h3>
+          <ul className="space-y-1.5 text-[13px] leading-relaxed text-muted-foreground">
+            <li>💡 Hubungan drawdown vs recovery itu eksponensial, bukan linear</li>
+            <li>💡 Loss 10% butuh 11% balik. Loss 50% butuh 100%. Loss 90% butuh 900%</li>
+            <li>💡 Cut loss kecil berkali-kali lebih baik daripada hold 1 floating loss besar</li>
+            <li>💡 Yang bikin profit konsisten bukan cuan besar, tapi loss kecil</li>
+          </ul>
+        </div>
       </DialogContent>
     </Dialog>
   );
