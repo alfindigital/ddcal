@@ -1,15 +1,20 @@
 import { Input } from "@/components/ui/input";
 import { formatRupiah, parseRupiah, calcDrawdownFromCapital } from "@/lib/drawdown";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId } from "react";
 
 export function EquityTab({
+  initial,
+  current,
+  onInitialChange,
+  onCurrentChange,
   onDerivedDrawdown,
 }: {
+  initial: number;
+  current: number;
+  onInitialChange: (n: number) => void;
+  onCurrentChange: (n: number) => void;
   onDerivedDrawdown: (d: number) => void;
 }) {
-  const [initial, setInitial] = useState(10_000_000);
-  const [current, setCurrent] = useState(7_000_000);
-
   useEffect(() => {
     const dd = calcDrawdownFromCapital(initial, current);
     const clamped = Math.max(0, Math.min(99, dd));
@@ -18,8 +23,8 @@ export function EquityTab({
 
   return (
     <div className="space-y-2.5">
-      <Field label="Modal awal" value={initial} onChange={setInitial} />
-      <Field label="Modal sekarang" value={current} onChange={setCurrent} />
+      <Field label="Modal awal" value={initial} onChange={onInitialChange} />
+      <Field label="Modal sekarang" value={current} onChange={onCurrentChange} />
     </div>
   );
 }
