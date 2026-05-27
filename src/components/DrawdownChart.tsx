@@ -16,7 +16,17 @@ import {
   formatPercent,
 } from "@/lib/drawdown";
 import { useSpringValue } from "@/components/AnimatedValue";
-import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
+import {
+  createContext,
+  memo,
+  useCallback,
+  useContext,
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 const Y_TICKS = [2, 10, 50, 200, 1000, 10000];
 
