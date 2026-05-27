@@ -74,10 +74,10 @@ export const ShareCard = forwardRef<HTMLDivElement, { drawdown: number }>(
           {/* Footer */}
           <div className="flex items-center justify-between border-t pt-3">
             <span className="text-[11px] text-muted-foreground">
-              drawdowncal.lovable.app
+              by <span className="font-medium text-foreground">@alfindigital</span>
             </span>
             <span className="text-[11px] text-muted-foreground">
-              by <span className="font-medium text-foreground">@alfindigital</span>
+              drawdowncal.lovable.app
             </span>
           </div>
         </div>
