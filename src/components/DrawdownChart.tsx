@@ -277,9 +277,23 @@ function DrawdownChartImpl({
             </Bar>
           </BarChart>
         </ResponsiveContainer>
-
-
-
+        {activeLeftPct != null && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute"
+            style={{
+              left: `${activeLeftPct}%`,
+              top: 4,
+              bottom: 18,
+              width: 0,
+              borderLeft: "1.5px dashed #b91c1c",
+              transform: "translateX(-0.75px)",
+              transition:
+                "left 260ms cubic-bezier(0.22,1,0.36,1), opacity 200ms ease-out",
+              opacity: 0.9,
+            }}
+          />
+        )}
       </TooltipCtx.Provider>
     </div>
   );
