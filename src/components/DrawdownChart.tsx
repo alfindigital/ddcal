@@ -27,6 +27,50 @@ import {
   useState,
 } from "react";
 
+/* ------------------------------------------------------------------ */
+/* Skeleton overlay                                                   */
+/* ------------------------------------------------------------------ */
+const SKELETON_HEIGHTS = [12, 18, 28, 42, 55, 65, 80, 90, 100, 100, 100, 100];
+
+function ChartSkeleton() {
+  return (
+    <div className="absolute inset-0 z-10 flex flex-col bg-card/80 backdrop-blur-[1px] animate-in fade-in duration-150">
+      <div className="relative flex-1">
+        {/* Y-axis label stubs */}
+        <div className="absolute left-0 top-0 bottom-6 w-9 flex flex-col justify-between py-2">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div
+              key={i}
+              className="h-1.5 w-5 rounded bg-muted animate-pulse"
+              style={{ animationDelay: `${i * 80}ms` }}
+            />
+          ))}
+        </div>
+        {/* Bars */}
+        <div className="absolute inset-0 left-9 right-1 flex items-end justify-around gap-[2px] px-1 pb-6 pt-2">
+          {SKELETON_HEIGHTS.map((h, i) => (
+            <div
+              key={i}
+              className="w-full rounded-t bg-muted/70 animate-pulse"
+              style={{ height: `${h}%`, animationDelay: `${i * 50}ms` }}
+            />
+          ))}
+        </div>
+        {/* X-axis label stubs */}
+        <div className="absolute bottom-1 left-9 right-1 flex justify-around px-1">
+          {SKELETON_HEIGHTS.map((_, i) => (
+            <div
+              key={i}
+              className="h-1.5 w-3 rounded bg-muted animate-pulse"
+              style={{ animationDelay: `${i * 50 + 100}ms` }}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const Y_TICKS = [2, 10, 50, 200, 1000, 10000];
 
 // Precomputed once — bucket geometry/colors never change.
