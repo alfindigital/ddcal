@@ -56,14 +56,12 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
           <h3 className="font-display text-sm font-bold tracking-tight mb-2">
             Tabel Referensi Lengkap
           </h3>
-          <div className="max-h-72 overflow-y-auto rounded-lg border border-border/60">
-            <table className="w-full text-[13px] tabular">
-              <thead className="sticky top-0 bg-muted/80 backdrop-blur">
+          <div className="rounded-lg border border-border/60">
+            <table className="w-full text-[13px] tabular table-fixed">
+              <thead className="bg-muted/80">
                 <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-                  <th className="px-2 py-1.5">Drawdown</th>
-                  <th className="px-2 py-1.5">Sisa</th>
-                  <th className="px-2 py-1.5">Recovery</th>
-                  <th className="px-2 py-1.5">Level</th>
+                  <th className="px-2 py-1.5 w-1/2">Drawdown</th>
+                  <th className="px-2 py-1.5 w-1/2">Recovery</th>
                 </tr>
               </thead>
               <tbody>
@@ -80,14 +78,8 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
                       }
                     >
                       <td className="px-2 py-1.5">-{r.drawdown}%</td>
-                      <td className="px-2 py-1.5">
-                        Rp{r.remaining}
-                      </td>
                       <td className="px-2 py-1.5 text-primary">
                         +{formatPercent(r.recovery)}%
-                      </td>
-                      <td className={"px-2 py-1.5 font-medium " + levelClass(r.level)}>
-                        {r.level}
                       </td>
                     </tr>
                   );
