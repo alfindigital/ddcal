@@ -29,6 +29,38 @@ import {
 
 const Y_TICKS = [2, 10, 50, 200, 1000, 10000];
 
+// Precomputed once — bucket geometry/colors never change.
+const CHART_DATA = REFERENCE_BUCKETS.map((dd) => ({
+  dd,
+  label: `${dd}%`,
+  recovery: Math.max(calcRecovery(dd), 1),
+  color: bucketColor(dd),
+}));
+
+// Memoize nearestBucket on a quantized key so rapid slider values that map
+// to the same bucket reuse the previous result (no recompute, stable ref).
+const NEAREST_CACHE = new Map<number, number>();
+function nearestBucketCached(v: number): number {
+  // Quantize to integer — sub-integer inputs cannot change the nearest bucket.
+  const key = Math.round(v);
+  const hit = NEAREST_CACHE.get(key);
+  if (hit !== undefined) return hit;
+  let best = REFERENCE_BUCKETS[0];
+  let bestDist = Math.abs(best - v);
+  for (let i = 1; i < REFERENCE_BUCKETS.length; i++) {
+    const c = REFERENCE_BUCKETS[i];
+    const d = Math.abs(c - v);
+    if (d < bestDist) {
+      best = c;
+      bestDist = d;
+    }
+  }
+  // Cap to avoid unbounded growth (range is 0–100, so this rarely triggers).
+  if (NEAREST_CACHE.size > 256) NEAREST_CACHE.clear();
+  NEAREST_CACHE.set(key, best);
+  return best;
+}
+
 const TooltipCtx = createContext({ duration: 350, enabled: true });
 
 function TooltipContent({ dd, recovery }: { dd: number; recovery: number }) {
@@ -71,22 +103,10 @@ function DrawdownChartImpl({
   // Defer rapid updates (e.g. slider drag) so chart re-renders coalesce.
   const deferredActive = useDeferredValue(active);
 
-  const data = useMemo(
-    () =>
-      REFERENCE_BUCKETS.map((dd) => ({
-        dd,
-        label: `${dd}%`,
-        recovery: Math.max(calcRecovery(dd), 1),
-        color: bucketColor(dd),
-      })),
-    [],
-  );
+  const data = CHART_DATA;
 
   const nearestBucket = useMemo(
-    () =>
-      REFERENCE_BUCKETS.reduce((p, c) =>
-        Math.abs(c - deferredActive) < Math.abs(p - deferredActive) ? c : p,
-      ),
+    () => nearestBucketCached(deferredActive),
     [deferredActive],
   );
   const activeLabel = `${nearestBucket}%`;
@@ -300,12 +320,8 @@ function DrawdownChartImpl({
 
 export const DrawdownChart = memo(DrawdownChartImpl, (prev, next) => {
   // Re-render only when the nearest bucket or visual props actually change.
-  const bucket = (v: number) =>
-    REFERENCE_BUCKETS.reduce((p, c) =>
-      Math.abs(c - v) < Math.abs(p - v) ? c : p,
-    );
   return (
-    bucket(prev.active) === bucket(next.active) &&
+    nearestBucketCached(prev.active) === nearestBucketCached(next.active) &&
     prev.onActiveChange === next.onActiveChange &&
     prev.smoothEnabled === next.smoothEnabled &&
     prev.animationDuration === next.animationDuration
