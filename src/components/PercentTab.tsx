@@ -1,6 +1,4 @@
-import { useId } from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
-import { Input } from "@/components/ui/input";
 
 export function PercentTab({
   value,
@@ -10,42 +8,9 @@ export function PercentTab({
   onChange: (n: number) => void;
 }) {
   const ticks = [1, 25, 50, 75, 99];
-  const inputId = useId();
 
   return (
-    <div className="space-y-3">
-      {/* Header: label + numeric input */}
-      <div className="flex items-end justify-between gap-3">
-        <div>
-          <label
-            htmlFor={inputId}
-            className="block text-[11px] font-semibold uppercase tracking-wide text-muted-foreground"
-          >
-            Drawdown
-          </label>
-        </div>
-
-
-        <div className="flex items-center gap-1.5 rounded-xl border border-input bg-muted/40 px-3 py-1.5 transition-all focus-within:border-primary/40 focus-within:ring-4 focus-within:ring-primary/5">
-          <Input
-            id={inputId}
-            type="number"
-            min={1}
-            max={99}
-            value={value}
-            onChange={(e) => {
-              const n = Math.max(1, Math.min(99, Number(e.target.value) || 0));
-              onChange(n);
-            }}
-            className="h-7 w-12 border-0 bg-transparent p-0 text-right font-display text-lg font-bold tabular tracking-tight shadow-none focus-visible:ring-0"
-          />
-          <span className="select-none text-[11px] font-bold uppercase tracking-tight text-muted-foreground">
-            %
-          </span>
-        </div>
-      </div>
-
-      {/* Slider */}
+    <div>
       <div className="relative">
         <SliderPrimitive.Root
           aria-label="Persentase drawdown"
