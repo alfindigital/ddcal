@@ -183,16 +183,16 @@ function Home() {
             onValueChange={(v) => setMode(v === "eq" ? "equity" : "persen")}
             className="w-full"
           >
-            <TabsList className="grid h-10 w-full grid-cols-2 rounded-none border-b bg-transparent p-0">
+            <TabsList className="grid h-14 w-full grid-cols-2 rounded-none border-b bg-transparent p-0">
               <TabsTrigger
                 value="pct"
-                className="rounded-none border-b-2 border-transparent py-2 text-[11px] font-semibold uppercase tracking-[0.18em] data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
+                className="rounded-none border-b-2 border-transparent py-2 text-sm font-bold uppercase tracking-[0.18em] data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
               >
                 Persentase
               </TabsTrigger>
               <TabsTrigger
                 value="eq"
-                className="rounded-none border-b-2 border-transparent py-2 text-[11px] font-semibold uppercase tracking-[0.18em] data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
+                className="rounded-none border-b-2 border-transparent py-2 text-sm font-bold uppercase tracking-[0.18em] data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
               >
                 Equity
               </TabsTrigger>
