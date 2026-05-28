@@ -103,22 +103,10 @@ function DrawdownChartImpl({
   // Defer rapid updates (e.g. slider drag) so chart re-renders coalesce.
   const deferredActive = useDeferredValue(active);
 
-  const data = useMemo(
-    () =>
-      REFERENCE_BUCKETS.map((dd) => ({
-        dd,
-        label: `${dd}%`,
-        recovery: Math.max(calcRecovery(dd), 1),
-        color: bucketColor(dd),
-      })),
-    [],
-  );
+  const data = CHART_DATA;
 
   const nearestBucket = useMemo(
-    () =>
-      REFERENCE_BUCKETS.reduce((p, c) =>
-        Math.abs(c - deferredActive) < Math.abs(p - deferredActive) ? c : p,
-      ),
+    () => nearestBucketCached(deferredActive),
     [deferredActive],
   );
   const activeLabel = `${nearestBucket}%`;
