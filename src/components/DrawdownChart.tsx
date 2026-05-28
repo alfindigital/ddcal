@@ -243,12 +243,7 @@ function DrawdownChartImpl({
               content={() => null}
             />
 
-            <ReferenceLine
-              x={activeLabel}
-              stroke="#b91c1c"
-              strokeDasharray="3 3"
-              ifOverflow="extendDomain"
-            />
+            {/* Sliding indikator dirender sebagai overlay HTML di luar SVG */}
             <Bar
               dataKey="recovery"
               radius={[4, 4, 0, 0]}
