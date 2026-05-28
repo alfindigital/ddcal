@@ -135,6 +135,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 function DrawdownChartImpl({
   active,
+  isPending,
   onActiveChange,
   smoothEnabled,
   animationDuration,
