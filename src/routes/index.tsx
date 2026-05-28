@@ -112,8 +112,6 @@ function Home() {
   const [historyOpen, setHistoryOpen] = useState(false);
   const smoothAnim = true;
   const effectiveDrawdown = chartDrawdown ?? drawdown;
-  const deferredEffective = useDeferredValue(effectiveDrawdown);
-  const isChartPending = effectiveDrawdown !== deferredEffective;
 
   const handleSliderChange = (n: number) => {
     setChartDrawdown(null);
@@ -220,7 +218,6 @@ function Home() {
           <div className="border-t p-3 sm:p-4">
             <DrawdownChart
               active={effectiveDrawdown}
-              isPending={isChartPending}
               onActiveChange={handleChartActive}
               smoothEnabled={smoothAnim}
               animationDuration={animDuration}
