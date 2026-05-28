@@ -135,13 +135,11 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 function DrawdownChartImpl({
   active,
-  isPending,
   onActiveChange,
   smoothEnabled,
   animationDuration,
 }: {
   active: number;
-  isPending?: boolean;
   onActiveChange?: (dd: number, velocity?: number) => void;
   smoothEnabled?: boolean;
   animationDuration?: number;
@@ -359,8 +357,7 @@ function DrawdownChartImpl({
             }}
           />
         )}
-      </TooltipCtx.Provider>
-      {isPending && <ChartSkeleton />}
+        </TooltipCtx.Provider>
     </div>
   );
 }
@@ -369,7 +366,6 @@ export const DrawdownChart = memo(DrawdownChartImpl, (prev, next) => {
   // Re-render only when the nearest bucket or visual props actually change.
   return (
     nearestBucketCached(prev.active) === nearestBucketCached(next.active) &&
-    prev.isPending === next.isPending &&
     prev.onActiveChange === next.onActiveChange &&
     prev.smoothEnabled === next.smoothEnabled &&
     prev.animationDuration === next.animationDuration
