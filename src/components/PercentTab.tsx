@@ -16,15 +16,15 @@ export function PercentTab({
     <div className="space-y-3">
       {/* Header: label + numeric input */}
       <div className="flex items-end justify-between gap-3">
-        <div className="space-y-1">
+        <div>
           <label
             htmlFor={inputId}
-            className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground"
+            className="block text-[11px] font-semibold uppercase tracking-wide text-muted-foreground"
           >
             Drawdown
           </label>
-          <div className="h-1 w-8 rounded-full bg-primary" />
         </div>
+
 
         <div className="flex items-center gap-1.5 rounded-xl border border-input bg-muted/40 px-3 py-1.5 transition-all focus-within:border-primary/40 focus-within:ring-4 focus-within:ring-primary/5">
           <Input
