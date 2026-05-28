@@ -3,7 +3,6 @@ import {
   BarChart,
   CartesianGrid,
   Cell,
-  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -160,17 +159,31 @@ function DrawdownChartImpl({
     [onActiveChange, currentIdx, nearestBucket],
   );
 
-  /* Posisi tooltip pinned */
+  /* Posisi indikator (sliding) untuk bucket aktif & tooltip pinned */
+  const bandGeom = useMemo(() => {
+    if (chartWidth <= 0) return null;
+    const n = data.length;
+    const plotWidth = Math.max(0, chartWidth - 36 - 8);
+    return { bandWidth: plotWidth / n, plotLeft: 36 };
+  }, [chartWidth, data.length]);
+
+  const posForIndex = useCallback(
+    (i: number) => {
+      if (!bandGeom || chartWidth <= 0) return null;
+      const xCenter = bandGeom.plotLeft + i * bandGeom.bandWidth + bandGeom.bandWidth / 2;
+      return (xCenter / chartWidth) * 100;
+    },
+    [bandGeom, chartWidth],
+  );
+
+  const activeLeftPct = useMemo(() => posForIndex(currentIdx), [posForIndex, currentIdx]);
   const pinnedIndex = pinnedLabel ? data.findIndex((d) => d.label === pinnedLabel) : -1;
   const pinnedPos = useMemo(() => {
-    if (pinnedIndex < 1 || chartWidth <= 0) return null;
-    const n = data.length;
-    const plotWidth = Math.max(0, chartWidth - 36 - 8); // YAxis(36) + right margin(8)
-    const bandWidth = plotWidth / n;
-    const xCenter = 36 + pinnedIndex * bandWidth + bandWidth / 2;
-    const leftPct = (xCenter / chartWidth) * 100;
+    if (pinnedIndex < 1) return null;
+    const leftPct = posForIndex(pinnedIndex);
+    if (leftPct == null) return null;
     return { leftPct, dd: REFERENCE_BUCKETS[pinnedIndex] };
-  }, [pinnedIndex, chartWidth, data.length]);
+  }, [pinnedIndex, posForIndex]);
 
   return (
     <div
@@ -229,12 +242,7 @@ function DrawdownChartImpl({
               content={() => null}
             />
 
-            <ReferenceLine
-              x={activeLabel}
-              stroke="#b91c1c"
-              strokeDasharray="3 3"
-              ifOverflow="extendDomain"
-            />
+            {/* Sliding indikator dirender sebagai overlay HTML di luar SVG */}
             <Bar
               dataKey="recovery"
               radius={[4, 4, 0, 0]}
@@ -253,8 +261,9 @@ function DrawdownChartImpl({
                     fillOpacity={isActive ? 1 : 0.55}
                     style={{
                       transition:
-                        "fill-opacity 350ms ease-out, stroke-width 350ms ease-out",
+                        "fill-opacity 220ms cubic-bezier(0.22,1,0.36,1), stroke-width 220ms cubic-bezier(0.22,1,0.36,1), stroke 220ms cubic-bezier(0.22,1,0.36,1)",
                       cursor: "pointer",
+                      willChange: "fill-opacity, stroke-width",
                     }}
                     onClick={(e: React.MouseEvent<SVGElement>) => {
                       e.stopPropagation();
@@ -267,9 +276,23 @@ function DrawdownChartImpl({
             </Bar>
           </BarChart>
         </ResponsiveContainer>
-
-
-
+        {activeLeftPct != null && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute"
+            style={{
+              left: `${activeLeftPct}%`,
+              top: 4,
+              bottom: 18,
+              width: 0,
+              borderLeft: "1.5px dashed #b91c1c",
+              transform: "translateX(-0.75px)",
+              transition:
+                "left 260ms cubic-bezier(0.22,1,0.36,1), opacity 200ms ease-out",
+              opacity: 0.9,
+            }}
+          />
+        )}
       </TooltipCtx.Provider>
     </div>
   );
