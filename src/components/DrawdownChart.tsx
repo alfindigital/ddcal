@@ -267,8 +267,9 @@ function DrawdownChartImpl({
                     fillOpacity={isActive ? 1 : 0.55}
                     style={{
                       transition:
-                        "fill-opacity 350ms ease-out, stroke-width 350ms ease-out",
+                        "fill-opacity 220ms cubic-bezier(0.22,1,0.36,1), stroke-width 220ms cubic-bezier(0.22,1,0.36,1), stroke 220ms cubic-bezier(0.22,1,0.36,1)",
                       cursor: "pointer",
+                      willChange: "fill-opacity, stroke-width",
                     }}
                     onClick={(e: React.MouseEvent<SVGElement>) => {
                       e.stopPropagation();
