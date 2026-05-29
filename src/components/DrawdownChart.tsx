@@ -350,7 +350,7 @@ function DrawdownChartImpl({
               borderLeft: "1.5px dashed #b91c1c",
               transform: "translateX(-0.75px)",
               transition:
-                "left 260ms cubic-bezier(0.22,1,0.36,1), opacity 200ms ease-out",
+                "left 120ms ease-out, opacity 120ms ease-out",
               opacity: 0.9,
             }}
           />
