@@ -310,9 +310,7 @@ function DrawdownChartImpl({
             <Bar
               dataKey="recovery"
               radius={[4, 4, 0, 0]}
-              isAnimationActive={smoothEnabled ?? true}
-              animationDuration={550}
-              animationEasing="ease-out"
+              isAnimationActive={false}
             >
               {data.map((d) => {
                 const isActive = d.label === activeLabel;
@@ -325,7 +323,7 @@ function DrawdownChartImpl({
                     fillOpacity={isActive ? 1 : 0.55}
                     style={{
                       transition:
-                        "fill-opacity 220ms cubic-bezier(0.22,1,0.36,1), stroke-width 220ms cubic-bezier(0.22,1,0.36,1), stroke 220ms cubic-bezier(0.22,1,0.36,1)",
+                        "fill-opacity 120ms ease-out, stroke-width 120ms ease-out, stroke 120ms ease-out",
                       cursor: "pointer",
                       willChange: "fill-opacity, stroke-width",
                     }}
