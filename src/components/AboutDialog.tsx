@@ -71,10 +71,10 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
                     <tr
                       key={r.drawdown}
                       className={
-                        "border-t border-border/40 " +
+                        "border-t border-border/40 transition-colors hover:bg-muted/50 " +
                         (active
                           ? "bg-primary-soft/70 font-semibold text-foreground"
-                          : "text-muted-foreground")
+                          : "even:bg-muted/25 text-muted-foreground")
                       }
                     >
                       <td className="px-2 py-1.5 text-center">-{r.drawdown}%</td>
