@@ -77,8 +77,8 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
                           : "text-muted-foreground")
                       }
                     >
-                      <td className="px-2 py-1.5">-{r.drawdown}%</td>
-                      <td className="px-2 py-1.5 text-primary">
+                      <td className="px-2 py-1.5 text-center">-{r.drawdown}%</td>
+                      <td className="px-2 py-1.5 text-center text-primary">
                         +{formatPercent(r.recovery)}%
                       </td>
                     </tr>
