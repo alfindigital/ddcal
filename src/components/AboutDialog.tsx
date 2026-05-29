@@ -75,8 +75,6 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
                   return Array.from({ length: rows }).map((_, i) => {
                     const l = left[i];
                     const r = right[i];
-                    const lActive = !!l && l.drawdown === highlightDd;
-                    const rActive = !!r && r.drawdown === highlightDd;
                     return (
                       <tr
                         key={i}
@@ -85,38 +83,16 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
                           (i % 2 === 1 ? "bg-muted/25" : "")
                         }
                       >
-                        <td
-                          className={
-                            "px-2 py-1.5 text-center " +
-                            (lActive ? "bg-primary-soft/70 font-semibold text-foreground" : "")
-                          }
-                        >
+                        <td className="px-2 py-1.5 text-center">
                           {l ? `-${l.drawdown}%` : ""}
                         </td>
-                        <td
-                          className={
-                            "px-2 py-1.5 text-center border-r border-border/60 " +
-                            (lActive ? "bg-primary-soft/70 font-semibold" : "") +
-                            " text-primary"
-                          }
-                        >
+                        <td className="px-2 py-1.5 text-center border-r border-border/60 text-primary">
                           {l ? `+${formatPercent(l.recovery)}%` : ""}
                         </td>
-                        <td
-                          className={
-                            "px-2 py-1.5 text-center " +
-                            (rActive ? "bg-primary-soft/70 font-semibold text-foreground" : "")
-                          }
-                        >
+                        <td className="px-2 py-1.5 text-center">
                           {r ? `-${r.drawdown}%` : ""}
                         </td>
-                        <td
-                          className={
-                            "px-2 py-1.5 text-center " +
-                            (rActive ? "bg-primary-soft/70 font-semibold" : "") +
-                            " text-primary"
-                          }
-                        >
+                        <td className="px-2 py-1.5 text-center text-primary">
                           {r ? `+${formatPercent(r.recovery)}%` : ""}
                         </td>
                       </tr>
