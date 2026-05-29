@@ -59,9 +59,9 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
           <div className="rounded-lg border border-border/60">
             <table className="w-full text-[13px] tabular table-fixed">
               <thead className="bg-muted/80">
-                <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-                  <th className="px-2 py-1.5 w-1/2">Drawdown</th>
-                  <th className="px-2 py-1.5 w-1/2">Recovery</th>
+                <tr className="text-center text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                  <th className="px-2 py-2 w-1/2">Drawdown</th>
+                  <th className="px-2 py-2 w-1/2">Recovery</th>
                 </tr>
               </thead>
               <tbody>
@@ -77,8 +77,8 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
                           : "text-muted-foreground")
                       }
                     >
-                      <td className="px-2 py-1.5">-{r.drawdown}%</td>
-                      <td className="px-2 py-1.5 text-primary">
+                      <td className="px-2 py-1.5 text-center">-{r.drawdown}%</td>
+                      <td className="px-2 py-1.5 text-center text-primary">
                         +{formatPercent(r.recovery)}%
                       </td>
                     </tr>
