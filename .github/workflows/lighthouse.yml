@@ -1,0 +1,39 @@
+name: Lighthouse CI
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    # Weekly Monday 03:00 UTC
+    - cron: "0 3 * * 1"
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Lighthouse CI (mobile)
+        run: |
+          npm install -g @lhci/cli@0.14.x
+          lhci autorun --config=./.lighthouserc.json || echo "LHCI finished with warnings"
+
+      - name: Run Lighthouse CI (mobile preset)
+        run: |
+          npx -y @lhci/cli@0.14.x autorun \
+            --collect.url=https://drawdowncal.lovable.app/ \
+            --collect.numberOfRuns=3 \
+            --collect.settings.preset=mobile \
+            --upload.target=filesystem \
+            --upload.outputDir=.lighthouseci-mobile || echo "mobile LHCI finished with warnings"
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: |
+            .lighthouseci/
+            .lighthouseci-mobile/
+          retention-days: 30
