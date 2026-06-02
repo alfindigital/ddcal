@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import { Copy, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { toPng } from "html-to-image";
 import { calcRecovery, formatPercent, formatRupiah } from "@/lib/drawdown";
 import { toast } from "sonner";
 import { ShareCard } from "./ShareCard";
@@ -56,6 +55,7 @@ export function ActionsRow({
   const onDownload = async () => {
     if (!shareRef.current) return;
     try {
+      const { toPng } = await import("html-to-image");
       const dataUrl = await toPng(shareRef.current, {
         backgroundColor: getComputedStyle(document.body).backgroundColor,
         pixelRatio: 2,

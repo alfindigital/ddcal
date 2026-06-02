@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useDeferredValue, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PercentTab } from "@/components/PercentTab";
@@ -7,7 +7,9 @@ import { EquityTab } from "@/components/EquityTab";
 import { ResultCard } from "@/components/ResultCard";
 import { DrawdownChart } from "@/components/DrawdownChart";
 import { ActionsRow } from "@/components/ActionsRow";
-import { HistoryDialog } from "@/components/HistoryDialog";
+const HistoryDialog = lazy(() =>
+  import("@/components/HistoryDialog").then((m) => ({ default: m.HistoryDialog })),
+);
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Toaster } from "@/components/ui/sonner";
 import { calcRecovery } from "@/lib/drawdown";
@@ -236,11 +238,15 @@ function Home() {
         <Footer />
       </div>
 
-      <HistoryDialog
-        open={historyOpen}
-        onOpenChange={setHistoryOpen}
-        onLoad={handleLoadHistory}
-      />
+      {historyOpen && (
+        <Suspense fallback={null}>
+          <HistoryDialog
+            open={historyOpen}
+            onOpenChange={setHistoryOpen}
+            onLoad={handleLoadHistory}
+          />
+        </Suspense>
+      )}
       <Toaster />
     </div>
   );
