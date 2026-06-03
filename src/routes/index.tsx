@@ -26,20 +26,20 @@ const APP_URL = "https://drawdowncal.lovable.app";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "DrawdownCal: Kalkulator Drawdown & Pemulihan Modal Trading" },
+      { title: "DrawdownCal: Kalkulator Drawdown & Recovery Modal Trading" },
       {
         name: "description",
         content:
-          "Hitung berapa persen profit yang dibutuhkan buat balik modal setelah loss. Mode persentase & equity.",
+          "Hitung berapa profit yang dibutuhkan buat balik modal setelah loss. Dua mode: persentase atau equity.",
       },
       {
         property: "og:title",
-        content: "DrawdownCal: Kalkulator Drawdown & Pemulihan Modal Trading",
+        content: "DrawdownCal: Kalkulator Drawdown & Recovery Modal Trading",
       },
       {
         property: "og:description",
         content:
-          "Hitung berapa persen profit yang dibutuhkan buat balik modal setelah loss. Mode persentase & equity.",
+          "Hitung berapa profit yang dibutuhkan buat balik modal setelah loss. Dua mode: persentase atau equity.",
       },
       { property: "og:url", content: `${APP_URL}/` },
       { property: "og:image", content: `${APP_URL}/og-image.jpg` },
