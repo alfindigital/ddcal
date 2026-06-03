@@ -32,9 +32,8 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
             Tentang Drawdown
           </DialogTitle>
           <DialogDescription className="text-sm leading-relaxed">
-            <strong className="text-foreground">Drawdown</strong> adalah
-            persentase penurunan modal dari titik tertinggi (peak) ke titik
-            terendah (trough) sebelum naik kembali.
+            <strong className="text-foreground">Drawdown</strong> itu seberapa
+            dalam modal turun dari titik tertingginya sebelum naik lagi.
           </DialogDescription>
         </DialogHeader>
 
@@ -48,13 +47,13 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
         </div>
 
         <p className="text-sm leading-relaxed text-muted-foreground">
-          Saat modal turun, basis kalkulasi ikut mengecil — kenaikan untuk
-          balik modal selalu lebih besar dari penurunannya.
+          Modal turun bikin basis hitung ikut mengecil, jadi persen kenaikan
+          buat balik modal selalu lebih besar dari penurunannya.
         </p>
 
         <div>
           <h3 className="font-display text-sm font-bold tracking-tight mb-2">
-            Tabel Referensi Lengkap
+            Tabel Referensi
           </h3>
           <div className="rounded-lg border border-border/60 overflow-hidden">
             <table className="w-full text-[13px] tabular table-fixed">
