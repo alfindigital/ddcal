@@ -21,7 +21,6 @@ export function ActionsRow({
   const shareRef = useRef<HTMLDivElement>(null);
 
   const recovery = calcRecovery(drawdown);
-  const remaining = 100 - drawdown;
   // Ratio recovery / drawdown
   const ratio = drawdown > 0 && Number.isFinite(recovery) ? recovery / drawdown : 0;
 
