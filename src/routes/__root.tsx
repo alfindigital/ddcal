@@ -72,11 +72,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "DrawdownCal — Kalkulator Drawdown & Pemulihan" },
+      { title: "DrawdownCal: Kalkulator Drawdown & Pemulihan" },
       {
         name: "description",
         content:
-          "Alat bantu trader hitung pemulihan modal dari drawdown. Simpel, cepat, akurat. Mode persentase & equity.",
+          "Hitung pemulihan modal dari drawdown. Simpel, cepat, akurat. Mode persentase & equity.",
       },
       { property: "og:site_name", content: "DrawdownCal" },
       { property: "og:type", content: "website" },

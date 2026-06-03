@@ -32,9 +32,8 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
             Tentang Drawdown
           </DialogTitle>
           <DialogDescription className="text-sm leading-relaxed">
-            <strong className="text-foreground">Drawdown</strong> adalah
-            persentase penurunan modal dari titik tertinggi (peak) ke titik
-            terendah (trough) sebelum naik kembali.
+            <strong className="text-foreground">Drawdown</strong> itu seberapa
+            dalam modal turun dari titik tertingginya sebelum naik lagi.
           </DialogDescription>
         </DialogHeader>
 
@@ -48,13 +47,13 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
         </div>
 
         <p className="text-sm leading-relaxed text-muted-foreground">
-          Saat modal turun, basis kalkulasi ikut mengecil — kenaikan untuk
-          balik modal selalu lebih besar dari penurunannya.
+          Modal turun bikin basis hitung ikut mengecil, jadi persen kenaikan
+          buat balik modal selalu lebih besar dari penurunannya.
         </p>
 
         <div>
           <h3 className="font-display text-sm font-bold tracking-tight mb-2">
-            Tabel Referensi Lengkap
+            Tabel Referensi
           </h3>
           <div className="rounded-lg border border-border/60 overflow-hidden">
             <table className="w-full text-[13px] tabular table-fixed">
@@ -110,9 +109,9 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
           </h3>
           <ul className="space-y-1.5 text-[13px] leading-relaxed text-muted-foreground">
             <li>💡 Drawdown vs recovery itu eksponensial, bukan linear</li>
-            <li>💡 Loss 10% → 11% balik. Loss 50% → 100%. Loss 90% → 900%</li>
-            <li>💡 Cut loss kecil lebih baik daripada hold floating loss besar</li>
-            <li>💡 Profit konsisten datang dari loss yang kecil</li>
+            <li>💡 Loss 10% butuh 11% balik, loss 50% butuh 100%, loss 90% butuh 900%</li>
+            <li>💡 Cut loss kecil jauh lebih sehat dibanding nahan floating loss</li>
+            <li>💡 Profit konsisten lahir dari loss yang dikecilin</li>
           </ul>
         </div>
       </DialogContent>
