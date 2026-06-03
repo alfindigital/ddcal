@@ -28,19 +28,17 @@ export function ActionsRow({
   const equityLine =
     mode === "equity"
       ? `Equity tersisa: ${formatRupiah(equityCurrent)} dari ${formatRupiah(equityInitial)}`
-      : `Equity tersisa: Rp${remaining} dari Rp100`;
+      : null;
 
   const summary = [
-    "📉 DrawdownCal",
+    "DrawdownCal",
     "",
     `Drawdown: -${formatPercent(drawdown)}%`,
-    equityLine,
+    ...(equityLine ? [equityLine] : []),
     `Pemulihan dibutuhkan: +${formatPercent(recovery)}%`,
     `Rasio pemulihan/kerugian: ${ratio.toFixed(2)}x`,
     "",
-    `Hitung sendiri 👉 ${APP_URL}`,
-    "",
-    "by @alfindigital",
+    `Hitung sendiri: ${APP_URL}`,
   ].join("\n");
 
   const onCopy = async () => {
