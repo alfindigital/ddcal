@@ -33,7 +33,7 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
           </DialogTitle>
           <DialogDescription className="text-sm leading-relaxed">
             <strong className="text-foreground">Drawdown</strong> itu seberapa
-            dalam modal turun dari titik tertingginya sebelum naik lagi.
+            dalam modal turun dari puncaknya sebelum balik naik.
           </DialogDescription>
         </DialogHeader>
 
@@ -47,8 +47,8 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
         </div>
 
         <p className="text-sm leading-relaxed text-muted-foreground">
-          Modal turun bikin basis hitung ikut mengecil, jadi persen kenaikan
-          buat balik modal selalu lebih besar dari penurunannya.
+          Begitu modal turun, basis hitungnya ikut mengecil. Itulah kenapa
+          persen buat balik modal selalu lebih besar dari penurunannya.
         </p>
 
         <div>
@@ -110,7 +110,7 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
           <ul className="space-y-1.5 text-[13px] leading-relaxed text-muted-foreground">
             <li>💡 Drawdown vs recovery itu eksponensial, bukan linear</li>
             <li>💡 Loss 10% butuh 11% balik, loss 50% butuh 100%, loss 90% butuh 900%</li>
-            <li>💡 Cut loss kecil jauh lebih sehat dibanding nahan floating loss</li>
+            <li>💡 Cut loss kecil jauh lebih sehat daripada nahan floating loss</li>
             <li>💡 Profit konsisten lahir dari loss yang dikecilin</li>
           </ul>
         </div>
