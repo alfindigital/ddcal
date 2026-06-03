@@ -5,7 +5,7 @@ import { calcRecovery, formatPercent, formatRupiah } from "@/lib/drawdown";
 import { toast } from "sonner";
 import { ShareCard } from "./ShareCard";
 
-const APP_URL = "https://drawdowncal.lovable.app";
+const APP_URL = "drawdowncal.lovable.app";
 
 export function ActionsRow({
   drawdown,
