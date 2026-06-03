@@ -110,7 +110,7 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
           <ul className="space-y-1.5 text-[13px] leading-relaxed text-muted-foreground">
             <li>💡 Drawdown vs recovery itu eksponensial, bukan linear</li>
             <li>💡 Loss 10% butuh 11% balik, loss 50% butuh 100%, loss 90% butuh 900%</li>
-            <li>💡 Cut loss kecil jauh lebih sehat dibanding nahan floating loss</li>
+            <li>💡 Cut loss kecil jauh lebih sehat daripada nahan floating loss</li>
             <li>💡 Profit konsisten lahir dari loss yang dikecilin</li>
           </ul>
         </div>
