@@ -5,7 +5,7 @@ import { calcRecovery, formatPercent, formatRupiah } from "@/lib/drawdown";
 import { toast } from "sonner";
 import { ShareCard } from "./ShareCard";
 
-const APP_URL = "https://drawdowncal.lovable.app";
+const APP_URL = "drawdowncal.lovable.app";
 
 export function ActionsRow({
   drawdown,
@@ -21,26 +21,23 @@ export function ActionsRow({
   const shareRef = useRef<HTMLDivElement>(null);
 
   const recovery = calcRecovery(drawdown);
-  const remaining = 100 - drawdown;
   // Ratio recovery / drawdown
   const ratio = drawdown > 0 && Number.isFinite(recovery) ? recovery / drawdown : 0;
 
   const equityLine =
     mode === "equity"
       ? `Equity tersisa: ${formatRupiah(equityCurrent)} dari ${formatRupiah(equityInitial)}`
-      : `Equity tersisa: Rp${remaining} dari Rp100`;
+      : null;
 
   const summary = [
-    "📉 DrawdownCal",
+    "DrawdownCal",
     "",
     `Drawdown: -${formatPercent(drawdown)}%`,
-    equityLine,
+    ...(equityLine ? [equityLine] : []),
     `Pemulihan dibutuhkan: +${formatPercent(recovery)}%`,
     `Rasio pemulihan/kerugian: ${ratio.toFixed(2)}x`,
     "",
-    `Hitung sendiri 👉 ${APP_URL}`,
-    "",
-    "by @alfindigital",
+    `Hitung sendiri: ${APP_URL}`,
   ].join("\n");
 
   const onCopy = async () => {
