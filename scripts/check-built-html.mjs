@@ -61,7 +61,9 @@ async function checkRoute(path, expect) {
   const html = await fetchHtml(path);
 
   for (const [sel, expected] of Object.entries(expect.meta)) {
-    const [kind, key] = sel.split(":");
+    const i = sel.indexOf(":");
+    const kind = sel.slice(0, i);
+    const key = sel.slice(i + 1);
     const val = pickMeta(html, kind === "name" ? { name: key } : { property: key });
     if (!val) {
       fail(`${path}: missing meta ${sel}`);
