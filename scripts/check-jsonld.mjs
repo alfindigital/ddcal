@@ -47,6 +47,7 @@ for (const file of FILES) {
     // Find URLs and check domain
     const urls = json.match(/https?:\/\/[^"\s]+/g) || [];
     for (const u of urls) {
+      if (u.startsWith("https://schema.org")) continue;
       if (!u.startsWith(SITE_URL)) {
         console.error(`[jsonld] ${file}#${i}: foreign URL ${u} (expected ${SITE_URL})`);
         failed = true;
