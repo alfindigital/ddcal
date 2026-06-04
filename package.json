@@ -11,7 +11,9 @@
     "lint": "eslint .",
     "check:em-dash": "node scripts/check-em-dash.mjs",
     "check:jsonld": "node scripts/check-jsonld.mjs",
-    "check:meta": "npm run check:em-dash && npm run check:jsonld",
+    "check:og-image": "node scripts/check-og-image.mjs",
+    "check:meta": "npm run check:em-dash && npm run check:jsonld && npm run check:og-image",
+    "test:scripts": "node --test scripts/lib/*.test.mjs",
     "prebuild": "npm run check:meta",
     "format": "prettier --write ."
   },
