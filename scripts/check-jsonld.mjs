@@ -40,19 +40,15 @@ for (const file of FILES) {
       failed = true;
       continue;
     }
-    const json = JSON.stringify(obj);
     if (!obj["@context"]) {
       console.error(`[jsonld] ${file}#${i}: missing @context`);
       failed = true;
     }
-    // Find URLs and check domain
-    const urls = json.match(/https?:\/\/[^"\s]+/g) || [];
-    for (const u of urls) {
-      if (u.startsWith("https://schema.org")) continue;
-      if (!u.startsWith(SITE_URL)) {
-        console.error(`[jsonld] ${file}#${i}: foreign URL ${u} (expected ${SITE_URL})`);
-        failed = true;
-      }
+    const urls = extractUrls(obj);
+    const foreign = findForeignUrls(urls, SITE_URL);
+    for (const u of foreign) {
+      console.error(`[jsonld] ${file}#${i}: foreign URL ${u} (expected ${SITE_URL})`);
+      failed = true;
     }
   }
 }
