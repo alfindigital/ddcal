@@ -21,30 +21,20 @@ import {
   saveHistory,
 } from "@/lib/history";
 
-const APP_URL = "https://drawdowncal.lovable.app";
+import { SITE_URL, buildMeta } from "@/lib/seo";
+
+const APP_URL = SITE_URL;
+const PAGE_TITLE = "DrawdownCal: Kalkulator Drawdown & Recovery Modal Trading";
+const PAGE_DESC =
+  "Hitung berapa profit yang dibutuhkan buat balik modal setelah loss. Dua mode: persentase atau equity.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
-    meta: [
-      { title: "DrawdownCal: Kalkulator Drawdown & Recovery Modal Trading" },
-      {
-        name: "description",
-        content:
-          "Hitung berapa profit yang dibutuhkan buat balik modal setelah loss. Dua mode: persentase atau equity.",
-      },
-      {
-        property: "og:title",
-        content: "DrawdownCal: Kalkulator Drawdown & Recovery Modal Trading",
-      },
-      {
-        property: "og:description",
-        content:
-          "Hitung berapa profit yang dibutuhkan buat balik modal setelah loss. Dua mode: persentase atau equity.",
-      },
-      { property: "og:url", content: `${APP_URL}/` },
-      { property: "og:image", content: `${APP_URL}/og-image.jpg` },
-      { name: "twitter:image", content: `${APP_URL}/og-image.jpg` },
-    ],
+    meta: buildMeta({
+      title: PAGE_TITLE,
+      description: PAGE_DESC,
+      url: `${APP_URL}/`,
+    }),
     links: [{ rel: "canonical", href: `${APP_URL}/` }],
     scripts: [
       {
