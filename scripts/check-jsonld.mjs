@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Validate JSON-LD blocks in root + index routes and confirm URLs match SITE_URL.
 import { readFileSync } from "node:fs";
+import { extractUrls, findForeignUrls } from "./lib/jsonld-urls.mjs";
 
 const SITE_URL = "https://drawdowncal.lovable.app";
 const FILES = ["src/routes/__root.tsx", "src/routes/index.tsx"];
