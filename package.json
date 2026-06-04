@@ -9,6 +9,10 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
+    "check:em-dash": "node scripts/check-em-dash.mjs",
+    "check:jsonld": "node scripts/check-jsonld.mjs",
+    "check:meta": "npm run check:em-dash && npm run check:jsonld",
+    "prebuild": "npm run check:meta",
     "format": "prettier --write ."
   },
   "dependencies": {
