@@ -106,13 +106,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@graph": [
             {
               "@type": "Organization",
-              name: "DrawdownCal",
-              url: "https://drawdowncal.lovable.app",
+              name: SITE_NAME,
+              url: SITE_URL,
             },
             {
               "@type": "WebSite",
-              name: "DrawdownCal",
-              url: "https://drawdowncal.lovable.app",
+              name: SITE_NAME,
+              url: SITE_URL,
             },
           ],
         }),
