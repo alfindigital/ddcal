@@ -26,14 +26,13 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
       >
         <Info className="h-4 w-4" />
       </DialogTrigger>
-      <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto">
-        <DialogHeader>
+      <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto space-y-4">
+        <DialogHeader className="space-y-2">
           <DialogTitle className="font-display text-lg font-bold tracking-tight">
             Tentang Drawdown
           </DialogTitle>
           <DialogDescription className="text-sm leading-relaxed">
-            <strong className="text-foreground">Drawdown</strong> itu seberapa
-            dalam modal turun dari puncaknya sebelum balik naik.
+            <strong className="text-foreground">Drawdown</strong> itu seberapa dalam modal turun dari puncaknya sebelum balik naik.
           </DialogDescription>
         </DialogHeader>
 
@@ -47,9 +46,9 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
         </div>
 
         <p className="text-sm leading-relaxed text-muted-foreground">
-          Begitu modal turun, basis hitungnya ikut mengecil. Itulah kenapa
-          persen buat balik modal selalu lebih besar dari penurunannya.
+          Saat modal turun, basis hitungnya ikut mengecil. Itu sebabnya persen buat balik modal selalu lebih besar dari penurunannya.
         </p>
+
 
         <div>
           <h3 className="font-display text-sm font-bold tracking-tight mb-2">
