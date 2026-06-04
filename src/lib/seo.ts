@@ -9,6 +9,7 @@ export const DEFAULT_DESCRIPTION =
   "Hitung berapa profit yang dibutuhkan buat balik modal setelah loss. Dua mode: persentase atau equity.";
 
 export const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
+export const OG_IMAGE_FALLBACK = `${SITE_URL}/og-image-fallback.svg`;
 
 type MetaTag =
   | { title: string }
