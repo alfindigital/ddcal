@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { SITE_NAME, SITE_URL, buildMeta } from "@/lib/seo";
 
 function NotFoundComponent() {
   return (
