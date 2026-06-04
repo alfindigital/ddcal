@@ -21,14 +21,19 @@ const fail = (msg) => {
 const ok = (msg) => console.log("ok: " + msg);
 
 function pickMeta(html, sel) {
-  // sel: { name?, property? }
-  const key = sel.name ? `name=["']${sel.name}["']` : `property=["']${sel.property}["']`;
-  const re = new RegExp(
-    `<meta[^>]+(?:${key}[^>]+content=["']([^"']*)["']|content=["']([^"']*)["'][^>]+${key})[^>]*>`,
+  const attr = sel.name ? `name` : `property`;
+  const val = sel.name ?? sel.property;
+  // Try both attribute orderings.
+  const re1 = new RegExp(
+    `<meta[^>]+${attr}=["']${val}["'][^>]*content=["']([^"']*)["']`,
     "i",
   );
-  const m = html.match(re);
-  return m ? m[1] ?? m[2] : null;
+  const re2 = new RegExp(
+    `<meta[^>]+content=["']([^"']*)["'][^>]*${attr}=["']${val}["']`,
+    "i",
+  );
+  const m = html.match(re1) || html.match(re2);
+  return m ? m[1] : null;
 }
 
 function pickAll(html, tag) {
