@@ -5,11 +5,25 @@ export function extractUrls(obj) {
   return json.match(/https?:\/\/[^"\s]+/g) || [];
 }
 
-// Returns array of URLs that are NOT under siteUrl and NOT on the allowlist
-// (schema.org vocab URLs are always allowed).
+function sameOrigin(url, base) {
+  try {
+    const u = new URL(url);
+    const b = new URL(base);
+    return u.origin === b.origin;
+  } catch {
+    return false;
+  }
+}
+
+// Returns URLs that are NOT same-origin with siteUrl and NOT on the allowlist.
+// Uses URL origin matching to avoid false positives from lookalike domains
+// (e.g. "https://site.app.evil.com" must NOT match "https://site.app").
 export function findForeignUrls(urls, siteUrl, allowlist = ["https://schema.org"]) {
-  const allowed = [siteUrl, ...allowlist];
-  return urls.filter((u) => !allowed.some((a) => u.startsWith(a)));
+  return urls.filter((u) => {
+    if (sameOrigin(u, siteUrl)) return false;
+    if (allowlist.some((a) => sameOrigin(u, a) || u.startsWith(a))) return false;
+    return true;
+  });
 }
 
 export function isSchemaOrgVocab(url) {
