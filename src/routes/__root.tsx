@@ -73,23 +73,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "DrawdownCal: Kalkulator Drawdown & Recovery" },
-      {
-        name: "description",
-        content:
-          "Hitung berapa profit yang dibutuhkan buat balik modal setelah loss. Dua mode: persentase atau equity.",
-      },
-      { property: "og:site_name", content: "DrawdownCal" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      {
-        property: "og:image",
-        content: "https://drawdowncal.lovable.app/og-image.jpg",
-      },
-      {
-        name: "twitter:image",
-        content: "https://drawdowncal.lovable.app/og-image.jpg",
-      },
+      ...buildMeta({}),
+      { property: "og:site_name", content: SITE_NAME },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
