@@ -13,18 +13,17 @@ import {
   nearestReferenceDrawdown,
 } from "@/lib/reference-table";
 import { formatPercent } from "@/lib/drawdown";
+import { IconButton } from "./IconButton";
 
 export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
   const highlightDd = nearestReferenceDrawdown(currentDrawdown);
 
   return (
     <Dialog>
-      <DialogTrigger
-        aria-label="Tentang"
-        title="Tentang"
-        className="grid h-9 w-9 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-      >
-        <Info className="h-4 w-4" />
+      <DialogTrigger asChild>
+        <IconButton aria-label="Tentang" title="Tentang">
+          <Info className="h-4 w-4" />
+        </IconButton>
       </DialogTrigger>
       <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto space-y-4">
         <DialogHeader className="space-y-2">
