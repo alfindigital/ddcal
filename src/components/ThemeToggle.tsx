@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
+import { IconButton } from "./IconButton";
 
 export function ThemeToggle() {
   const [dark, setDark] = useState(false);
@@ -19,14 +20,12 @@ export function ThemeToggle() {
   };
 
   return (
-    <button
-      type="button"
+    <IconButton
       onClick={toggle}
       aria-label="Ganti tema"
       title="Ganti tema"
-      className="grid h-9 w-9 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
     >
       {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-    </button>
+    </IconButton>
   );
 }
