@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { History } from "lucide-react";
 import { AboutDialog } from "./AboutDialog";
 import { ThemeToggle } from "./ThemeToggle";
+import { IconButton } from "./IconButton";
 
 export function Header({
   currentDrawdown,
@@ -22,15 +23,13 @@ export function Header({
       </Link>
       <nav className="flex items-center gap-1">
         <AboutDialog currentDrawdown={currentDrawdown} />
-        <button
-          type="button"
+        <IconButton
           aria-label="Riwayat"
           title="Riwayat"
           onClick={onOpenHistory}
-          className="grid h-9 w-9 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
         >
           <History className="h-4 w-4" />
-        </button>
+        </IconButton>
         <ThemeToggle />
       </nav>
     </header>
