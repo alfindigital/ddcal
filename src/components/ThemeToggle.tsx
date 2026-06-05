@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 export function ThemeToggle() {
   const [dark, setDark] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem("theme");
-    // Default to light mode; only honor explicit "dark" choice.
     const prefers = stored === "dark";
     setDark(prefers);
     document.documentElement.classList.toggle("dark", prefers);
@@ -21,14 +19,14 @@ export function ThemeToggle() {
   };
 
   return (
-    <Button
-      variant="ghost"
-      size="icon"
+    <button
+      type="button"
       onClick={toggle}
       aria-label="Ganti tema"
-      className="rounded-full"
+      title="Ganti tema"
+      className="grid h-9 w-9 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
     >
       {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-    </Button>
+    </button>
   );
 }
