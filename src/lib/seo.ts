@@ -5,7 +5,7 @@ export const SITE_URL = "https://drawdowncal.lovable.app";
 export const SITE_NAME = "DrawdownCal";
 
 export const DEFAULT_TITLE =
-  "Kalkulator Drawdown & Recovery Trading — DrawdownCal";
+  "Kalkulator Drawdown & Recovery Trading | DrawdownCal";
 export const DEFAULT_DESCRIPTION =
   "Hitung berapa persen profit yang dibutuhkan untuk pulih dari drawdown trading. Gunakan kalkulator drawdown & recovery ini dengan dua mode: persentase atau equity.";
 
