@@ -79,7 +79,7 @@ export const Route = createFileRoute("/")({
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "WebApplication",
+          "@type": "SoftwareApplication",
           name: "DrawdownCal",
           description:
             "Kalkulator drawdown dan pemulihan modal trading. Hitung berapa persen profit yang dibutuhkan untuk pulih dari kerugian investasi.",
