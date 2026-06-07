@@ -192,9 +192,11 @@ function Home() {
             </TabsList>
             <div className="space-y-3 p-3 sm:p-4">
               <TabsContent value="pct" className="mt-0">
+                <h2 className="sr-only">Input drawdown (mode persentase)</h2>
                 <PercentTab value={drawdown} onChange={handleSliderChange} />
               </TabsContent>
               <TabsContent value="eq" className="mt-0">
+                <h2 className="sr-only">Input drawdown (mode equity)</h2>
                 <EquityTab
                   initial={equityInitial}
                   current={equityCurrent}
@@ -203,6 +205,7 @@ function Home() {
                   onDerivedDrawdown={handleEquityChange}
                 />
               </TabsContent>
+              <h2 className="sr-only">Hasil perhitungan recovery</h2>
               <ResultCard
                 drawdown={effectiveDrawdown}
                 animationDuration={animDuration}
@@ -211,6 +214,7 @@ function Home() {
             </div>
           </Tabs>
           <div className="border-t p-3 sm:p-4">
+            <h2 className="sr-only">Grafik drawdown & recovery</h2>
             <DrawdownChart
               active={effectiveDrawdown}
               onActiveChange={handleChartActive}
@@ -219,6 +223,7 @@ function Home() {
             />
           </div>
           <div className="border-t p-3 sm:p-4">
+            <h2 className="sr-only">Aksi: bagikan & simpan</h2>
             <ActionsRow
               drawdown={effectiveDrawdown}
               mode={mode}
