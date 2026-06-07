@@ -24,9 +24,10 @@ import {
 import { SITE_URL, buildMeta } from "@/lib/seo";
 
 const APP_URL = SITE_URL;
-const PAGE_TITLE = "DrawdownCal: Kalkulator Drawdown & Recovery Modal Trading";
+const PAGE_TITLE =
+  "Kalkulator Drawdown & Recovery Trading | DrawdownCal";
 const PAGE_DESC =
-  "Hitung berapa profit yang dibutuhkan buat balik modal setelah loss. Dua mode: persentase atau equity.";
+  "Hitung berapa persen profit yang dibutuhkan untuk pulih dari drawdown trading. Gunakan kalkulator drawdown & recovery ini dengan dua mode: persentase atau equity.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -165,7 +166,9 @@ function Home() {
           currentDrawdown={effectiveDrawdown}
           onOpenHistory={() => setHistoryOpen(true)}
         />
-        <h1 className="sr-only">Kalkulator Drawdown & Pemulihan</h1>
+        <h1 className="text-center font-display text-lg font-bold tracking-tight text-foreground">
+          Kalkulator Drawdown & Recovery Trading
+        </h1>
 
         <main className="overflow-hidden rounded-xl border bg-card shadow-sm">
           <Tabs
