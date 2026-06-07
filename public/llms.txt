@@ -7,4 +7,3 @@ DrawdownCal membantu trader memahami asimetri drawdown: makin besar penurunan mo
 ## Pages
 
 - [Beranda](/): Kalkulator drawdown interaktif dengan grafik pemulihan.
-- [Tentang](/about): Penjelasan konsep drawdown, rumus pemulihan, dan contoh kasus.
