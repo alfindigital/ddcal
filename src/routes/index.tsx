@@ -192,9 +192,15 @@ function Home() {
             </TabsList>
             <div className="space-y-3 p-3 sm:p-4">
               <TabsContent value="pct" className="mt-0">
+                <h2 className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Input drawdown
+                </h2>
                 <PercentTab value={drawdown} onChange={handleSliderChange} />
               </TabsContent>
               <TabsContent value="eq" className="mt-0">
+                <h2 className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Input equity
+                </h2>
                 <EquityTab
                   initial={equityInitial}
                   current={equityCurrent}
@@ -203,6 +209,9 @@ function Home() {
                   onDerivedDrawdown={handleEquityChange}
                 />
               </TabsContent>
+              <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                Hasil recovery
+              </h2>
               <ResultCard
                 drawdown={effectiveDrawdown}
                 animationDuration={animDuration}
@@ -210,7 +219,10 @@ function Home() {
               />
             </div>
           </Tabs>
-          <div className="border-t p-3 sm:p-4">
+          <div className="space-y-2 border-t p-3 sm:p-4">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Grafik drawdown & recovery
+            </h2>
             <DrawdownChart
               active={effectiveDrawdown}
               onActiveChange={handleChartActive}
@@ -218,7 +230,10 @@ function Home() {
               animationDuration={animDuration}
             />
           </div>
-          <div className="border-t p-3 sm:p-4">
+          <div className="space-y-2 border-t p-3 sm:p-4">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Bagikan & simpan
+            </h2>
             <ActionsRow
               drawdown={effectiveDrawdown}
               mode={mode}
