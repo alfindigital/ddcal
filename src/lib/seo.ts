@@ -9,8 +9,12 @@ export const DEFAULT_TITLE =
 export const DEFAULT_DESCRIPTION =
   "Hitung berapa persen profit yang dibutuhkan untuk pulih dari drawdown trading. Gunakan kalkulator drawdown & recovery ini dengan dua mode: persentase atau equity.";
 
-export const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
+export const OG_IMAGE = `${SITE_URL}/og.jpg`;
 export const OG_IMAGE_FALLBACK = `${SITE_URL}/og-image-fallback.svg`;
+export const OG_IMAGE_WIDTH = "1200";
+export const OG_IMAGE_HEIGHT = "630";
+export const OG_IMAGE_ALT =
+  "DrawdownCal — Kalkulator Drawdown & Recovery Trading";
 
 type MetaTag =
   | { title: string }
