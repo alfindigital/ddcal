@@ -9,8 +9,12 @@ export const DEFAULT_TITLE =
 export const DEFAULT_DESCRIPTION =
   "Hitung berapa persen profit yang dibutuhkan untuk pulih dari drawdown trading. Gunakan kalkulator drawdown & recovery ini dengan dua mode: persentase atau equity.";
 
-export const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
+export const OG_IMAGE = `${SITE_URL}/og.jpg`;
 export const OG_IMAGE_FALLBACK = `${SITE_URL}/og-image-fallback.svg`;
+export const OG_IMAGE_WIDTH = "1200";
+export const OG_IMAGE_HEIGHT = "630";
+export const OG_IMAGE_ALT =
+  "DrawdownCal — Kalkulator Drawdown & Recovery Trading";
 
 type MetaTag =
   | { title: string }
@@ -36,10 +40,14 @@ export function buildMeta(opts: {
     { property: "og:type", content: opts.ogType ?? "website" },
     { property: "og:locale", content: "id_ID" },
     { property: "og:image", content: image },
+    { property: "og:image:width", content: OG_IMAGE_WIDTH },
+    { property: "og:image:height", content: OG_IMAGE_HEIGHT },
+    { property: "og:image:alt", content: OG_IMAGE_ALT },
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: title },
     { name: "twitter:description", content: description },
     { name: "twitter:image", content: image },
+    { name: "twitter:image:alt", content: OG_IMAGE_ALT },
   ];
   if (opts.url) {
     tags.push({ property: "og:url", content: opts.url });

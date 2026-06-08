@@ -1,9 +1,30 @@
 # DrawdownCal
 
-> Kalkulator drawdown dan pemulihan untuk trader. Hitung berapa persen kenaikan yang dibutuhkan untuk pulih dari penurunan modal.
+> Kalkulator drawdown dan recovery untuk trader. Hitung berapa persen kenaikan yang dibutuhkan untuk pulih dari penurunan modal trading.
 
-DrawdownCal membantu trader memahami asimetri drawdown: makin besar penurunan modal, makin besar persentase kenaikan yang dibutuhkan untuk kembali ke titik awal. Tersedia dua mode: input persentase langsung atau hitung dari modal awal dan modal sekarang.
+DrawdownCal adalah kalkulator gratis berbahasa Indonesia yang membantu trader memahami asimetri drawdown: makin besar penurunan modal, makin besar persentase kenaikan yang dibutuhkan untuk kembali ke titik awal (recovery). Tools ini menyediakan dua mode input:
+
+- **Mode Persentase**: masukkan persentase drawdown langsung (mis. 30%).
+- **Mode Equity**: hitung otomatis dari modal awal dan modal sekarang.
+
+Hasil ditampilkan dalam bentuk persentase recovery, grafik visualisasi drawdown vs recovery, dan dapat disimpan ke riwayat lokal.
+
+## Rumus inti
+
+Recovery % = Drawdown / (100 - Drawdown) x 100
+
+Contoh: drawdown 50% membutuhkan recovery 100%. Drawdown 20% hanya butuh recovery 25%.
 
 ## Pages
 
-- [Beranda](/): Kalkulator drawdown interaktif dengan grafik pemulihan.
+- [Beranda / Kalkulator](https://drawdowncal.lovable.app/): Kalkulator drawdown interaktif dengan grafik recovery, dua mode input (persen/equity), riwayat lokal, dan FAQ.
+
+## FAQ singkat
+
+- **Apa itu drawdown?** Persentase penurunan modal dari titik tertinggi (peak) ke titik terendah (trough).
+- **Kenapa recovery lebih besar dari drawdown?** Karena recovery dihitung dari basis modal yang lebih kecil setelah loss.
+- **Apakah data disimpan di server?** Tidak. Semua kalkulasi dan riwayat tersimpan lokal di browser (localStorage).
+
+## Kontak
+
+Project URL: https://drawdowncal.lovable.app
