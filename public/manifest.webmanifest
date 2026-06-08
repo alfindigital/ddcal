@@ -1,0 +1,19 @@
+{
+  "name": "DrawdownCal — Kalkulator Drawdown & Recovery",
+  "short_name": "DrawdownCal",
+  "description": "Hitung berapa persen profit yang dibutuhkan untuk pulih dari drawdown trading.",
+  "lang": "id-ID",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0a0a",
+  "theme_color": "#b91c1c",
+  "categories": ["finance", "productivity", "utilities"],
+  "icons": [
+    { "src": "/favicon.ico", "sizes": "16x16 32x32 48x48 64x64", "type": "image/x-icon" },
+    { "src": "/apple-touch-icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/apple-touch-icon.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
