@@ -106,10 +106,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap",
         media: "print",
-        onLoad: "this.media='all'",
       },
     ],
     scripts: [
+      {
+        // Swap font stylesheet from media="print" -> "all" after load
+        // so it does not block first paint. Falls back gracefully if JS is off.
+        children:
+          "document.querySelectorAll('link[rel=\"stylesheet\"][media=\"print\"]').forEach(function(l){l.media='all'});",
+      },
       {
         type: "application/ld+json",
         children: JSON.stringify({
