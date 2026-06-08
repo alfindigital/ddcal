@@ -40,10 +40,14 @@ export function buildMeta(opts: {
     { property: "og:type", content: opts.ogType ?? "website" },
     { property: "og:locale", content: "id_ID" },
     { property: "og:image", content: image },
+    { property: "og:image:width", content: OG_IMAGE_WIDTH },
+    { property: "og:image:height", content: OG_IMAGE_HEIGHT },
+    { property: "og:image:alt", content: OG_IMAGE_ALT },
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: title },
     { name: "twitter:description", content: description },
     { name: "twitter:image", content: image },
+    { name: "twitter:image:alt", content: OG_IMAGE_ALT },
   ];
   if (opts.url) {
     tags.push({ property: "og:url", content: opts.url });
