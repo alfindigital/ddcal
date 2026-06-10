@@ -166,9 +166,6 @@ function Home() {
           currentDrawdown={effectiveDrawdown}
           onOpenHistory={() => setHistoryOpen(true)}
         />
-        <h1 className="text-center font-display text-lg font-bold tracking-tight text-foreground">
-          Kalkulator Drawdown & Recovery Trading
-        </h1>
 
         <main className="overflow-hidden rounded-xl border bg-card shadow-sm">
           <Tabs
