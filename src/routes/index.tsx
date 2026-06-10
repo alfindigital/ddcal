@@ -228,9 +228,6 @@ function Home() {
             />
           </div>
           <div className="space-y-2 border-t p-3 sm:p-4">
-            <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-              Bagikan & simpan
-            </h2>
             <ActionsRow
               drawdown={effectiveDrawdown}
               mode={mode}
