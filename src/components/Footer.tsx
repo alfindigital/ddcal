@@ -5,7 +5,7 @@ const linkClass =
 
 export function Footer() {
   return (
-    <footer className="flex items-center justify-center gap-2.5 py-3">
+    <footer className="flex items-center justify-center gap-2.5 pt-1 pb-0">
       <span className="text-[11px] text-muted-foreground">
         by{" "}
         <span className="font-medium text-foreground">@alfindigital</span>
