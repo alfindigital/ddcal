@@ -192,9 +192,6 @@ function Home() {
                 <PercentTab value={drawdown} onChange={handleSliderChange} />
               </TabsContent>
               <TabsContent value="eq" className="mt-0">
-                <h2 className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                  Input equity
-                </h2>
                 <EquityTab
                   initial={equityInitial}
                   current={equityCurrent}
