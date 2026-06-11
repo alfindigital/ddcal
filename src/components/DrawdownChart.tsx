@@ -282,12 +282,16 @@ function DrawdownChartImpl({
               // Jika tidak ada activeLabel, event bubble ke container onClick → tooltip hilang
             }}
           >
-            <CartesianGrid stroke="rgba(0,0,0,0.06)" vertical={false} />
+            <CartesianGrid
+              stroke="var(--border)"
+              strokeOpacity={0.7}
+              vertical={false}
+            />
             <XAxis
               dataKey="label"
               tickLine={false}
               axisLine={false}
-              tick={{ fontSize: 10, fill: "#6b7280" }}
+              tick={{ fontSize: 10, fill: "var(--muted-foreground)" }}
               interval={0}
             />
             <YAxis
@@ -295,16 +299,17 @@ function DrawdownChartImpl({
               domain={[2, 10000]}
               ticks={Y_TICKS}
               tickFormatter={(v) => `${v}%`}
-              tick={{ fill: "#6b7280", fontSize: 9 }}
+              tick={{ fill: "var(--muted-foreground)", fontSize: 9 }}
               tickLine={false}
               axisLine={false}
               width={36}
             />
             <Tooltip
               wrapperStyle={{ display: "none" }}
-              cursor={{ fill: "rgba(0,0,0,0.04)" }}
+              cursor={{ fill: "var(--muted)", fillOpacity: 0.5 }}
               content={() => null}
             />
+
 
             {/* Sliding indikator dirender sebagai overlay HTML di luar SVG */}
             <Bar
