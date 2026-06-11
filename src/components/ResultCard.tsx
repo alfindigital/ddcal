@@ -1,34 +1,69 @@
-import { formatPercent, calcRecovery } from "@/lib/drawdown";
+import { formatPercent, formatRupiah, calcRecovery } from "@/lib/drawdown";
 import { AnimatedNumber } from "./AnimatedValue";
 
 export function ResultCard({
   drawdown,
   animationDuration,
   smoothEnabled,
+  mode,
+  equityInitial,
+  equityCurrent,
 }: {
   drawdown: number;
   animationDuration?: number;
   smoothEnabled?: boolean;
+  mode?: "persen" | "equity";
+  equityInitial?: number;
+  equityCurrent?: number;
 }) {
   const recovery = calcRecovery(drawdown);
+
+  const showEquity =
+    mode === "equity" &&
+    typeof equityInitial === "number" &&
+    typeof equityCurrent === "number" &&
+    equityInitial > 0;
+
+  const lossNominal = showEquity ? Math.max(0, equityInitial! - equityCurrent!) : 0;
+  const targetProfit =
+    showEquity && Number.isFinite(recovery)
+      ? Math.round((equityCurrent! * recovery) / 100)
+      : 0;
+
   return (
-    <div className="grid grid-cols-2 overflow-hidden rounded-xl border bg-primary-soft/50">
-      <Cell label="Drawdown">
-        <AnimatedNumber
-          value={drawdown}
-          duration={animationDuration}
-          enabled={smoothEnabled}
-          format={(n) => `-${formatPercent(n)}%`}
-        />
-      </Cell>
-      <Cell label="Butuh pulih" emphasis>
-        <AnimatedNumber
-          value={recovery}
-          duration={animationDuration}
-          enabled={smoothEnabled}
-          format={(n) => `+${formatPercent(n)}%`}
-        />
-      </Cell>
+    <div className="overflow-hidden rounded-xl border bg-primary-soft/50">
+      <div className="grid grid-cols-2">
+        <Cell label="Drawdown">
+          <AnimatedNumber
+            value={drawdown}
+            duration={animationDuration}
+            enabled={smoothEnabled}
+            format={(n) => `-${formatPercent(n)}%`}
+          />
+        </Cell>
+        <Cell label="Butuh pulih" emphasis>
+          <AnimatedNumber
+            value={recovery}
+            duration={animationDuration}
+            enabled={smoothEnabled}
+            format={(n) => `+${formatPercent(n)}%`}
+          />
+        </Cell>
+      </div>
+      {showEquity && (
+        <div className="grid grid-cols-2 border-t bg-card/40">
+          <NominalCell
+            label="Rugi"
+            value={`-${formatRupiah(lossNominal)}`}
+            tone="loss"
+          />
+          <NominalCell
+            label="Untung dibutuhkan"
+            value={`+${formatRupiah(targetProfit)}`}
+            tone="gain"
+          />
+        </div>
+      )}
     </div>
   );
 }
@@ -53,6 +88,33 @@ function Cell({
         }`}
       >
         {children}
+      </span>
+    </div>
+  );
+}
+
+function NominalCell({
+  label,
+  value,
+  tone,
+}: {
+  label: string;
+  value: string;
+  tone: "loss" | "gain";
+}) {
+  return (
+    <div className="flex flex-col gap-0.5 px-3 py-2 sm:px-4 [&+&]:border-l">
+      <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+        {label}
+      </span>
+      <span
+        className={`font-display tabular tracking-tight text-sm font-bold sm:text-base ${
+          tone === "loss"
+            ? "text-red-600 dark:text-red-400"
+            : "text-primary"
+        }`}
+      >
+        {value}
       </span>
     </div>
   );
