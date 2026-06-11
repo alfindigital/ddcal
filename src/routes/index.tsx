@@ -110,12 +110,17 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const [drawdown, setDrawdown] = useState(30);
+  const search = Route.useSearch();
+  const navigate = useNavigate({ from: "/" });
+
+  const [drawdown, setDrawdown] = useState(search.dd);
   const [chartDrawdown, setChartDrawdown] = useState<number | null>(null);
   const [animDuration, setAnimDuration] = useState<number>(350);
-  const [mode, setMode] = useState<HistoryMode>("persen");
-  const [equityInitial, setEquityInitial] = useState(10_000_000);
-  const [equityCurrent, setEquityCurrent] = useState(7_000_000);
+  const [mode, setMode] = useState<HistoryMode>(
+    search.mode === "eq" ? "equity" : "persen",
+  );
+  const [equityInitial, setEquityInitial] = useState(search.awal);
+  const [equityCurrent, setEquityCurrent] = useState(search.sisa);
   const [historyOpen, setHistoryOpen] = useState(false);
   const smoothAnim = true;
   const effectiveDrawdown = chartDrawdown ?? drawdown;
@@ -138,6 +143,37 @@ function Home() {
     setAnimDuration(duration);
     setChartDrawdown(n);
   };
+
+  // Debounced URL sync — keeps history clean (replace) and avoids spamming.
+  const firstUrlSync = useRef(true);
+  useEffect(() => {
+    if (firstUrlSync.current) {
+      firstUrlSync.current = false;
+      return;
+    }
+    const t = setTimeout(() => {
+      navigate({
+        replace: true,
+        search: () => {
+          if (mode === "equity") {
+            return {
+              mode: "eq" as const,
+              dd: DEFAULT_DD,
+              awal: Math.round(equityInitial),
+              sisa: Math.round(equityCurrent),
+            };
+          }
+          return {
+            mode: "pct" as const,
+            dd: Math.round(effectiveDrawdown),
+            awal: DEFAULT_AWAL,
+            sisa: DEFAULT_SISA,
+          };
+        },
+      });
+    }, 400);
+    return () => clearTimeout(t);
+  }, [effectiveDrawdown, mode, equityInitial, equityCurrent, navigate]);
 
   // Debounced history save
   const historyRef = useRef<HistoryEntry[]>([]);
@@ -172,6 +208,7 @@ function Home() {
     setChartDrawdown(null);
     setDrawdown(e.drawdownPct);
   };
+
 
   return (
     <div className="bg-background text-foreground">
