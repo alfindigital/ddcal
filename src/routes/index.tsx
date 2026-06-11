@@ -189,9 +189,6 @@ function Home() {
             </TabsList>
             <div className="space-y-3 p-3 sm:p-4">
               <TabsContent value="pct" className="mt-0">
-                <h2 className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                  Input drawdown
-                </h2>
                 <PercentTab value={drawdown} onChange={handleSliderChange} />
               </TabsContent>
               <TabsContent value="eq" className="mt-0">
