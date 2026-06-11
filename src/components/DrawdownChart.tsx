@@ -353,13 +353,14 @@ function DrawdownChartImpl({
               top: 4,
               bottom: 18,
               width: 0,
-              borderLeft: "1.5px dashed #b91c1c",
+              borderLeft: "1.5px dashed var(--primary)",
               transform: "translateX(-0.75px)",
               transition:
                 "left 120ms ease-out, opacity 120ms ease-out",
-              opacity: 0.9,
+              opacity: 0.95,
             }}
           />
+
         )}
         </TooltipCtx.Provider>
     </div>
