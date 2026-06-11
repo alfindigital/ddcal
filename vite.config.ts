@@ -5,6 +5,7 @@
 //     error logger plugins, and sandbox detection (port/host/strictPort).
 // You can pass additional config via defineConfig({ vite: { ... } }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { VitePWA } from "vite-plugin-pwa";
 
 // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
 // @cloudflare/vite-plugin builds from this — wrangler.jsonc main alone is insufficient.
@@ -12,4 +13,46 @@ export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
   },
+  plugins: [
+    VitePWA({
+      registerType: "autoUpdate",
+      injectRegister: null,
+      filename: "sw.js",
+      devOptions: { enabled: false },
+      manifest: false, // We ship public/manifest.webmanifest manually.
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,svg,png,ico,webp,woff2}"],
+        navigateFallback: "/",
+        navigateFallbackDenylist: [/^\/~oauth/, /^\/api\//],
+        runtimeCaching: [
+          {
+            urlPattern: ({ request }) => request.mode === "navigate",
+            handler: "NetworkFirst",
+            options: {
+              cacheName: "html-pages",
+              networkTimeoutSeconds: 3,
+              expiration: { maxEntries: 32, maxAgeSeconds: 60 * 60 * 24 },
+            },
+          },
+          {
+            urlPattern: ({ url, sameOrigin }) =>
+              sameOrigin && /\/assets\/.*\.(js|css|woff2?|png|svg|webp|jpg)$/.test(url.pathname),
+            handler: "CacheFirst",
+            options: {
+              cacheName: "static-assets",
+              expiration: { maxEntries: 200, maxAgeSeconds: 60 * 60 * 24 * 30 },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/,
+            handler: "StaleWhileRevalidate",
+            options: {
+              cacheName: "google-fonts",
+              expiration: { maxEntries: 30, maxAgeSeconds: 60 * 60 * 24 * 365 },
+            },
+          },
+        ],
+      },
+    }),
+  ],
 });
