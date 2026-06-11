@@ -51,6 +51,16 @@ export function ActionsRow({
     }
   };
 
+  const onCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      toast.success("Link disalin");
+    } catch {
+      toast.error("Gagal menyalin link");
+    }
+  };
+
+
   const onDownload = async () => {
     if (downloading) return;
     setDownloading(true);
