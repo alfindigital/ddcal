@@ -1,4 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { fallback, zodValidator } from "@tanstack/zod-adapter";
+import { z } from "zod";
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -29,7 +31,19 @@ const PAGE_TITLE =
 const PAGE_DESC =
   "Hitung berapa persen profit yang dibutuhkan untuk pulih dari drawdown trading. Gunakan kalkulator drawdown & recovery ini dengan dua mode: persentase atau equity.";
 
+const DEFAULT_DD = 30;
+const DEFAULT_AWAL = 10_000_000;
+const DEFAULT_SISA = 7_000_000;
+
+const searchSchema = z.object({
+  dd: fallback(z.number().int().min(1).max(99), DEFAULT_DD).default(DEFAULT_DD),
+  mode: fallback(z.enum(["pct", "eq"]), "pct").default("pct"),
+  awal: fallback(z.number().int().min(0).max(1_000_000_000_000), DEFAULT_AWAL).default(DEFAULT_AWAL),
+  sisa: fallback(z.number().int().min(0).max(1_000_000_000_000), DEFAULT_SISA).default(DEFAULT_SISA),
+});
+
 export const Route = createFileRoute("/")({
+  validateSearch: zodValidator(searchSchema),
   head: () => ({
     meta: buildMeta({
       title: PAGE_TITLE,
