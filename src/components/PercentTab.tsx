@@ -1,4 +1,7 @@
 import * as SliderPrimitive from "@radix-ui/react-slider";
+import { useRef } from "react";
+
+const MILESTONES = [25, 50, 75, 90];
 
 export function PercentTab({
   value,
@@ -8,6 +11,26 @@ export function PercentTab({
   onChange: (n: number) => void;
 }) {
   const ticks = [1, 25, 50, 75, 99];
+  const prevRef = useRef(value);
+
+  const handleChange = (n: number) => {
+    const prev = prevRef.current;
+    if (n !== prev) {
+      // Vibrate when crossing a milestone in either direction.
+      const lo = Math.min(prev, n);
+      const hi = Math.max(prev, n);
+      const crossed = MILESTONES.some((m) => lo < m && hi >= m);
+      if (crossed && typeof navigator !== "undefined" && "vibrate" in navigator) {
+        try {
+          navigator.vibrate(8);
+        } catch {
+          /* noop */
+        }
+      }
+      prevRef.current = n;
+    }
+    onChange(n);
+  };
 
   return (
     <div>
@@ -18,7 +41,7 @@ export function PercentTab({
           max={99}
           step={1}
           value={[value]}
-          onValueChange={(v) => onChange(v[0])}
+          onValueChange={(v) => handleChange(v[0])}
           className="relative flex h-4 w-full touch-none select-none items-center"
         >
           <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-muted">

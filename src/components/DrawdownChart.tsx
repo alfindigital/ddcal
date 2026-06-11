@@ -282,12 +282,16 @@ function DrawdownChartImpl({
               // Jika tidak ada activeLabel, event bubble ke container onClick → tooltip hilang
             }}
           >
-            <CartesianGrid stroke="rgba(0,0,0,0.06)" vertical={false} />
+            <CartesianGrid
+              stroke="var(--border)"
+              strokeOpacity={0.7}
+              vertical={false}
+            />
             <XAxis
               dataKey="label"
               tickLine={false}
               axisLine={false}
-              tick={{ fontSize: 10, fill: "#6b7280" }}
+              tick={{ fontSize: 10, fill: "var(--muted-foreground)" }}
               interval={0}
             />
             <YAxis
@@ -295,16 +299,17 @@ function DrawdownChartImpl({
               domain={[2, 10000]}
               ticks={Y_TICKS}
               tickFormatter={(v) => `${v}%`}
-              tick={{ fill: "#6b7280", fontSize: 9 }}
+              tick={{ fill: "var(--muted-foreground)", fontSize: 9 }}
               tickLine={false}
               axisLine={false}
               width={36}
             />
             <Tooltip
               wrapperStyle={{ display: "none" }}
-              cursor={{ fill: "rgba(0,0,0,0.04)" }}
+              cursor={{ fill: "var(--muted)", fillOpacity: 0.5 }}
               content={() => null}
             />
+
 
             {/* Sliding indikator dirender sebagai overlay HTML di luar SVG */}
             <Bar
@@ -318,15 +323,16 @@ function DrawdownChartImpl({
                   <Cell
                     key={d.label}
                     fill={d.color}
-                    stroke={isActive ? "#450a0a" : "transparent"}
-                    strokeWidth={isActive ? 2 : 1}
-                    fillOpacity={isActive ? 1 : 0.55}
+                    stroke={isActive ? "var(--foreground)" : "transparent"}
+                    strokeWidth={isActive ? 1.5 : 1}
+                    fillOpacity={isActive ? 1 : 0.6}
                     style={{
                       transition:
                         "fill-opacity 120ms ease-out, stroke-width 120ms ease-out, stroke 120ms ease-out",
                       cursor: "pointer",
                       willChange: "fill-opacity, stroke-width",
                     }}
+
                     onClick={(e: React.MouseEvent<SVGElement>) => {
                       e.stopPropagation();
                       setPinnedLabel(d.label);
@@ -347,13 +353,14 @@ function DrawdownChartImpl({
               top: 4,
               bottom: 18,
               width: 0,
-              borderLeft: "1.5px dashed #b91c1c",
+              borderLeft: "1.5px dashed var(--primary)",
               transform: "translateX(-0.75px)",
               transition:
                 "left 120ms ease-out, opacity 120ms ease-out",
-              opacity: 0.9,
+              opacity: 0.95,
             }}
           />
+
         )}
         </TooltipCtx.Provider>
     </div>

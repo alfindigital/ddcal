@@ -1,4 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { fallback, zodValidator } from "@tanstack/zod-adapter";
+import { z } from "zod";
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -29,7 +31,19 @@ const PAGE_TITLE =
 const PAGE_DESC =
   "Hitung berapa persen profit yang dibutuhkan untuk pulih dari drawdown trading. Gunakan kalkulator drawdown & recovery ini dengan dua mode: persentase atau equity.";
 
+const DEFAULT_DD = 30;
+const DEFAULT_AWAL = 10_000_000;
+const DEFAULT_SISA = 7_000_000;
+
+const searchSchema = z.object({
+  dd: fallback(z.number().int().min(1).max(99), DEFAULT_DD).default(DEFAULT_DD),
+  mode: fallback(z.enum(["pct", "eq"]), "pct").default("pct"),
+  awal: fallback(z.number().int().min(0).max(1_000_000_000_000), DEFAULT_AWAL).default(DEFAULT_AWAL),
+  sisa: fallback(z.number().int().min(0).max(1_000_000_000_000), DEFAULT_SISA).default(DEFAULT_SISA),
+});
+
 export const Route = createFileRoute("/")({
+  validateSearch: zodValidator(searchSchema),
   head: () => ({
     meta: buildMeta({
       title: PAGE_TITLE,
@@ -96,12 +110,17 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const [drawdown, setDrawdown] = useState(30);
+  const search = Route.useSearch();
+  const navigate = useNavigate({ from: "/" });
+
+  const [drawdown, setDrawdown] = useState(search.dd);
   const [chartDrawdown, setChartDrawdown] = useState<number | null>(null);
   const [animDuration, setAnimDuration] = useState<number>(350);
-  const [mode, setMode] = useState<HistoryMode>("persen");
-  const [equityInitial, setEquityInitial] = useState(10_000_000);
-  const [equityCurrent, setEquityCurrent] = useState(7_000_000);
+  const [mode, setMode] = useState<HistoryMode>(
+    search.mode === "eq" ? "equity" : "persen",
+  );
+  const [equityInitial, setEquityInitial] = useState(search.awal);
+  const [equityCurrent, setEquityCurrent] = useState(search.sisa);
   const [historyOpen, setHistoryOpen] = useState(false);
   const smoothAnim = true;
   const effectiveDrawdown = chartDrawdown ?? drawdown;
@@ -124,6 +143,37 @@ function Home() {
     setAnimDuration(duration);
     setChartDrawdown(n);
   };
+
+  // Debounced URL sync — keeps history clean (replace) and avoids spamming.
+  const firstUrlSync = useRef(true);
+  useEffect(() => {
+    if (firstUrlSync.current) {
+      firstUrlSync.current = false;
+      return;
+    }
+    const t = setTimeout(() => {
+      navigate({
+        replace: true,
+        search: () => {
+          if (mode === "equity") {
+            return {
+              mode: "eq" as const,
+              dd: DEFAULT_DD,
+              awal: Math.round(equityInitial),
+              sisa: Math.round(equityCurrent),
+            };
+          }
+          return {
+            mode: "pct" as const,
+            dd: Math.round(effectiveDrawdown),
+            awal: DEFAULT_AWAL,
+            sisa: DEFAULT_SISA,
+          };
+        },
+      });
+    }, 400);
+    return () => clearTimeout(t);
+  }, [effectiveDrawdown, mode, equityInitial, equityCurrent, navigate]);
 
   // Debounced history save
   const historyRef = useRef<HistoryEntry[]>([]);
@@ -158,6 +208,7 @@ function Home() {
     setChartDrawdown(null);
     setDrawdown(e.drawdownPct);
   };
+
 
   return (
     <div className="bg-background text-foreground">
@@ -204,7 +255,11 @@ function Home() {
                 drawdown={effectiveDrawdown}
                 animationDuration={animDuration}
                 smoothEnabled={smoothAnim}
+                mode={mode}
+                equityInitial={equityInitial}
+                equityCurrent={equityCurrent}
               />
+
             </div>
           </Tabs>
           <div className="space-y-2 border-t p-3 sm:p-4">
