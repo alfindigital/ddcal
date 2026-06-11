@@ -206,9 +206,6 @@ function Home() {
                   onDerivedDrawdown={handleEquityChange}
                 />
               </TabsContent>
-              <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                Hasil recovery
-              </h2>
               <ResultCard
                 drawdown={effectiveDrawdown}
                 animationDuration={animDuration}
