@@ -88,7 +88,10 @@ export function ActionsRow({
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-3 gap-2">
+        <Button variant="outline" size="sm" className="h-9 gap-1.5 text-xs" onClick={onCopyLink}>
+          <Link2 className="h-3.5 w-3.5" /> Link
+        </Button>
         <Button variant="outline" size="sm" className="h-9 gap-1.5 text-xs" onClick={onCopy}>
           <Copy className="h-3.5 w-3.5" /> Salin
         </Button>
@@ -101,7 +104,7 @@ export function ActionsRow({
         >
           {downloading ? (
             <>
-              <Loader2 className="h-3.5 w-3.5 animate-spin" /> Memproses
+              <Loader2 className="h-3.5 w-3.5 animate-spin" /> ...
             </>
           ) : (
             <>
@@ -110,6 +113,7 @@ export function ActionsRow({
           )}
         </Button>
       </div>
+
       {mountShare && (
         <div
           aria-hidden="true"
