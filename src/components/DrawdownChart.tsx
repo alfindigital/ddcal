@@ -323,15 +323,16 @@ function DrawdownChartImpl({
                   <Cell
                     key={d.label}
                     fill={d.color}
-                    stroke={isActive ? "#450a0a" : "transparent"}
-                    strokeWidth={isActive ? 2 : 1}
-                    fillOpacity={isActive ? 1 : 0.55}
+                    stroke={isActive ? "var(--foreground)" : "transparent"}
+                    strokeWidth={isActive ? 1.5 : 1}
+                    fillOpacity={isActive ? 1 : 0.6}
                     style={{
                       transition:
                         "fill-opacity 120ms ease-out, stroke-width 120ms ease-out, stroke 120ms ease-out",
                       cursor: "pointer",
                       willChange: "fill-opacity, stroke-width",
                     }}
+
                     onClick={(e: React.MouseEvent<SVGElement>) => {
                       e.stopPropagation();
                       setPinnedLabel(d.label);
