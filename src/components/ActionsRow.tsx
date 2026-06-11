@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
-import { Copy, Download, Loader2 } from "lucide-react";
+import { Copy, Download, Link2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
 import { calcRecovery, formatPercent, formatRupiah } from "@/lib/drawdown";
 import { toast } from "sonner";
 import { ShareCard } from "./ShareCard";
