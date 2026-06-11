@@ -255,7 +255,11 @@ function Home() {
                 drawdown={effectiveDrawdown}
                 animationDuration={animDuration}
                 smoothEnabled={smoothAnim}
+                mode={mode}
+                equityInitial={equityInitial}
+                equityCurrent={equityCurrent}
               />
+
             </div>
           </Tabs>
           <div className="space-y-2 border-t p-3 sm:p-4">
