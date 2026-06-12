@@ -37,6 +37,7 @@ interface Props {
 
 export function HistoryDialog({ open, onOpenChange, onLoad }: Props) {
   const [entries, setEntries] = useState<HistoryEntry[]>([]);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (open) setEntries(loadHistory());
@@ -46,6 +47,49 @@ export function HistoryDialog({ open, onOpenChange, onLoad }: Props) {
     clearHistory();
     setEntries([]);
   };
+
+  const handleExport = () => {
+    try {
+      const blob = new Blob([exportHistory(entries)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `drawdowncal-history-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      toast.error("Gagal mengekspor");
+    }
+  };
+
+  const handleImportFile = async (file: File) => {
+    try {
+      const text = await file.text();
+      const imported = importHistory(text);
+      if (!imported.length) {
+        toast.error("File tidak berisi riwayat valid");
+        return;
+      }
+      const ok = saveHistory(imported);
+      if (!ok) {
+        toast.error("Gagal menyimpan (storage penuh)");
+        return;
+      }
+      setEntries(imported);
+      toast.success(`${imported.length} riwayat diimpor`);
+    } catch {
+      toast.error("File tidak valid");
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="font-display text-lg font-bold tracking-tight">
+            Riwayat Kalkulasi
+          </DialogTitle>
+        </DialogHeader>
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
