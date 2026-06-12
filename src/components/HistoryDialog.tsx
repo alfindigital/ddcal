@@ -91,14 +91,6 @@ export function HistoryDialog({ open, onOpenChange, onLoad }: Props) {
           </DialogTitle>
         </DialogHeader>
 
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="font-display text-lg font-bold tracking-tight">
-            Riwayat Kalkulasi
-          </DialogTitle>
-        </DialogHeader>
 
         {entries.length === 0 ? (
           <div className="flex flex-col items-center gap-2 py-10 text-center">
