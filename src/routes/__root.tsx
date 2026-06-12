@@ -114,6 +114,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     scripts: [
       {
+        // Pre-hydration theme apply to prevent FOUC. Honors stored choice,
+        // falls back to prefers-color-scheme. Wrapped in try/catch so blocked
+        // storage (Safari private) cannot break first paint.
+        children:
+          "(function(){try{var s=localStorage.getItem('theme');var d=s==='dark'||(s==null&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark');}catch(e){}})();",
+      },
+      {
         // Swap font stylesheet from media="print" -> "all" after load
         // so it does not block first paint. Falls back gracefully if JS is off.
         children:

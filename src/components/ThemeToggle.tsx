@@ -2,21 +2,44 @@ import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { IconButton } from "./IconButton";
 
+const STORAGE_KEY = "theme";
+
+function safeGet(): string | null {
+  try {
+    return localStorage.getItem(STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function safeSet(v: string) {
+  try {
+    localStorage.setItem(STORAGE_KEY, v);
+  } catch {
+    /* Safari private mode / storage blocked — silently degrade. */
+  }
+}
+
 export function ThemeToggle() {
   const [dark, setDark] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem("theme");
-    const prefers = stored === "dark";
-    setDark(prefers);
-    document.documentElement.classList.toggle("dark", prefers);
+    // Sync state with whatever the pre-hydration script already applied.
+    const stored = safeGet();
+    const isDark =
+      stored === "dark" ||
+      (stored == null &&
+        typeof window !== "undefined" &&
+        window.matchMedia?.("(prefers-color-scheme: dark)").matches);
+    setDark(isDark);
+    document.documentElement.classList.toggle("dark", isDark);
   }, []);
 
   const toggle = () => {
     const next = !dark;
     setDark(next);
     document.documentElement.classList.toggle("dark", next);
-    localStorage.setItem("theme", next ? "dark" : "light");
+    safeSet(next ? "dark" : "light");
   };
 
   return (

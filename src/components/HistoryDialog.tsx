@@ -16,14 +16,18 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   HistoryEntry,
   clearHistory,
+  exportHistory,
   formatHistoryDate,
+  importHistory,
   loadHistory,
+  saveHistory,
 } from "@/lib/history";
 import { formatPercent, formatRupiah } from "@/lib/drawdown";
+import { toast } from "sonner";
 
 interface Props {
   open: boolean;
@@ -33,6 +37,7 @@ interface Props {
 
 export function HistoryDialog({ open, onOpenChange, onLoad }: Props) {
   const [entries, setEntries] = useState<HistoryEntry[]>([]);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (open) setEntries(loadHistory());
@@ -41,6 +46,40 @@ export function HistoryDialog({ open, onOpenChange, onLoad }: Props) {
   const handleClear = () => {
     clearHistory();
     setEntries([]);
+  };
+
+  const handleExport = () => {
+    try {
+      const blob = new Blob([exportHistory(entries)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `drawdowncal-history-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      toast.error("Gagal mengekspor");
+    }
+  };
+
+  const handleImportFile = async (file: File) => {
+    try {
+      const text = await file.text();
+      const imported = importHistory(text);
+      if (!imported.length) {
+        toast.error("File tidak berisi riwayat valid");
+        return;
+      }
+      const ok = saveHistory(imported);
+      if (!ok) {
+        toast.error("Gagal menyimpan (storage penuh)");
+        return;
+      }
+      setEntries(imported);
+      toast.success(`${imported.length} riwayat diimpor`);
+    } catch {
+      toast.error("File tidak valid");
+    }
   };
 
   return (
@@ -98,8 +137,21 @@ export function HistoryDialog({ open, onOpenChange, onLoad }: Props) {
           </ul>
         )}
 
-        {entries.length > 0 && (
-          <div className="flex justify-center pt-2">
+        <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <button
+            onClick={() => fileRef.current?.click()}
+            className="text-xs font-medium text-muted-foreground hover:text-foreground"
+          >
+            Impor
+          </button>
+          <button
+            onClick={handleExport}
+            disabled={entries.length === 0}
+            className="text-xs font-medium text-muted-foreground hover:text-foreground disabled:opacity-40"
+          >
+            Ekspor
+          </button>
+          {entries.length > 0 && (
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <button className="text-xs font-medium text-red-600 hover:text-red-700 dark:text-red-400">
@@ -121,8 +173,19 @@ export function HistoryDialog({ open, onOpenChange, onLoad }: Props) {
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
-          </div>
-        )}
+          )}
+          <input
+            ref={fileRef}
+            type="file"
+            accept="application/json,.json"
+            className="hidden"
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) handleImportFile(f);
+              e.target.value = "";
+            }}
+          />
+        </div>
       </DialogContent>
     </Dialog>
   );
