@@ -10,27 +10,64 @@ export interface HistoryEntry {
   equityTersisa: number | null;
 }
 
+interface HistoryFile {
+  version: number;
+  entries: HistoryEntry[];
+}
+
 const KEY = "dd-history";
 const MAX = 10;
+export const HISTORY_VERSION = 1;
+
+function isEntry(v: unknown): v is HistoryEntry {
+  if (!v || typeof v !== "object") return false;
+  const e = v as Record<string, unknown>;
+  return (
+    typeof e.id === "string" &&
+    typeof e.timestamp === "string" &&
+    (e.mode === "persen" || e.mode === "equity") &&
+    typeof e.drawdownPct === "number" &&
+    typeof e.recoveryPct === "number"
+  );
+}
+
+function migrate(raw: unknown): HistoryEntry[] {
+  // v1 shape: { version, entries }
+  if (raw && typeof raw === "object" && "version" in (raw as object)) {
+    const file = raw as HistoryFile;
+    if (Array.isArray(file.entries)) return file.entries.filter(isEntry);
+    return [];
+  }
+  // legacy: plain array
+  if (Array.isArray(raw)) return raw.filter(isEntry);
+  return [];
+}
 
 export function loadHistory(): HistoryEntry[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = window.localStorage.getItem(KEY);
     if (!raw) return [];
-    const parsed = JSON.parse(raw) as HistoryEntry[];
-    return Array.isArray(parsed) ? parsed : [];
+    return migrate(JSON.parse(raw));
   } catch {
+    // Corrupt data — reset cleanly so the app never white-screens.
+    try {
+      window.localStorage.removeItem(KEY);
+    } catch {
+      /* ignore */
+    }
     return [];
   }
 }
 
-export function saveHistory(entries: HistoryEntry[]) {
-  if (typeof window === "undefined") return;
+export function saveHistory(entries: HistoryEntry[]): boolean {
+  if (typeof window === "undefined") return false;
   try {
-    window.localStorage.setItem(KEY, JSON.stringify(entries));
+    const payload: HistoryFile = { version: HISTORY_VERSION, entries };
+    window.localStorage.setItem(KEY, JSON.stringify(payload));
+    return true;
   } catch {
-    /* ignore */
+    return false;
   }
 }
 
@@ -39,7 +76,13 @@ export function appendHistory(
   entry: Omit<HistoryEntry, "id" | "timestamp">,
 ): HistoryEntry[] {
   const last = prev[0];
-  if (last && last.drawdownPct === entry.drawdownPct && last.mode === entry.mode) {
+  if (
+    last &&
+    last.drawdownPct === entry.drawdownPct &&
+    last.mode === entry.mode &&
+    last.equityAwal === entry.equityAwal &&
+    last.equityTersisa === entry.equityTersisa
+  ) {
     return prev;
   }
   const next: HistoryEntry = {
@@ -57,6 +100,16 @@ export function clearHistory() {
   } catch {
     /* ignore */
   }
+}
+
+export function exportHistory(entries: HistoryEntry[]): string {
+  return JSON.stringify({ version: HISTORY_VERSION, entries }, null, 2);
+}
+
+export function importHistory(text: string): HistoryEntry[] {
+  const parsed = JSON.parse(text);
+  const migrated = migrate(parsed);
+  return migrated.slice(0, MAX);
 }
 
 const MONTHS_FULL = [
