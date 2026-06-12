@@ -16,14 +16,18 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   HistoryEntry,
   clearHistory,
+  exportHistory,
   formatHistoryDate,
+  importHistory,
   loadHistory,
+  saveHistory,
 } from "@/lib/history";
 import { formatPercent, formatRupiah } from "@/lib/drawdown";
+import { toast } from "sonner";
 
 interface Props {
   open: boolean;
