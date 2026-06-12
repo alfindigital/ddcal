@@ -129,17 +129,21 @@ export function HistoryDialog({ open, onOpenChange, onLoad }: Props) {
                   </div>
                   {e.mode === "equity" && e.equityAwal != null && e.equityTersisa != null && (
                     <div className="mt-0.5 text-[11px] text-muted-foreground tabular">
-                      {formatRupiah(e.equityAwal)} → {formatRupiah(e.equityTersisa)}
-                    </div>
-                  )}
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        {entries.length > 0 && (
-          <div className="flex justify-center pt-2">
+        <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <button
+            onClick={() => fileRef.current?.click()}
+            className="text-xs font-medium text-muted-foreground hover:text-foreground"
+          >
+            Impor
+          </button>
+          <button
+            onClick={handleExport}
+            disabled={entries.length === 0}
+            className="text-xs font-medium text-muted-foreground hover:text-foreground disabled:opacity-40"
+          >
+            Ekspor
+          </button>
+          {entries.length > 0 && (
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <button className="text-xs font-medium text-red-600 hover:text-red-700 dark:text-red-400">
@@ -156,6 +160,24 @@ export function HistoryDialog({ open, onOpenChange, onLoad }: Props) {
                 <AlertDialogFooter>
                   <AlertDialogCancel>Batal</AlertDialogCancel>
                   <AlertDialogAction onClick={handleClear}>
+                    Hapus
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
+          <input
+            ref={fileRef}
+            type="file"
+            accept="application/json,.json"
+            className="hidden"
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) handleImportFile(f);
+              e.target.value = "";
+            }}
+          />
+        </div>
                     Hapus
                   </AlertDialogAction>
                 </AlertDialogFooter>
