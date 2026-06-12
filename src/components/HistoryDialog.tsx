@@ -91,7 +91,6 @@ export function HistoryDialog({ open, onOpenChange, onLoad }: Props) {
           </DialogTitle>
         </DialogHeader>
 
-
         {entries.length === 0 ? (
           <div className="flex flex-col items-center gap-2 py-10 text-center">
             <History className="h-8 w-8 text-muted-foreground/40" />
@@ -129,6 +128,15 @@ export function HistoryDialog({ open, onOpenChange, onLoad }: Props) {
                   </div>
                   {e.mode === "equity" && e.equityAwal != null && e.equityTersisa != null && (
                     <div className="mt-0.5 text-[11px] text-muted-foreground tabular">
+                      {formatRupiah(e.equityAwal)} → {formatRupiah(e.equityTersisa)}
+                    </div>
+                  )}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+
         <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
           <button
             onClick={() => fileRef.current?.click()}
@@ -178,13 +186,6 @@ export function HistoryDialog({ open, onOpenChange, onLoad }: Props) {
             }}
           />
         </div>
-                    Hapus
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </div>
-        )}
       </DialogContent>
     </Dialog>
   );
