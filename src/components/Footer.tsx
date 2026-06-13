@@ -11,13 +11,6 @@ export function Footer() {
         <span className="font-medium text-foreground">@alfindigital</span>
       </span>
       <span className="text-[11px] text-muted-foreground">|</span>
-      <span
-        className="rounded-sm bg-muted/60 px-1.5 py-0.5 text-[10px] font-semibold tabular tracking-tight text-muted-foreground"
-        title="Versi aplikasi"
-      >
-        {APP_VERSION}
-      </span>
-      <span className="text-[11px] text-muted-foreground">|</span>
       <a
         href="https://alfindigital.com"
         target="_blank"
