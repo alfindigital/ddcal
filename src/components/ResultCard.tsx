@@ -50,20 +50,6 @@ export function ResultCard({
           />
         </Cell>
       </div>
-      {showEquity && (
-        <div className="grid grid-cols-2 border-t bg-card/40">
-          <NominalCell
-            label="Rugi"
-            value={`-${formatRupiah(lossNominal)}`}
-            tone="loss"
-          />
-          <NominalCell
-            label="Untung dibutuhkan"
-            value={`+${formatRupiah(targetProfit)}`}
-            tone="gain"
-          />
-        </div>
-      )}
     </div>
   );
 }
