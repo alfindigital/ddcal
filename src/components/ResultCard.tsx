@@ -5,16 +5,10 @@ export function ResultCard({
   drawdown,
   animationDuration,
   smoothEnabled,
-  mode,
-  equityInitial,
-  equityCurrent,
 }: {
   drawdown: number;
   animationDuration?: number;
   smoothEnabled?: boolean;
-  mode?: "persen" | "equity";
-  equityInitial?: number;
-  equityCurrent?: number;
 }) {
   const recovery = calcRecovery(drawdown);
 
