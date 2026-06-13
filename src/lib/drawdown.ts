@@ -45,8 +45,15 @@ function lerp(a: string, b: string, t: number) {
   return rgbToHex(r1 + (r2 - r1) * t, g1 + (g2 - g1) * t, b1 + (b2 - b1) * t);
 }
 
-export function bucketColor(dd: number): string {
-  // Light rose -> red -> deep crimson (escalating severity)
+export function bucketColor(dd: number, isDark = false): string {
+  if (isDark) {
+    // Dark mode: brighter, more saturated reds to stay visible on dark bg
+    if (dd <= 20) return lerp("#fca5a5", "#f87171", dd / 20);
+    if (dd <= 50) return lerp("#f87171", "#ef4444", (dd - 20) / 30);
+    if (dd <= 80) return lerp("#ef4444", "#dc2626", (dd - 50) / 30);
+    return lerp("#dc2626", "#b91c1c", Math.min((dd - 80) / 19, 1));
+  }
+  // Light mode: light rose -> red -> deep crimson
   if (dd <= 20) return lerp("#fecaca", "#f87171", dd / 20);
   if (dd <= 50) return lerp("#f87171", "#dc2626", (dd - 20) / 30);
   if (dd <= 80) return lerp("#dc2626", "#991b1b", (dd - 50) / 30);

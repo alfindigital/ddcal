@@ -73,12 +73,11 @@ function ChartSkeleton() {
 
 const Y_TICKS = [2, 10, 50, 200, 1000, 10000];
 
-// Precomputed once — bucket geometry/colors never change.
-const CHART_DATA = REFERENCE_BUCKETS.map((dd) => ({
+// Precomputed once — bucket geometry never changes. Colors resolved per-render.
+const CHART_DATA_BASE = REFERENCE_BUCKETS.map((dd) => ({
   dd,
   label: `${dd}%`,
   recovery: Math.max(calcRecovery(dd), 1),
-  color: bucketColor(dd),
 }));
 
 // Memoize nearestBucket on a quantized key so rapid slider values that map
@@ -147,7 +146,32 @@ function DrawdownChartImpl({
   // Defer rapid updates (e.g. slider drag) so chart re-renders coalesce.
   const deferredActive = useDeferredValue(active);
 
-  const data = CHART_DATA;
+  // Detect dark mode reactively so chart colors update on theme toggle.
+  const [isDark, setIsDark] = useState(
+    () =>
+      typeof document !== "undefined" &&
+      document.documentElement.classList.contains("dark"),
+  );
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const el = document.documentElement;
+    const update = () => setIsDark(el.classList.contains("dark"));
+    update();
+    const mo = new MutationObserver(update);
+    mo.observe(el, { attributes: true, attributeFilter: ["class"] });
+    return () => mo.disconnect();
+  }, []);
+
+  const data = useMemo(
+    () =>
+      CHART_DATA_BASE.map((d) => ({
+        dd: d.dd,
+        label: d.label,
+        recovery: d.recovery,
+        color: bucketColor(d.dd, isDark),
+      })),
+    [isDark],
+  );
 
   const nearestBucket = useMemo(
     () => nearestBucketCached(deferredActive),
