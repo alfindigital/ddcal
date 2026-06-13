@@ -163,7 +163,13 @@ function DrawdownChartImpl({
   }, []);
 
   const data = useMemo(
-    () => CHART_DATA_BASE.map((d) => ({ ...d, color: bucketColor(d.dd, isDark) })),
+    () =>
+      CHART_DATA_BASE.map((d) => ({
+        dd: d.dd,
+        label: d.label,
+        recovery: d.recovery,
+        color: bucketColor(d.dd, isDark),
+      })),
     [isDark],
   );
 
