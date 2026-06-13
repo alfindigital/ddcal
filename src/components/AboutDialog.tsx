@@ -1,4 +1,4 @@
-import { Info } from "lucide-react";
+import { Info, Lightbulb } from "lucide-react";
 import {
   Dialog,
   DialogContent,
