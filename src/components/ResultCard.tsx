@@ -1,4 +1,4 @@
-import { formatPercent, formatRupiah, calcRecovery } from "@/lib/drawdown";
+import { formatPercent, calcRecovery } from "@/lib/drawdown";
 import { AnimatedNumber } from "./AnimatedValue";
 
 export function ResultCard({
