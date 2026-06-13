@@ -33,6 +33,16 @@ export function ThemeToggle() {
         window.matchMedia?.("(prefers-color-scheme: dark)").matches);
     setDark(isDark);
     document.documentElement.classList.toggle("dark", isDark);
+
+    // Multi-tab sync: react when another tab changes the theme.
+    const onStorage = (e: StorageEvent) => {
+      if (e.key !== STORAGE_KEY) return;
+      const next = e.newValue === "dark";
+      setDark(next);
+      document.documentElement.classList.toggle("dark", next);
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
   }, []);
 
   const toggle = () => {

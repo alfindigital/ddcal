@@ -51,7 +51,11 @@ function Field({
         id={id}
         inputMode="numeric"
         value={formatRupiah(value)}
-        onChange={(e) => onChange(parseRupiah(e.target.value))}
+        onChange={(e) => {
+          const n = parseRupiah(e.target.value);
+          // Cap at 1e12 to prevent overflow / unreadable values.
+          onChange(Math.min(n, 1_000_000_000_000));
+        }}
         className="h-7 w-32 text-right font-display text-sm font-bold tabular tracking-tight sm:w-40"
       />
     </div>
