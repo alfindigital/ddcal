@@ -287,15 +287,11 @@ function Home() {
         <Footer />
       </div>
 
-      {historyOpen && (
-        <Suspense fallback={null}>
-          <HistoryDialog
-            open={historyOpen}
-            onOpenChange={setHistoryOpen}
-            onLoad={handleLoadHistory}
-          />
-        </Suspense>
-      )}
+      <HistoryDialog
+        open={historyOpen}
+        onOpenChange={setHistoryOpen}
+        onLoad={handleLoadHistory}
+      />
       <Toaster />
     </div>
   );
