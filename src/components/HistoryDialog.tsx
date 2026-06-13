@@ -1,6 +1,7 @@
-import { Download, History, Trash2, Upload } from "lucide-react";
+import { Download, History, Trash2, Upload, X } from "lucide-react";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -84,8 +85,8 @@ export function HistoryDialog({ open, onOpenChange, onLoad }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto">
-        <DialogHeader className="flex-row items-center justify-between">
+      <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto [&>button]:hidden">
+        <DialogHeader className="flex-row items-center justify-between gap-2">
           <DialogTitle className="font-display text-lg font-bold tracking-tight">
             Riwayat Kalkulasi
           </DialogTitle>
@@ -131,6 +132,14 @@ export function HistoryDialog({ open, onOpenChange, onLoad }: Props) {
                 </AlertDialogContent>
               </AlertDialog>
             )}
+            <DialogClose asChild>
+              <button
+                title="Tutup"
+                className="grid h-8 w-8 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </DialogClose>
           </div>
         </DialogHeader>
 
