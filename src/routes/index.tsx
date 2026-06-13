@@ -216,7 +216,8 @@ function Home() {
 
   return (
     <div className="bg-background text-foreground">
-      <div className="mx-auto flex max-w-xl flex-col gap-3 px-3 pt-3 pb-2 sm:gap-4 sm:px-4 sm:pt-6 sm:pb-3">
+      <div className="mx-auto flex min-h-[100svh] max-w-xl flex-col gap-4 px-3 pt-4 pb-3 sm:gap-6 sm:px-4 sm:pt-6 sm:pb-4">
+
         <Header
           currentDrawdown={effectiveDrawdown}
           onOpenHistory={() => setHistoryOpen(true)}
