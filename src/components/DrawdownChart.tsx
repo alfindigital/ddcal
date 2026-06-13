@@ -191,7 +191,7 @@ function DrawdownChartImpl({
     const compute = () => {
       const w = el.clientWidth;
       setChartWidth(w);
-      const h = Math.round(Math.max(200, Math.min(360, w * 0.55)));
+      const h = Math.round(Math.max(240, Math.min(400, w * 0.65)));
       setChartHeight(h);
     };
     const schedule = () => {
