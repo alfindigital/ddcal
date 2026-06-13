@@ -1,34 +1,17 @@
-import { formatPercent, formatRupiah, calcRecovery } from "@/lib/drawdown";
+import { formatPercent, calcRecovery } from "@/lib/drawdown";
 import { AnimatedNumber } from "./AnimatedValue";
 
 export function ResultCard({
   drawdown,
   animationDuration,
   smoothEnabled,
-  mode,
-  equityInitial,
-  equityCurrent,
 }: {
   drawdown: number;
   animationDuration?: number;
   smoothEnabled?: boolean;
-  mode?: "persen" | "equity";
-  equityInitial?: number;
-  equityCurrent?: number;
 }) {
   const recovery = calcRecovery(drawdown);
 
-  const showEquity =
-    mode === "equity" &&
-    typeof equityInitial === "number" &&
-    typeof equityCurrent === "number" &&
-    equityInitial > 0;
-
-  const lossNominal = showEquity ? Math.max(0, equityInitial! - equityCurrent!) : 0;
-  const targetProfit =
-    showEquity && Number.isFinite(recovery)
-      ? Math.round((equityCurrent! * recovery) / 100)
-      : 0;
 
   return (
     <div className="overflow-hidden rounded-xl border bg-primary-soft/50">
@@ -50,20 +33,6 @@ export function ResultCard({
           />
         </Cell>
       </div>
-      {showEquity && (
-        <div className="grid grid-cols-2 border-t bg-card/40">
-          <NominalCell
-            label="Rugi"
-            value={`-${formatRupiah(lossNominal)}`}
-            tone="loss"
-          />
-          <NominalCell
-            label="Untung dibutuhkan"
-            value={`+${formatRupiah(targetProfit)}`}
-            tone="gain"
-          />
-        </div>
-      )}
     </div>
   );
 }
