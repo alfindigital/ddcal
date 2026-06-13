@@ -73,12 +73,11 @@ function ChartSkeleton() {
 
 const Y_TICKS = [2, 10, 50, 200, 1000, 10000];
 
-// Precomputed once — bucket geometry/colors never change.
-const CHART_DATA = REFERENCE_BUCKETS.map((dd) => ({
+// Precomputed once — bucket geometry never changes. Colors resolved per-render.
+const CHART_DATA_BASE = REFERENCE_BUCKETS.map((dd) => ({
   dd,
   label: `${dd}%`,
   recovery: Math.max(calcRecovery(dd), 1),
-  color: bucketColor(dd),
 }));
 
 // Memoize nearestBucket on a quantized key so rapid slider values that map
