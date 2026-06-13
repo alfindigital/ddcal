@@ -95,22 +95,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           ),
       },
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      {
-        rel: "preconnect",
-        href: "https://fonts.gstatic.com",
-        crossOrigin: "anonymous",
-      },
-      {
-        rel: "preload",
-        as: "style",
-        href: "https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap",
-      },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap",
-        media: "print",
-      },
     ],
     scripts: [
       {
@@ -119,12 +103,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         // storage (Safari private) cannot break first paint.
         children:
           "(function(){try{var s=localStorage.getItem('theme');var d=s==='dark'||(s==null&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark');}catch(e){}})();",
-      },
-      {
-        // Swap font stylesheet from media="print" -> "all" after load
-        // so it does not block first paint. Falls back gracefully if JS is off.
-        children:
-          "document.querySelectorAll('link[rel=\"stylesheet\"][media=\"print\"]').forEach(function(l){l.media='all'});",
       },
       {
         type: "application/ld+json",
