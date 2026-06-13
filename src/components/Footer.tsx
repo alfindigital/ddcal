@@ -3,8 +3,6 @@ import { Facebook, Globe, Youtube } from "lucide-react";
 const linkClass =
   "inline-flex items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-primary";
 
-export const APP_VERSION = "v1.1.0";
-
 export function Footer() {
   return (
     <footer className="flex items-center justify-center gap-2.5 pt-1 pb-0">
