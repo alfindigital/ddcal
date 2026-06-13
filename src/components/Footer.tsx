@@ -3,7 +3,7 @@ import { Facebook, Globe, Youtube } from "lucide-react";
 const linkClass =
   "inline-flex items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-primary";
 
-export const APP_VERSION = "v1.0.0";
+export const APP_VERSION = "v1.1.0";
 
 export function Footer() {
   return (
