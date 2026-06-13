@@ -1,4 +1,4 @@
-import { History } from "lucide-react";
+import { Download, History, Trash2, Upload } from "lucide-react";
 import {
   Dialog,
   DialogContent,
