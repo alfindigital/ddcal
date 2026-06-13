@@ -62,13 +62,19 @@ export function loadHistory(): HistoryEntry[] {
 
 export function saveHistory(entries: HistoryEntry[]): boolean {
   if (typeof window === "undefined") return false;
-  try {
-    const payload: HistoryFile = { version: HISTORY_VERSION, entries };
-    window.localStorage.setItem(KEY, JSON.stringify(payload));
-    return true;
-  } catch {
-    return false;
+  let attempt = entries;
+  // On quota errors, trim oldest entries and retry a few times before giving up.
+  for (let i = 0; i < 4; i++) {
+    try {
+      const payload: HistoryFile = { version: HISTORY_VERSION, entries: attempt };
+      window.localStorage.setItem(KEY, JSON.stringify(payload));
+      return true;
+    } catch {
+      if (attempt.length <= 1) return false;
+      attempt = attempt.slice(0, Math.max(1, Math.floor(attempt.length / 2)));
+    }
   }
+  return false;
 }
 
 export function appendHistory(
