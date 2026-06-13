@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import { calcRecovery, formatPercent, formatRupiah } from "@/lib/drawdown";
 import { toast } from "sonner";
 import { ShareCard } from "./ShareCard";
+import { SITE_URL } from "@/lib/seo";
 
-const APP_URL = "drawdowncal.lovable.app";
+const APP_URL = SITE_URL.replace(/^https?:\/\//, "");
 
 export function ActionsRow({
   drawdown,
