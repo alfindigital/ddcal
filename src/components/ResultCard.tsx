@@ -18,17 +18,6 @@ export function ResultCard({
 }) {
   const recovery = calcRecovery(drawdown);
 
-  const showEquity =
-    mode === "equity" &&
-    typeof equityInitial === "number" &&
-    typeof equityCurrent === "number" &&
-    equityInitial > 0;
-
-  const lossNominal = showEquity ? Math.max(0, equityInitial! - equityCurrent!) : 0;
-  const targetProfit =
-    showEquity && Number.isFinite(recovery)
-      ? Math.round((equityCurrent! * recovery) / 100)
-      : 0;
 
   return (
     <div className="overflow-hidden rounded-xl border bg-primary-soft/50">
