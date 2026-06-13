@@ -1,6 +1,8 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@import "@fontsource-variable/sora/index.css";
+@import "@fontsource-variable/manrope/index.css";
 
 @custom-variant dark (&:is(.dark *));
 
