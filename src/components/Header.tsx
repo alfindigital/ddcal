@@ -25,13 +25,13 @@ export function Header({
           </span>
         </div>
 
-        {/* Wordmark — heavy 'Drawdown' + small wide-tracked 'CAL' */}
-        <span className="font-display flex items-baseline truncate">
-          <span className="text-lg font-extrabold tracking-tight text-foreground">
-            Drawdown
+        {/* Wordmark — unified 'drawdown' wordmark with crimson 'cal' lockup */}
+        <span className="font-display flex items-baseline gap-1 truncate">
+          <span className="text-[17px] font-bold lowercase tracking-tight text-foreground">
+            drawdown
           </span>
-          <span className="ml-0.5 text-[11px] font-bold uppercase tracking-[0.18em] text-primary">
-            CAL
+          <span className="rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
+            cal
           </span>
         </span>
       </Link>
