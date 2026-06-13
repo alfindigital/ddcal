@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { fallback, zodValidator } from "@tanstack/zod-adapter";
 import { z } from "zod";
-import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PercentTab } from "@/components/PercentTab";
@@ -9,9 +9,7 @@ import { EquityTab } from "@/components/EquityTab";
 import { ResultCard } from "@/components/ResultCard";
 import { DrawdownChart } from "@/components/DrawdownChart";
 import { ActionsRow } from "@/components/ActionsRow";
-const HistoryDialog = lazy(() =>
-  import("@/components/HistoryDialog").then((m) => ({ default: m.HistoryDialog })),
-);
+import { HistoryDialog } from "@/components/HistoryDialog";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Toaster } from "@/components/ui/sonner";
 import { calcRecovery } from "@/lib/drawdown";
@@ -289,15 +287,11 @@ function Home() {
         <Footer />
       </div>
 
-      {historyOpen && (
-        <Suspense fallback={null}>
-          <HistoryDialog
-            open={historyOpen}
-            onOpenChange={setHistoryOpen}
-            onLoad={handleLoadHistory}
-          />
-        </Suspense>
-      )}
+      <HistoryDialog
+        open={historyOpen}
+        onOpenChange={setHistoryOpen}
+        onLoad={handleLoadHistory}
+      />
       <Toaster />
     </div>
   );
