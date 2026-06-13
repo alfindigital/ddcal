@@ -85,10 +85,53 @@ export function HistoryDialog({ open, onOpenChange, onLoad }: Props) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto">
-        <DialogHeader>
+        <DialogHeader className="flex-row items-center justify-between">
           <DialogTitle className="font-display text-lg font-bold tracking-tight">
             Riwayat Kalkulasi
           </DialogTitle>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => fileRef.current?.click()}
+              title="Impor"
+              className="grid h-8 w-8 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            >
+              <Upload className="h-4 w-4" />
+            </button>
+            <button
+              onClick={handleExport}
+              disabled={entries.length === 0}
+              title="Ekspor"
+              className="grid h-8 w-8 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:opacity-40"
+            >
+              <Download className="h-4 w-4" />
+            </button>
+            {entries.length > 0 && (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <button
+                    title="Hapus Semua"
+                    className="grid h-8 w-8 place-items-center rounded-md text-red-600 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Hapus semua riwayat?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Tindakan ini tidak dapat dibatalkan.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Batal</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleClear}>
+                      Hapus
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            )}
+          </div>
         </DialogHeader>
 
         {entries.length === 0 ? (
