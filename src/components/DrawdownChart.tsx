@@ -146,7 +146,26 @@ function DrawdownChartImpl({
   // Defer rapid updates (e.g. slider drag) so chart re-renders coalesce.
   const deferredActive = useDeferredValue(active);
 
-  const data = CHART_DATA;
+  // Detect dark mode reactively so chart colors update on theme toggle.
+  const [isDark, setIsDark] = useState(
+    () =>
+      typeof document !== "undefined" &&
+      document.documentElement.classList.contains("dark"),
+  );
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const el = document.documentElement;
+    const update = () => setIsDark(el.classList.contains("dark"));
+    update();
+    const mo = new MutationObserver(update);
+    mo.observe(el, { attributes: true, attributeFilter: ["class"] });
+    return () => mo.disconnect();
+  }, []);
+
+  const data = useMemo(
+    () => CHART_DATA_BASE.map((d) => ({ ...d, color: bucketColor(d.dd, isDark) })),
+    [isDark],
+  );
 
   const nearestBucket = useMemo(
     () => nearestBucketCached(deferredActive),
