@@ -179,6 +179,12 @@ function Home() {
   const historyRef = useRef<HistoryEntry[]>([]);
   useEffect(() => {
     historyRef.current = loadHistory();
+    // Multi-tab sync: refresh in-memory ref when another tab edits history.
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === "dd-history") historyRef.current = loadHistory();
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
   }, []);
 
   useEffect(() => {
