@@ -1,6 +1,7 @@
-import { Download, History, Trash2, Upload } from "lucide-react";
+import { Download, History, Trash2, Upload, X } from "lucide-react";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
