@@ -26,7 +26,7 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
         </IconButton>
       </DialogTrigger>
       <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto space-y-4">
-        <DialogHeader className="space-y-2">
+        <DialogHeader className="space-y-2 text-left">
           <DialogTitle className="font-display text-lg font-bold tracking-tight">
             Tentang Drawdown
           </DialogTitle>
