@@ -259,9 +259,6 @@ function Home() {
                 drawdown={effectiveDrawdown}
                 animationDuration={animDuration}
                 smoothEnabled={smoothAnim}
-                mode={mode}
-                equityInitial={equityInitial}
-                equityCurrent={equityCurrent}
               />
 
             </div>
