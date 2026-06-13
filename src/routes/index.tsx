@@ -282,7 +282,10 @@ function Home() {
           </div>
         </main>
 
-        <Footer />
+        <div className="mt-auto">
+          <Footer />
+        </div>
+
       </div>
 
       <HistoryDialog
