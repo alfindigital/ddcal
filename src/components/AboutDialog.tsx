@@ -36,10 +36,10 @@ export function AboutDialog({ currentDrawdown }: { currentDrawdown: number }) {
         </DialogHeader>
 
         <div className="rounded-lg bg-primary-soft/60 p-3">
-          <div className="text-[11px] font-semibold uppercase tracking-wide text-primary">
+          <h3 className="font-display text-sm font-bold tracking-tight mb-2">
             Rumus
-          </div>
-          <div className="font-display tabular tracking-tight mt-1 text-sm font-bold">
+          </h3>
+          <div className="font-display tabular tracking-tight text-sm font-bold">
             recovery % = dd / (100 − dd) × 100
           </div>
         </div>
