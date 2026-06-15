@@ -51,7 +51,12 @@ export const Route = createFileRoute("/")({
       description: PAGE_DESC,
       url: `${APP_URL}/`,
     }),
-    links: [{ rel: "canonical", href: `${APP_URL}/` }],
+    links: [
+      { rel: "canonical", href: `${APP_URL}/` },
+      { rel: "alternate", hrefLang: "id", href: `${APP_URL}/` },
+      { rel: "alternate", hrefLang: "en", href: `${APP_URL}/?lang=en` },
+      { rel: "alternate", hrefLang: "x-default", href: `${APP_URL}/` },
+    ],
     scripts: [
       {
         type: "application/ld+json",
