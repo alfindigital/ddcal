@@ -70,9 +70,6 @@ function HeaderNav({
   );
 }
 
-// Keep original closing for RecoveryMark below
-function __HeaderEndMarker() { return null; }
-void __HeaderEndMarker;
 
 /**
  * Recovery mark — left & right ticks (market high markers), a central vertical
