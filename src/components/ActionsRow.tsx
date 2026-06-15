@@ -31,18 +31,18 @@ export function ActionsRow({
 
   const equityLine =
     mode === "equity"
-      ? `Equity tersisa: ${formatRupiah(equityCurrent)} dari ${formatRupiah(equityInitial)}`
+      ? `${t("share.line_equity_remaining")}: ${formatRupiah(equityCurrent)} ${t("share.line_from")} ${formatRupiah(equityInitial)}`
       : null;
 
   const summary = [
-    "DrawdownCal",
+    t("share.summary_title"),
     "",
-    `Drawdown: -${formatPercent(drawdown)}%`,
+    `${t("share.line_drawdown")}: -${formatPercent(drawdown)}%`,
     ...(equityLine ? [equityLine] : []),
-    `Pemulihan dibutuhkan: +${formatPercent(recovery)}%`,
-    `Rasio pemulihan/kerugian: ${ratio.toFixed(2)}x`,
+    `${t("share.line_recovery")}: +${formatPercent(recovery)}%`,
+    `${t("share.line_ratio")}: ${ratio.toFixed(2)}x`,
     "",
-    `Hitung sendiri: ${APP_URL}`,
+    `${t("share.line_try")}: ${APP_URL}`,
   ].join("\n");
 
   const onCopy = async () => {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Download, X, Share } from "lucide-react";
+import { useT } from "@/lib/i18n";
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
@@ -11,6 +12,7 @@ const VISIT_KEY = "dd-visit-count";
 const MIN_VISITS = 2;
 
 export function InstallPrompt() {
+  const t = useT();
   const [deferred, setDeferred] = useState<BeforeInstallPromptEvent | null>(null);
   const [show, setShow] = useState(false);
   const [iosHint, setIosHint] = useState(false);
@@ -98,12 +100,10 @@ export function InstallPrompt() {
         </div>
         <div className="min-w-0 flex-1">
           <p className="truncate text-xs font-bold text-foreground">
-            Install DrawdownCal
+            {t("install.title")}
           </p>
           <p className="truncate text-[11px] text-muted-foreground">
-            {iosHint
-              ? "Tap Share → Add to Home Screen"
-              : "Akses cepat dari home screen, offline-ready."}
+            {iosHint ? t("install.ios") : t("install.desc")}
           </p>
         </div>
         {!iosHint && deferred && (
@@ -112,12 +112,12 @@ export function InstallPrompt() {
             onClick={install}
             className="rounded-lg bg-primary px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Install
+            {t("install.cta")}
           </button>
         )}
         <button
           type="button"
-          aria-label="Tutup"
+          aria-label={t("label.close")}
           onClick={dismiss}
           className="grid h-8 w-8 shrink-0 place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
         >

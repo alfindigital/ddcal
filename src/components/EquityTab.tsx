@@ -23,29 +23,10 @@ export function EquityTab({
     onDerivedDrawdown(Math.round(clamped));
   }, [initial, current, onDerivedDrawdown]);
 
-  const quickActions: { label: string; apply: () => number }[] = [
-    { label: "×0.9", apply: () => Math.round(initial * 0.9) },
-    { label: "×0.7", apply: () => Math.round(initial * 0.7) },
-    { label: "×0.5", apply: () => Math.round(initial * 0.5) },
-    { label: t("label.reset"), apply: () => initial },
-  ];
-
   return (
     <div className="space-y-2">
       <Field label={t("label.initial_capital")} value={initial} onChange={onInitialChange} />
       <Field label={t("label.current_capital")} value={current} onChange={onCurrentChange} />
-      <div className="flex flex-wrap justify-end gap-1.5 pt-1">
-        {quickActions.map((q) => (
-          <button
-            key={q.label}
-            type="button"
-            onClick={() => onCurrentChange(q.apply())}
-            className="rounded-md border border-input bg-background px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-          >
-            {q.label}
-          </button>
-        ))}
-      </div>
     </div>
   );
 }

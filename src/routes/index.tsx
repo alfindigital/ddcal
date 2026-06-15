@@ -12,8 +12,8 @@ import { DrawdownChart } from "@/components/DrawdownChart";
 import { ActionsRow } from "@/components/ActionsRow";
 import { HistoryDialog } from "@/components/HistoryDialog";
 import { InstallPrompt } from "@/components/InstallPrompt";
-import { CompareSection } from "@/components/CompareSection";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { useT } from "@/lib/i18n";
 import { Toaster } from "@/components/ui/sonner";
 import { calcRecovery } from "@/lib/drawdown";
 import {
@@ -113,6 +113,7 @@ export const Route = createFileRoute("/")({
 function Home() {
   const search = Route.useSearch();
   const navigate = useNavigate({ from: "/" });
+  const tr = useT();
 
   const [drawdown, setDrawdown] = useState(search.dd);
   const [chartDrawdown, setChartDrawdown] = useState<number | null>(null);
@@ -249,13 +250,13 @@ function Home() {
                 value="pct"
                 className="rounded-none border-b-2 border-transparent py-2 text-sm font-bold uppercase tracking-[0.18em] data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
               >
-                Persentase
+                {tr("tab.percent")}
               </TabsTrigger>
               <TabsTrigger
                 value="eq"
                 className="rounded-none border-b-2 border-transparent py-2 text-sm font-bold uppercase tracking-[0.18em] data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
               >
-                Equity
+                {tr("tab.equity")}
               </TabsTrigger>
             </TabsList>
             <div className="space-y-3 p-3 sm:p-4">
@@ -276,16 +277,6 @@ function Home() {
                 animationDuration={animDuration}
                 smoothEnabled={smoothAnim}
               />
-              <CompareSection
-                current={effectiveDrawdown}
-                onPick={(dd) => {
-                  setMode("persen");
-                  setChartDrawdown(null);
-                  setAnimDuration(350);
-                  setDrawdown(dd);
-                }}
-              />
-
             </div>
           </Tabs>
           <div className="space-y-2 border-t p-3 sm:p-4">

@@ -16,12 +16,6 @@ export function ResultCard({
   const recovery = calcRecovery(drawdown);
   const extreme = drawdown >= 90;
 
-  // Mini-bar: normalize drawdown vs recovery on the same width scale.
-  // Use log-ish scaling so 100% vs 900% still both render readable.
-  const max = Math.max(drawdown, recovery, 1);
-  const ddWidth = (drawdown / max) * 100;
-  const recWidth = (recovery / max) * 100;
-
   return (
     <div className="overflow-hidden rounded-2xl border bg-primary-soft/50 shadow-[var(--shadow-card)]">
       <div className="grid grid-cols-2">
@@ -41,32 +35,6 @@ export function ResultCard({
             format={(n) => `+${formatPercent(n)}%`}
           />
         </Cell>
-      </div>
-
-      {/* Mini comparison bar */}
-      <div className="space-y-1 border-t bg-card/40 px-3 py-2 sm:px-4">
-        <div className="flex items-center gap-2">
-          <span className="w-16 shrink-0 text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">
-            {t("label.loss")}
-          </span>
-          <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
-            <div
-              className="h-full rounded-full bg-foreground/60 transition-[width] duration-300 ease-out"
-              style={{ width: `${ddWidth}%` }}
-            />
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-16 shrink-0 text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">
-            {t("label.recovery")}
-          </span>
-          <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
-            <div
-              className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out"
-              style={{ width: `${recWidth}%` }}
-            />
-          </div>
-        </div>
       </div>
 
       {extreme && (
