@@ -67,6 +67,12 @@ const ID = {
   "about.tip2": "−10% butuh +11%, −50% butuh +100%, −90% butuh +900%",
   "about.tip3": "Cut loss kecil jauh lebih sehat daripada nahan floating loss",
   "about.tip4": "Profit konsisten lahir dari loss yang dikecilin",
+  "chart.aria": "Diagram drawdown",
+  "chart.recovery_label": "Butuh pulih",
+  "share.subtitle": "Kalkulator Pemulihan",
+  "share.recovery_short": "Butuh pulih",
+  "theme.toggle": "Ganti tema",
+  "seo.h1": "Kalkulator Drawdown & Recovery Trading",
 } as const;
 
 const EN: Record<keyof typeof ID, string> = {
@@ -130,6 +136,12 @@ const EN: Record<keyof typeof ID, string> = {
   "about.tip2": "−10% needs +11%, −50% needs +100%, −90% needs +900%",
   "about.tip3": "Small cut losses are far healthier than holding floating losses",
   "about.tip4": "Consistent profit comes from minimizing losses",
+  "chart.aria": "Drawdown chart",
+  "chart.recovery_label": "Recovery needed",
+  "share.subtitle": "Recovery Calculator",
+  "share.recovery_short": "Recovery needed",
+  "theme.toggle": "Toggle theme",
+  "seo.h1": "Trading Drawdown & Recovery Calculator",
 };
 
 const DICTS: Record<Locale, Dict> = { id: ID as unknown as Dict, en: EN as unknown as Dict };

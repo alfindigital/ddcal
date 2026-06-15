@@ -13,7 +13,7 @@ import { ActionsRow } from "@/components/ActionsRow";
 import { HistoryDialog } from "@/components/HistoryDialog";
 import { InstallPrompt } from "@/components/InstallPrompt";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { useT } from "@/lib/i18n";
+import { useT, useLocale } from "@/lib/i18n";
 import { Toaster } from "@/components/ui/sonner";
 import { calcRecovery } from "@/lib/drawdown";
 import {
@@ -51,7 +51,12 @@ export const Route = createFileRoute("/")({
       description: PAGE_DESC,
       url: `${APP_URL}/`,
     }),
-    links: [{ rel: "canonical", href: `${APP_URL}/` }],
+    links: [
+      { rel: "canonical", href: `${APP_URL}/` },
+      { rel: "alternate", hrefLang: "id", href: `${APP_URL}/` },
+      { rel: "alternate", hrefLang: "en", href: `${APP_URL}/?lang=en` },
+      { rel: "alternate", hrefLang: "x-default", href: `${APP_URL}/` },
+    ],
     scripts: [
       {
         type: "application/ld+json",
@@ -126,6 +131,13 @@ function Home() {
   const [historyOpen, setHistoryOpen] = useState(false);
   const smoothAnim = true;
   const effectiveDrawdown = chartDrawdown ?? drawdown;
+  const locale = useLocale();
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.documentElement.lang = locale;
+    }
+  }, [locale]);
+
 
   const handleSliderChange = (n: number) => {
     setChartDrawdown(null);
@@ -226,7 +238,9 @@ function Home() {
 
   return (
     <div className="bg-background text-foreground">
+      <h1 className="sr-only">{tr("seo.h1")}</h1>
       <div className="mx-auto flex min-h-[100svh] max-w-xl flex-col gap-4 px-3 pt-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:gap-6 sm:px-4 sm:pt-6 sm:pb-[max(1rem,env(safe-area-inset-bottom))]">
+
 
         <motion.div {...fade} transition={t(0)}>
           <Header

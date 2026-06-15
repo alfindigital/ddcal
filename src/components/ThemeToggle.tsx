@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { IconButton } from "./IconButton";
+import { useT } from "@/lib/i18n";
 
 const STORAGE_KEY = "theme";
 
@@ -21,6 +22,7 @@ function safeSet(v: string) {
 }
 
 export function ThemeToggle() {
+  const t = useT();
   const [dark, setDark] = useState(false);
 
   useEffect(() => {
@@ -55,8 +57,8 @@ export function ThemeToggle() {
   return (
     <IconButton
       onClick={toggle}
-      aria-label="Ganti tema"
-      title="Ganti tema"
+      aria-label={t("theme.toggle")}
+      title={t("theme.toggle")}
     >
       {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
     </IconButton>
