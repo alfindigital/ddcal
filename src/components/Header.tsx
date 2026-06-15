@@ -1,19 +1,14 @@
 import { Link } from "@tanstack/react-router";
-import { History } from "lucide-react";
 import { AboutDialog } from "./AboutDialog";
 import { ThemeToggle } from "./ThemeToggle";
-import { IconButton } from "./IconButton";
 import { LocaleToggle } from "./LocaleToggle";
-import { useT } from "@/lib/i18n";
 
 
 
 export function Header({
   currentDrawdown,
-  onOpenHistory,
 }: {
   currentDrawdown: number;
-  onOpenHistory: () => void;
 }) {
   return (
     <header className="flex h-12 items-center justify-between gap-2">
@@ -40,29 +35,19 @@ export function Header({
         </span>
       </Link>
 
-      <HeaderNav currentDrawdown={currentDrawdown} onOpenHistory={onOpenHistory} />
+      <HeaderNav currentDrawdown={currentDrawdown} />
     </header>
   );
 }
 
 function HeaderNav({
   currentDrawdown,
-  onOpenHistory,
 }: {
   currentDrawdown: number;
-  onOpenHistory: () => void;
 }) {
-  const t = useT();
   return (
     <nav className="flex items-center gap-1">
       <AboutDialog currentDrawdown={currentDrawdown} />
-      <IconButton
-        aria-label={t("label.history")}
-        title={t("label.history")}
-        onClick={onOpenHistory}
-      >
-        <History className="h-4 w-4" />
-      </IconButton>
       <LocaleToggle />
       <ThemeToggle />
     </nav>

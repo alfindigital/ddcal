@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { fallback, zodValidator } from "@tanstack/zod-adapter";
 import { z } from "zod";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -10,18 +10,10 @@ import { EquityTab } from "@/components/EquityTab";
 import { ResultCard } from "@/components/ResultCard";
 import { DrawdownChart } from "@/components/DrawdownChart";
 import { ActionsRow } from "@/components/ActionsRow";
-import { HistoryDialog } from "@/components/HistoryDialog";
 import { InstallPrompt } from "@/components/InstallPrompt";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useT, useLocale } from "@/lib/i18n";
 import { Toaster } from "@/components/ui/sonner";
-import { calcRecovery } from "@/lib/drawdown";
-import {
-  HistoryEntry,
-  HistoryMode,
-  loadHistory,
-  saveHistory,
-} from "@/lib/history";
 
 import { SITE_URL, DEFAULT_TITLE, DEFAULT_DESCRIPTION, buildMeta } from "@/lib/seo";
 
@@ -119,12 +111,11 @@ function Home() {
   const [drawdown, setDrawdown] = useState(search.dd);
   const [chartDrawdown, setChartDrawdown] = useState<number | null>(null);
   const [animDuration, setAnimDuration] = useState<number>(350);
-  const [mode, setMode] = useState<HistoryMode>(
+  const [mode, setMode] = useState<"persen" | "equity">(
     search.mode === "eq" ? "equity" : "persen",
   );
   const [equityInitial, setEquityInitial] = useState(search.awal);
   const [equityCurrent, setEquityCurrent] = useState(search.sisa);
-  const [historyOpen, setHistoryOpen] = useState(false);
   const smoothAnim = true;
   const effectiveDrawdown = chartDrawdown ?? drawdown;
   const locale = useLocale();
@@ -154,29 +145,6 @@ function Home() {
     setChartDrawdown(n);
   };
 
-  // Automatic URL/history syncing is intentionally disabled. User input should
-  // never trigger navigation, reload-like rerenders, or delayed autosave work.
-  const historyRef = useRef<HistoryEntry[]>([]);
-  useEffect(() => {
-    historyRef.current = loadHistory();
-    // Multi-tab sync: refresh in-memory ref when another tab edits history.
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === "dd-history") historyRef.current = loadHistory();
-    };
-    window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
-  }, []);
-
-  const handleLoadHistory = (e: HistoryEntry) => {
-    setMode(e.mode);
-    if (e.mode === "equity" && e.equityAwal != null && e.equityTersisa != null) {
-      setEquityInitial(e.equityAwal);
-      setEquityCurrent(e.equityTersisa);
-    }
-    setChartDrawdown(null);
-    setDrawdown(e.drawdownPct);
-  };
-
 
   const fade = {
     initial: { opacity: 0, y: 8 },
@@ -191,10 +159,7 @@ function Home() {
 
 
         <motion.div {...fade} transition={t(0)}>
-          <Header
-            currentDrawdown={effectiveDrawdown}
-            onOpenHistory={() => setHistoryOpen(true)}
-          />
+          <Header currentDrawdown={effectiveDrawdown} />
         </motion.div>
 
         <motion.main
@@ -265,11 +230,6 @@ function Home() {
 
       </div>
 
-      <HistoryDialog
-        open={historyOpen}
-        onOpenChange={setHistoryOpen}
-        onLoad={handleLoadHistory}
-      />
       <Toaster />
       <InstallPrompt />
     </div>
