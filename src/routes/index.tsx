@@ -230,11 +230,6 @@ function Home() {
 
       </div>
 
-      <HistoryDialog
-        open={historyOpen}
-        onOpenChange={setHistoryOpen}
-        onLoad={handleLoadHistory}
-      />
       <Toaster />
       <InstallPrompt />
     </div>
