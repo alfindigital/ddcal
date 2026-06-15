@@ -107,7 +107,7 @@ export function AboutDialog({ currentDrawdown: _currentDrawdown }: { currentDraw
             {[t("about.tip1"), t("about.tip2"), t("about.tip3"), t("about.tip4")].map((tip, i) => (
               <li key={i} className="flex items-start gap-2">
                 <Lightbulb className="h-3.5 w-3.5 text-primary mt-0.5 shrink-0" />
-                <span className="whitespace-nowrap overflow-hidden text-ellipsis">{tip}</span>
+                <span>{tip}</span>
               </li>
             ))}
           </ul>
