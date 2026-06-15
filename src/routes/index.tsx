@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { fallback, zodValidator } from "@tanstack/zod-adapter";
 import { z } from "zod";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -17,7 +17,6 @@ import { useT, useLocale } from "@/lib/i18n";
 import { Toaster } from "@/components/ui/sonner";
 import { calcRecovery } from "@/lib/drawdown";
 import {
-  appendHistory,
   HistoryEntry,
   HistoryMode,
   loadHistory,
@@ -115,7 +114,6 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   const search = Route.useSearch();
-  const navigate = useNavigate({ from: "/" });
   const tr = useT();
 
   const [drawdown, setDrawdown] = useState(search.dd);
@@ -156,13 +154,8 @@ function Home() {
     setChartDrawdown(n);
   };
 
-  // URL sync intentionally disabled — live navigation on every input change
-  // caused jarring re-renders / perceived "auto refresh" while the user was
-  // typing or dragging. Shareable URLs are produced explicitly via the Share
-  // action instead.
-  void navigate;
-
-  // Debounced history save
+  // Automatic URL/history syncing is intentionally disabled. User input should
+  // never trigger navigation, reload-like rerenders, or delayed autosave work.
   const historyRef = useRef<HistoryEntry[]>([]);
   useEffect(() => {
     historyRef.current = loadHistory();
@@ -173,24 +166,6 @@ function Home() {
     window.addEventListener("storage", onStorage);
     return () => window.removeEventListener("storage", onStorage);
   }, []);
-
-  useEffect(() => {
-    const t = setTimeout(() => {
-      const recovery = calcRecovery(effectiveDrawdown);
-      const next = appendHistory(historyRef.current, {
-        mode,
-        drawdownPct: effectiveDrawdown,
-        recoveryPct: Number.isFinite(recovery) ? Math.round(recovery * 10) / 10 : 0,
-        equityAwal: mode === "equity" ? equityInitial : null,
-        equityTersisa: mode === "equity" ? equityCurrent : null,
-      });
-      if (next !== historyRef.current) {
-        historyRef.current = next;
-        saveHistory(next);
-      }
-    }, 2000);
-    return () => clearTimeout(t);
-  }, [effectiveDrawdown, mode, equityInitial, equityCurrent]);
 
   const handleLoadHistory = (e: HistoryEntry) => {
     setMode(e.mode);
