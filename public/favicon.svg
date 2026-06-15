@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="DrawdownCal">
+  <rect width="64" height="64" rx="14" fill="#b91c1c"/>
+  <path d="M18 14h16c10.493 0 19 8.059 19 18s-8.507 18-19 18H18V14zm10 9v18h6c5.247 0 9.5-4.03 9.5-9s-4.253-9-9.5-9h-6z" fill="#ffffff"/>
+  <circle cx="48" cy="50" r="4" fill="#fde047"/>
+</svg>

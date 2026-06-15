@@ -50,6 +50,9 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --shadow-card: 0 1px 2px 0 oklch(0.2 0.03 25 / 0.04), 0 1px 3px 0 oklch(0.2 0.03 25 / 0.06);
+  --shadow-elegant: 0 10px 30px -10px oklch(0.52 0.17 25 / 0.18), 0 4px 12px -4px oklch(0.2 0.03 25 / 0.05);
+  --gradient-primary: linear-gradient(135deg, var(--primary) 0%, color-mix(in oklch, var(--primary) 75%, white) 100%);
 }
 
 :root {

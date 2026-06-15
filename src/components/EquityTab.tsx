@@ -21,10 +21,29 @@ export function EquityTab({
     onDerivedDrawdown(Math.round(clamped));
   }, [initial, current, onDerivedDrawdown]);
 
+  const quickActions: { label: string; apply: () => number }[] = [
+    { label: "×0.9", apply: () => Math.round(initial * 0.9) },
+    { label: "×0.7", apply: () => Math.round(initial * 0.7) },
+    { label: "×0.5", apply: () => Math.round(initial * 0.5) },
+    { label: "Reset", apply: () => initial },
+  ];
+
   return (
     <div className="space-y-2">
       <Field label="Modal awal" value={initial} onChange={onInitialChange} />
       <Field label="Modal sekarang" value={current} onChange={onCurrentChange} />
+      <div className="flex flex-wrap justify-end gap-1.5 pt-1">
+        {quickActions.map((q) => (
+          <button
+            key={q.label}
+            type="button"
+            onClick={() => onCurrentChange(q.apply())}
+            className="rounded-md border border-input bg-background px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+          >
+            {q.label}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
@@ -53,7 +72,6 @@ function Field({
         value={formatRupiah(value)}
         onChange={(e) => {
           const n = parseRupiah(e.target.value);
-          // Cap at 1e12 to prevent overflow / unreadable values.
           onChange(Math.min(n, 1_000_000_000_000));
         }}
         className="h-7 w-32 text-right font-display text-sm font-bold tabular tracking-tight sm:w-40"
