@@ -156,36 +156,11 @@ function Home() {
     setChartDrawdown(n);
   };
 
-  // Debounced URL sync — keeps history clean (replace) and avoids spamming.
-  const firstUrlSync = useRef(true);
-  useEffect(() => {
-    if (firstUrlSync.current) {
-      firstUrlSync.current = false;
-      return;
-    }
-    const t = setTimeout(() => {
-      navigate({
-        replace: true,
-        search: () => {
-          if (mode === "equity") {
-            return {
-              mode: "eq" as const,
-              dd: DEFAULT_DD,
-              awal: Math.round(equityInitial),
-              sisa: Math.round(equityCurrent),
-            };
-          }
-          return {
-            mode: "pct" as const,
-            dd: Math.round(effectiveDrawdown),
-            awal: DEFAULT_AWAL,
-            sisa: DEFAULT_SISA,
-          };
-        },
-      });
-    }, 400);
-    return () => clearTimeout(t);
-  }, [effectiveDrawdown, mode, equityInitial, equityCurrent, navigate]);
+  // URL sync intentionally disabled — live navigation on every input change
+  // caused jarring re-renders / perceived "auto refresh" while the user was
+  // typing or dragging. Shareable URLs are produced explicitly via the Share
+  // action instead.
+  void navigate;
 
   // Debounced history save
   const historyRef = useRef<HistoryEntry[]>([]);
