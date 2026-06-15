@@ -231,7 +231,9 @@ function Home() {
 
   return (
     <div className="bg-background text-foreground">
+      <h1 className="sr-only">{tr("seo.h1")}</h1>
       <div className="mx-auto flex min-h-[100svh] max-w-xl flex-col gap-4 px-3 pt-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:gap-6 sm:px-4 sm:pt-6 sm:pb-[max(1rem,env(safe-area-inset-bottom))]">
+
 
         <motion.div {...fade} transition={t(0)}>
           <Header
