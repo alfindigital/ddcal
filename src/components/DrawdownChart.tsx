@@ -308,7 +308,7 @@ function DrawdownChartImpl({
                 const dd = Number(String(label).replace("%", ""));
                 if (Number.isFinite(dd)) {
                   e.stopPropagation();
-                  setPinnedLabel(label);
+                  setPinnedLabel(String(label));
                   onActiveChange?.(dd, 1);
                 }
               }
