@@ -24,13 +24,11 @@ import {
   saveHistory,
 } from "@/lib/history";
 
-import { SITE_URL, buildMeta } from "@/lib/seo";
+import { SITE_URL, DEFAULT_TITLE, DEFAULT_DESCRIPTION, buildMeta } from "@/lib/seo";
 
 const APP_URL = SITE_URL;
-const PAGE_TITLE =
-  "Kalkulator Drawdown & Recovery Trading | DrawdownCal";
-const PAGE_DESC =
-  "Hitung berapa persen profit yang dibutuhkan untuk pulih dari drawdown trading. Gunakan kalkulator drawdown & recovery ini dengan dua mode: persentase atau equity.";
+const PAGE_TITLE = DEFAULT_TITLE;
+const PAGE_DESC = DEFAULT_DESCRIPTION;
 
 const DEFAULT_DD = 30;
 const DEFAULT_AWAL = 10_000_000;
