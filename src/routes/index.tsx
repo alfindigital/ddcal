@@ -13,7 +13,7 @@ import { ActionsRow } from "@/components/ActionsRow";
 import { HistoryDialog } from "@/components/HistoryDialog";
 import { InstallPrompt } from "@/components/InstallPrompt";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { useT } from "@/lib/i18n";
+import { useT, useLocale } from "@/lib/i18n";
 import { Toaster } from "@/components/ui/sonner";
 import { calcRecovery } from "@/lib/drawdown";
 import {
