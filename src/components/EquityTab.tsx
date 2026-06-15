@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { formatRupiah, parseRupiah, calcDrawdownFromCapital } from "@/lib/drawdown";
 import { useEffect, useId } from "react";
+import { useT } from "@/lib/i18n";
 
 export function EquityTab({
   initial,
@@ -15,6 +16,7 @@ export function EquityTab({
   onCurrentChange: (n: number) => void;
   onDerivedDrawdown: (d: number) => void;
 }) {
+  const t = useT();
   useEffect(() => {
     const dd = calcDrawdownFromCapital(initial, current);
     const clamped = Math.max(0, Math.min(99, dd));
@@ -25,13 +27,13 @@ export function EquityTab({
     { label: "×0.9", apply: () => Math.round(initial * 0.9) },
     { label: "×0.7", apply: () => Math.round(initial * 0.7) },
     { label: "×0.5", apply: () => Math.round(initial * 0.5) },
-    { label: "Reset", apply: () => initial },
+    { label: t("label.reset"), apply: () => initial },
   ];
 
   return (
     <div className="space-y-2">
-      <Field label="Modal awal" value={initial} onChange={onInitialChange} />
-      <Field label="Modal sekarang" value={current} onChange={onCurrentChange} />
+      <Field label={t("label.initial_capital")} value={initial} onChange={onInitialChange} />
+      <Field label={t("label.current_capital")} value={current} onChange={onCurrentChange} />
       <div className="flex flex-wrap justify-end gap-1.5 pt-1">
         {quickActions.map((q) => (
           <button

@@ -1,6 +1,7 @@
 import { formatPercent, calcRecovery } from "@/lib/drawdown";
 import { AnimatedNumber } from "./AnimatedValue";
 import { AlertTriangle } from "lucide-react";
+import { useT } from "@/lib/i18n";
 
 export function ResultCard({
   drawdown,
@@ -11,6 +12,7 @@ export function ResultCard({
   animationDuration?: number;
   smoothEnabled?: boolean;
 }) {
+  const t = useT();
   const recovery = calcRecovery(drawdown);
   const extreme = drawdown >= 90;
 
@@ -23,7 +25,7 @@ export function ResultCard({
   return (
     <div className="overflow-hidden rounded-2xl border bg-primary-soft/50 shadow-[var(--shadow-card)]">
       <div className="grid grid-cols-2">
-        <Cell label="Drawdown">
+        <Cell label={t("label.drawdown")}>
           <AnimatedNumber
             value={drawdown}
             duration={animationDuration}
@@ -31,7 +33,7 @@ export function ResultCard({
             format={(n) => `-${formatPercent(n)}%`}
           />
         </Cell>
-        <Cell label="Profit dibutuhkan" emphasis>
+        <Cell label={t("label.recovery_needed")} emphasis>
           <AnimatedNumber
             value={recovery}
             duration={animationDuration}
@@ -45,7 +47,7 @@ export function ResultCard({
       <div className="space-y-1 border-t bg-card/40 px-3 py-2 sm:px-4">
         <div className="flex items-center gap-2">
           <span className="w-16 shrink-0 text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">
-            Loss
+            {t("label.loss")}
           </span>
           <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
             <div
@@ -56,7 +58,7 @@ export function ResultCard({
         </div>
         <div className="flex items-center gap-2">
           <span className="w-16 shrink-0 text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">
-            Recovery
+            {t("label.recovery")}
           </span>
           <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
             <div
@@ -70,10 +72,7 @@ export function ResultCard({
       {extreme && (
         <div className="flex items-start gap-2 border-t bg-destructive/5 px-3 py-2 text-[11px] text-destructive sm:px-4">
           <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-          <span>
-            Recovery sangat sulit di zona ini. Pertimbangkan risk management
-            ulang dan hindari revenge trading.
-          </span>
+          <span>{t("warning.extreme")}</span>
         </div>
       )}
     </div>

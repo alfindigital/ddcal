@@ -6,6 +6,7 @@ import { calcRecovery, formatPercent, formatRupiah } from "@/lib/drawdown";
 import { toast } from "sonner";
 import { ShareCard } from "./ShareCard";
 import { SITE_URL } from "@/lib/seo";
+import { useT } from "@/lib/i18n";
 
 const APP_URL = SITE_URL.replace(/^https?:\/\//, "");
 
@@ -20,6 +21,7 @@ export function ActionsRow({
   equityInitial: number;
   equityCurrent: number;
 }) {
+  const t = useT();
   const shareRef = useRef<HTMLDivElement>(null);
   const [downloading, setDownloading] = useState(false);
   const [mountShare, setMountShare] = useState(false);
@@ -46,18 +48,18 @@ export function ActionsRow({
   const onCopy = async () => {
     try {
       await navigator.clipboard.writeText(summary);
-      toast.success("Disalin");
+      toast.success(t("toast.copied"));
     } catch {
-      toast.error("Gagal menyalin");
+      toast.error(t("toast.copy_failed"));
     }
   };
 
   const onCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      toast.success("Link disalin");
+      toast.success(t("toast.link_copied"));
     } catch {
-      toast.error("Gagal menyalin link");
+      toast.error(t("toast.link_failed"));
     }
   };
 
@@ -80,7 +82,7 @@ export function ActionsRow({
       link.href = dataUrl;
       link.click();
     } catch {
-      toast.error("Gagal mengunduh");
+      toast.error(t("toast.download_failed"));
     } finally {
       setDownloading(false);
       setMountShare(false);
