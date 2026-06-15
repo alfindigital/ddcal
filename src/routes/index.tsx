@@ -12,6 +12,7 @@ import { DrawdownChart } from "@/components/DrawdownChart";
 import { ActionsRow } from "@/components/ActionsRow";
 import { HistoryDialog } from "@/components/HistoryDialog";
 import { InstallPrompt } from "@/components/InstallPrompt";
+import { CompareSection } from "@/components/CompareSection";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Toaster } from "@/components/ui/sonner";
 import { calcRecovery } from "@/lib/drawdown";
@@ -274,6 +275,15 @@ function Home() {
                 drawdown={effectiveDrawdown}
                 animationDuration={animDuration}
                 smoothEnabled={smoothAnim}
+              />
+              <CompareSection
+                current={effectiveDrawdown}
+                onPick={(dd) => {
+                  setMode("persen");
+                  setChartDrawdown(null);
+                  setAnimDuration(350);
+                  setDrawdown(dd);
+                }}
               />
 
             </div>

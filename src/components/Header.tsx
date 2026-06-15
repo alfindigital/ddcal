@@ -3,6 +3,10 @@ import { History } from "lucide-react";
 import { AboutDialog } from "./AboutDialog";
 import { ThemeToggle } from "./ThemeToggle";
 import { IconButton } from "./IconButton";
+import { LocaleToggle } from "./LocaleToggle";
+import { useT } from "@/lib/i18n";
+
+
 
 export function Header({
   currentDrawdown,
@@ -36,21 +40,36 @@ export function Header({
         </span>
       </Link>
 
-      <nav className="flex items-center gap-1">
-        <AboutDialog currentDrawdown={currentDrawdown} />
-        <IconButton
-          aria-label="Riwayat"
-          title="Riwayat"
-          onClick={onOpenHistory}
-        >
-          <History className="h-4 w-4" />
-        </IconButton>
-        <span aria-hidden className="mx-1 h-4 w-px bg-border" />
-        <ThemeToggle />
-      </nav>
+      <HeaderNav currentDrawdown={currentDrawdown} onOpenHistory={onOpenHistory} />
     </header>
   );
 }
+
+function HeaderNav({
+  currentDrawdown,
+  onOpenHistory,
+}: {
+  currentDrawdown: number;
+  onOpenHistory: () => void;
+}) {
+  const t = useT();
+  return (
+    <nav className="flex items-center gap-1">
+      <AboutDialog currentDrawdown={currentDrawdown} />
+      <IconButton
+        aria-label={t("label.history")}
+        title={t("label.history")}
+        onClick={onOpenHistory}
+      >
+        <History className="h-4 w-4" />
+      </IconButton>
+      <LocaleToggle />
+      <span aria-hidden className="mx-1 h-4 w-px bg-border" />
+      <ThemeToggle />
+    </nav>
+  );
+}
+
 
 /**
  * Recovery mark — left & right ticks (market high markers), a central vertical

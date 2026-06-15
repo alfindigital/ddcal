@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PreviewMetaRouteImport } from './routes/preview-meta'
+import { Route as EmbedRouteImport } from './routes/embed'
 import { Route as IndexRouteImport } from './routes/index'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -23,6 +24,11 @@ const PreviewMetaRoute = PreviewMetaRouteImport.update({
   path: '/preview-meta',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EmbedRoute = EmbedRouteImport.update({
+  id: '/embed',
+  path: '/embed',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,30 +37,34 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/embed': typeof EmbedRoute
   '/preview-meta': typeof PreviewMetaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/embed': typeof EmbedRoute
   '/preview-meta': typeof PreviewMetaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/embed': typeof EmbedRoute
   '/preview-meta': typeof PreviewMetaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/preview-meta' | '/sitemap.xml'
+  fullPaths: '/' | '/embed' | '/preview-meta' | '/sitemap.xml'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/preview-meta' | '/sitemap.xml'
-  id: '__root__' | '/' | '/preview-meta' | '/sitemap.xml'
+  to: '/' | '/embed' | '/preview-meta' | '/sitemap.xml'
+  id: '__root__' | '/' | '/embed' | '/preview-meta' | '/sitemap.xml'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EmbedRoute: typeof EmbedRoute
   PreviewMetaRoute: typeof PreviewMetaRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PreviewMetaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/embed': {
+      id: '/embed'
+      path: '/embed'
+      fullPath: '/embed'
+      preLoaderRoute: typeof EmbedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EmbedRoute: EmbedRoute,
   PreviewMetaRoute: PreviewMetaRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
