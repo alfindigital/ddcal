@@ -45,6 +45,35 @@ export function Header({
   );
 }
 
+function HeaderNav({
+  currentDrawdown,
+  onOpenHistory,
+}: {
+  currentDrawdown: number;
+  onOpenHistory: () => void;
+}) {
+  const t = useT();
+  return (
+    <nav className="flex items-center gap-1">
+      <AboutDialog currentDrawdown={currentDrawdown} />
+      <IconButton
+        aria-label={t("label.history")}
+        title={t("label.history")}
+        onClick={onOpenHistory}
+      >
+        <History className="h-4 w-4" />
+      </IconButton>
+      <LocaleToggle />
+      <span aria-hidden className="mx-1 h-4 w-px bg-border" />
+      <ThemeToggle />
+    </nav>
+  );
+}
+
+// Keep original closing for RecoveryMark below
+function __HeaderEndMarker() { return null; }
+void __HeaderEndMarker;
+
 /**
  * Recovery mark — left & right ticks (market high markers), a central vertical
  * descent into a V (drawdown bottom + reversal), and a baseline rule (floor).
