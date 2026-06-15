@@ -64,7 +64,6 @@ function HeaderNav({
         <History className="h-4 w-4" />
       </IconButton>
       <LocaleToggle />
-      <span aria-hidden className="mx-1 h-4 w-px bg-border" />
       <ThemeToggle />
     </nav>
   );
