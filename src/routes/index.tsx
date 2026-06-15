@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { fallback, zodValidator } from "@tanstack/zod-adapter";
 import { z } from "zod";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { motion } from "motion/react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PercentTab } from "@/components/PercentTab";
@@ -214,16 +215,28 @@ function Home() {
   };
 
 
+  const fade = {
+    initial: { opacity: 0, y: 8 },
+    animate: { opacity: 1, y: 0 },
+  };
+  const t = (i: number) => ({ duration: 0.4, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] as const });
+
   return (
     <div className="bg-background text-foreground">
-      <div className="mx-auto flex min-h-[100svh] max-w-xl flex-col gap-4 px-3 pt-4 pb-3 sm:gap-6 sm:px-4 sm:pt-6 sm:pb-4">
+      <div className="mx-auto flex min-h-[100svh] max-w-xl flex-col gap-4 px-3 pt-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:gap-6 sm:px-4 sm:pt-6 sm:pb-[max(1rem,env(safe-area-inset-bottom))]">
 
-        <Header
-          currentDrawdown={effectiveDrawdown}
-          onOpenHistory={() => setHistoryOpen(true)}
-        />
+        <motion.div {...fade} transition={t(0)}>
+          <Header
+            currentDrawdown={effectiveDrawdown}
+            onOpenHistory={() => setHistoryOpen(true)}
+          />
+        </motion.div>
 
-        <main className="overflow-hidden rounded-xl border bg-card shadow-sm">
+        <motion.main
+          {...fade}
+          transition={t(1)}
+          className="overflow-hidden rounded-2xl border bg-card shadow-[var(--shadow-elegant)]"
+        >
           <Tabs
             value={mode === "persen" ? "pct" : "eq"}
             onValueChange={(v) => setMode(v === "eq" ? "equity" : "persen")}
@@ -280,11 +293,11 @@ function Home() {
               equityCurrent={equityCurrent}
             />
           </div>
-        </main>
+        </motion.main>
 
-        <div className="mt-auto">
+        <motion.div {...fade} transition={t(2)} className="mt-auto">
           <Footer />
-        </div>
+        </motion.div>
 
       </div>
 
