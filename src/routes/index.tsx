@@ -308,6 +308,7 @@ function Home() {
         onLoad={handleLoadHistory}
       />
       <Toaster />
+      <InstallPrompt />
     </div>
   );
 }
