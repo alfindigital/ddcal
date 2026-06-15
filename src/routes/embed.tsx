@@ -16,7 +16,7 @@ export const Route = createFileRoute("/embed")({
   validateSearch: zodValidator(searchSchema),
   head: () => ({
     meta: [
-      { title: "DrawdownCal — Embed" },
+      { title: "DrawdownCal - Embed" },
       { name: "robots", content: "noindex,nofollow" },
     ],
   }),
@@ -78,7 +78,7 @@ function EmbedWidget() {
           rel="noopener noreferrer"
           className="block border-t bg-primary/5 px-3 py-2 text-center text-[11px] font-semibold uppercase tracking-wider text-primary hover:bg-primary/10"
         >
-          {t("share.line_try")} — drawdowncal.lovable.app
+          {t("share.line_try")} · drawdowncal.lovable.app
         </a>
       </div>
     </div>
