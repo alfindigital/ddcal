@@ -131,6 +131,13 @@ function Home() {
   const [historyOpen, setHistoryOpen] = useState(false);
   const smoothAnim = true;
   const effectiveDrawdown = chartDrawdown ?? drawdown;
+  const locale = useLocale();
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.documentElement.lang = locale;
+    }
+  }, [locale]);
+
 
   const handleSliderChange = (n: number) => {
     setChartDrawdown(null);
