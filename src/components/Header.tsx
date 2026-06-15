@@ -27,7 +27,7 @@ export function Header({
 
         {/* Wordmark — unified 'drawdown' wordmark with crimson 'cal' lockup */}
         <span className="font-display flex items-baseline gap-1 truncate">
-          <span className="text-[17px] font-bold lowercase tracking-tight text-foreground">
+          <span className="text-[15px] sm:text-[17px] font-bold lowercase tracking-tight text-foreground">
             drawdown
           </span>
           <span className="rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
