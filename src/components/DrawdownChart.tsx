@@ -127,9 +127,15 @@ function TooltipContent({ dd, recovery }: { dd: number; recovery: number }) {
   );
 }
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+type TooltipProps = {
+  active?: boolean;
+  payload?: ReadonlyArray<unknown>;
+  label?: string | number;
+};
+
+const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
   if (!active || !payload || !payload.length) return null;
-  const dd = Number(label?.replace("%", ""));
+  const dd = Number(String(label ?? "").replace("%", ""));
   const recovery = calcRecovery(dd);
   return <TooltipContent dd={dd} recovery={recovery} />;
 };
@@ -296,13 +302,13 @@ function DrawdownChartImpl({
           <BarChart
             data={data}
             margin={{ top: 8, right: 8, left: 0, bottom: 4 }}
-            onClick={(state: any, e: React.MouseEvent) => {
+            onClick={(state: { activeLabel?: string | number } | null, e: React.MouseEvent) => {
               const label = state?.activeLabel;
               if (label) {
                 const dd = Number(String(label).replace("%", ""));
                 if (Number.isFinite(dd)) {
                   e.stopPropagation();
-                  setPinnedLabel(label);
+                  setPinnedLabel(String(label));
                   onActiveChange?.(dd, 1);
                 }
               }
