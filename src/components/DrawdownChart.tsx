@@ -15,6 +15,7 @@ import {
   formatPercent,
 } from "@/lib/drawdown";
 import { useSpringValue } from "@/components/AnimatedValue";
+import { useT } from "@/lib/i18n";
 import {
   createContext,
   memo,
@@ -110,13 +111,14 @@ function TooltipContent({ dd, recovery }: { dd: number; recovery: number }) {
   const { duration, enabled } = useContext(TooltipCtx);
   const animDd = useSpringValue(dd, duration, enabled);
   const animRec = useSpringValue(recovery, duration, enabled);
+  const t = useT();
   return (
     <div className="rounded-lg border bg-background px-3 py-2 shadow-lg">
       <div className="text-xs font-medium text-foreground">
-        Drawdown <span>{animDd.toFixed(0)}%</span>
+        {t("label.drawdown")} <span>{animDd.toFixed(0)}%</span>
       </div>
       <div className="mt-1 text-xs text-muted-foreground">
-        Butuh pulih{" "}
+        {t("chart.recovery_label")}{" "}
         <span className="font-semibold text-primary">
           +{formatPercent(animRec)}%
         </span>
@@ -143,6 +145,7 @@ function DrawdownChartImpl({
   smoothEnabled?: boolean;
   animationDuration?: number;
 }) {
+  const t = useT();
   // Defer rapid updates (e.g. slider drag) so chart re-renders coalesce.
   const deferredActive = useDeferredValue(active);
 
@@ -279,7 +282,7 @@ function DrawdownChartImpl({
       className="relative w-full rounded-md outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       tabIndex={0}
       role="group"
-      aria-label="Diagram drawdown"
+      aria-label={t("chart.aria")}
       onKeyDown={handleKeyDown}
       onClick={() => setPinnedLabel(null)}
     >

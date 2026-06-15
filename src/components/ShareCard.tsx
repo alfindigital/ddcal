@@ -1,10 +1,14 @@
 import { forwardRef } from "react";
 import { DrawdownChart } from "./DrawdownChart";
 import { calcRecovery, formatPercent } from "@/lib/drawdown";
+import { useT } from "@/lib/i18n";
+import { SITE_URL } from "@/lib/seo";
 
 export const ShareCard = forwardRef<HTMLDivElement, { drawdown: number }>(
   function ShareCard({ drawdown }, ref) {
     const recovery = calcRecovery(drawdown);
+    const t = useT();
+    const domain = SITE_URL.replace(/^https?:\/\//, "");
     return (
       <div
         ref={ref}
@@ -42,7 +46,7 @@ export const ShareCard = forwardRef<HTMLDivElement, { drawdown: number }>(
               </div>
             </div>
             <div className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-              Kalkulator Pemulihan
+              {t("share.subtitle")}
             </div>
           </div>
 
@@ -50,7 +54,7 @@ export const ShareCard = forwardRef<HTMLDivElement, { drawdown: number }>(
           <div className="grid grid-cols-2 overflow-hidden rounded-xl border bg-primary-soft/50">
             <div className="flex flex-col gap-1 px-5 py-4">
               <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-                Drawdown
+                {t("label.drawdown")}
               </span>
               <span className="font-display tabular tracking-tight text-3xl font-bold text-foreground">
                 -{formatPercent(drawdown)}%
@@ -58,7 +62,7 @@ export const ShareCard = forwardRef<HTMLDivElement, { drawdown: number }>(
             </div>
             <div className="flex flex-col gap-1 border-l px-5 py-4">
               <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-                Butuh pulih
+                {t("share.recovery_short")}
               </span>
               <span className="font-display tabular tracking-tight text-3xl font-bold text-primary">
                 +{formatPercent(recovery)}%
@@ -77,7 +81,7 @@ export const ShareCard = forwardRef<HTMLDivElement, { drawdown: number }>(
               by <span className="font-medium text-foreground">@alfindigital</span>
             </span>
             <span className="text-[11px] text-muted-foreground">
-              drawdowncal.lovable.app
+              {domain}
             </span>
           </div>
         </div>
