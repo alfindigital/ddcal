@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Copy, Download, Link2, Loader2 } from "lucide-react";
+import { Copy, Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import { calcRecovery, formatPercent, formatRupiah } from "@/lib/drawdown";
@@ -54,16 +54,6 @@ export function ActionsRow({
     }
   };
 
-  const onCopyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      toast.success(t("toast.link_copied"));
-    } catch {
-      toast.error(t("toast.link_failed"));
-    }
-  };
-
-
   const onDownload = async () => {
     if (downloading) return;
     setDownloading(true);
@@ -91,10 +81,7 @@ export function ActionsRow({
 
   return (
     <>
-      <div className="grid grid-cols-3 gap-2">
-        <Button variant="outline" size="sm" className="h-9 gap-1.5 text-xs" onClick={onCopyLink}>
-          <Link2 className="h-3.5 w-3.5" /> {t("label.link")}
-        </Button>
+      <div className="grid grid-cols-2 gap-2">
         <Button variant="outline" size="sm" className="h-9 gap-1.5 text-xs" onClick={onCopy}>
           <Copy className="h-3.5 w-3.5" /> {t("label.copy")}
         </Button>

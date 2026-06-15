@@ -1,5 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="DrawdownCal">
-  <rect width="64" height="64" rx="14" fill="#b91c1c"/>
-  <path d="M18 14h16c10.493 0 19 8.059 19 18s-8.507 18-19 18H18V14zm10 9v18h6c5.247 0 9.5-4.03 9.5-9s-4.253-9-9.5-9h-6z" fill="#ffffff"/>
-  <circle cx="48" cy="50" r="4" fill="#fde047"/>
+  <rect x="8" y="8" width="48" height="48" rx="10" fill="#b91c1c"/>
+  <g fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 22h4M42 22h4"/>
+    <path d="M32 18v18"/>
+    <path d="M32 36l-6-6M32 36l6-6"/>
+    <path d="M18 46h28"/>
+  </g>
 </svg>
