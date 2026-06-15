@@ -38,33 +38,15 @@ const SOCIALS: Social[] = [
   },
 ];
 
-const STYLES = `
-.afd-foot{position:relative;overflow:hidden;font-family:inherit;background:var(--card,var(--background));border-top:1px solid var(--border);border-radius:0 0 0.75rem 0.75rem;padding:8px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:nowrap;}
-.afd-foot>*{position:relative;z-index:1}
-.afd-glow{position:absolute;top:-40%;bottom:-40%;width:48%;border-radius:50%;z-index:0;pointer-events:none;left:-48%;background:radial-gradient(closest-side, color-mix(in oklch, var(--primary) 22%, transparent), transparent);filter:blur(8px);transition:left 6s ease-in-out, top 6s ease-in-out;}
-.afd-cr{font-size:11px;color:var(--muted-foreground);display:inline-flex;align-items:center;border-left:2px solid var(--primary);padding-left:8px;white-space:nowrap;min-width:0;}
-.afd-brand{color:var(--primary);font-weight:600;text-decoration:none;margin-left:4px}
-.afd-brand:hover{text-decoration:underline}
-.afd-caret{display:inline-block;width:6px;height:12px;background:var(--primary);margin-left:3px;animation:afd-blink 1.1s step-end infinite;}
+// Keyframes only — layout/colors via Tailwind tokens below.
+const KEYFRAMES = `
 @keyframes afd-blink{50%{opacity:0}}
-.afd-rot{position:relative;height:26px;min-width:150px;flex:0 0 auto}
-.afd-item{position:absolute;right:0;top:0;height:26px;display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--foreground);font-size:12px;opacity:0;transform:translateY(6px);transition:opacity .5s,transform .5s;pointer-events:none;white-space:nowrap;}
-.afd-item.active{opacity:1;transform:translateY(0);pointer-events:auto}
-.afd-item b{color:var(--primary);font-weight:600}
-.afd-ico{position:relative;width:26px;height:26px;border-radius:50%;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;background:color-mix(in oklch, var(--primary) 11%, transparent);color:var(--primary);transition:all .25s;}
-.afd-ico svg{width:14px;height:14px}
-.afd-rot:hover .afd-item.active .afd-ico{background:var(--primary);color:var(--card)}
-.afd-rot:hover .afd-item.active .afd-ico::after{content:"";position:absolute;inset:0;border-radius:50%;animation:afd-ripple 1.3s ease-out infinite;}
 @keyframes afd-ripple{0%{box-shadow:0 0 0 0 color-mix(in oklch, var(--primary) 50%, transparent)}100%{box-shadow:0 0 0 16px color-mix(in oklch, var(--primary) 0%, transparent)}}
-@media (max-width:420px){
-  .afd-foot{padding:6px 10px;gap:8px}
-  .afd-cr{font-size:10px;padding-left:6px}
-  .afd-caret{width:5px;height:10px}
-  .afd-rot{min-width:120px;height:22px}
-  .afd-item{height:22px;font-size:10.5px;gap:6px}
-  .afd-ico{width:22px;height:22px}
-  .afd-ico svg{width:12px;height:12px}
-}
+.afd-glow{background:radial-gradient(closest-side, color-mix(in oklch, var(--primary) 22%, transparent), transparent);transition:left 6s ease-in-out, top 6s ease-in-out;}
+.afd-ico-bg{background:color-mix(in oklch, var(--primary) 11%, transparent);}
+.afd-rot:hover .afd-item-active .afd-ico-bg{background:var(--primary);color:var(--card);}
+.afd-rot:hover .afd-item-active .afd-ico-bg::after{content:"";position:absolute;inset:0;border-radius:9999px;animation:afd-ripple 1.3s ease-out infinite;}
+.afd-caret{animation:afd-blink 1.1s step-end infinite;}
 `;
 
 export function Footer() {
@@ -97,43 +79,53 @@ export function Footer() {
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{ __html: STYLES }} />
-      <footer className="afd-foot">
-        <div className="afd-glow" ref={glowRef} />
-        <span className="afd-cr">
+      <style dangerouslySetInnerHTML={{ __html: KEYFRAMES }} />
+      <footer className="relative flex items-center justify-between gap-2.5 overflow-hidden rounded-b-xl border-t border-border bg-card px-3.5 py-2 sm:px-3 sm:py-1.5">
+        <div
+          ref={glowRef}
+          className="afd-glow pointer-events-none absolute -top-[40%] -bottom-[40%] left-[-48%] z-0 w-[48%] rounded-full blur-lg"
+        />
+        <span className="relative z-10 inline-flex shrink min-w-0 items-center whitespace-nowrap border-l-2 border-primary pl-2 text-[11px] text-muted-foreground sm:pl-1.5 sm:text-[10px]">
           © {year}
           <a
             href="https://alfindigital.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="afd-brand"
+            className="ml-1 font-semibold text-primary hover:underline"
           >
             alfindigital
           </a>
-          <span className="afd-caret" />
+          <span className="afd-caret ml-[3px] inline-block h-3 w-[6px] bg-primary sm:h-2.5 sm:w-[5px]" />
         </span>
         <div
-          className="afd-rot"
+          className="afd-rot relative z-10 h-[26px] min-w-[150px] shrink-0 sm:h-[22px] sm:min-w-[120px]"
           onMouseEnter={() => (pausedRef.current = true)}
           onMouseLeave={() => (pausedRef.current = false)}
         >
-          {SOCIALS.map((s, idx) => (
-            <a
-              key={s.label}
-              className={`afd-item${idx === active ? " active" : ""}`}
-              href={s.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={s.label}
-            >
-              <span className="afd-ico">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d={s.path} />
-                </svg>
-              </span>
-              <b>{s.handle}</b>
-            </a>
-          ))}
+          {SOCIALS.map((s, idx) => {
+            const isActive = idx === active;
+            return (
+              <a
+                key={s.label}
+                className={`absolute right-0 top-0 flex h-[26px] items-center gap-2 whitespace-nowrap text-xs text-foreground no-underline transition-[opacity,transform] duration-500 sm:h-[22px] sm:gap-1.5 sm:text-[10.5px] ${
+                  isActive
+                    ? "afd-item-active translate-y-0 opacity-100 pointer-events-auto"
+                    : "translate-y-1.5 opacity-0 pointer-events-none"
+                }`}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={s.label}
+              >
+                <span className="afd-ico-bg relative inline-flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full text-primary transition-all duration-200 sm:h-[22px] sm:w-[22px]">
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5 sm:h-3 sm:w-3">
+                    <path d={s.path} />
+                  </svg>
+                </span>
+                <b className="font-semibold text-primary">{s.handle}</b>
+              </a>
+            );
+          })}
         </div>
       </footer>
     </>
