@@ -1,15 +1,30 @@
-export type DifficultyLevel =
-  | "Mudah"
-  | "Sedang"
-  | "Sulit"
-  | "Sangat Sulit"
-  | "Hampir Mustahil";
+import type { TKey } from "@/lib/i18n";
+
+export type DifficultyLevel = "Mudah" | "Sedang" | "Sulit" | "Sangat Sulit" | "Hampir Mustahil";
 
 export interface ReferenceRow {
   drawdown: number;
   remaining: number;
   recovery: number;
   level: DifficultyLevel;
+}
+
+/** Maps an internal difficulty level to its i18n key for localized labels. */
+export const LEVEL_KEY: Record<DifficultyLevel, TKey> = {
+  Mudah: "diff.easy",
+  Sedang: "diff.medium",
+  Sulit: "diff.hard",
+  "Sangat Sulit": "diff.very_hard",
+  "Hampir Mustahil": "diff.extreme",
+};
+
+/** Severity-based one-line takeaway key for a given drawdown. */
+export function takeawayKey(dd: number): TKey {
+  if (dd < 25) return "takeaway.easy";
+  if (dd < 45) return "takeaway.medium";
+  if (dd < 60) return "takeaway.hard";
+  if (dd < 80) return "takeaway.very_hard";
+  return "takeaway.extreme";
 }
 
 export const REFERENCE_ROWS: ReferenceRow[] = [
@@ -48,17 +63,4 @@ export function levelClass(level: DifficultyLevel): string {
     case "Hampir Mustahil":
       return "text-red-800 dark:text-red-300";
   }
-}
-
-export function nearestReferenceDrawdown(dd: number): number {
-  let best = REFERENCE_ROWS[0].drawdown;
-  let bestDiff = Math.abs(dd - best);
-  for (const r of REFERENCE_ROWS) {
-    const diff = Math.abs(dd - r.drawdown);
-    if (diff < bestDiff) {
-      best = r.drawdown;
-      bestDiff = diff;
-    }
-  }
-  return best;
 }

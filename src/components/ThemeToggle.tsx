@@ -55,11 +55,7 @@ export function ThemeToggle() {
   };
 
   return (
-    <IconButton
-      onClick={toggle}
-      aria-label={t("theme.toggle")}
-      title={t("theme.toggle")}
-    >
+    <IconButton onClick={toggle} aria-label={t("theme.toggle")} title={t("theme.toggle")}>
       {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
     </IconButton>
   );

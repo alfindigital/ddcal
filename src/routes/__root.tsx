@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -12,7 +13,7 @@ import { useEffect } from "react";
 import appCss from "../styles.css?url";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
 import { registerPWA } from "@/lib/pwa-register";
-
+import { GA_ID, gaBootstrapScript } from "@/lib/analytics";
 
 function NotFoundComponent() {
   return (
@@ -76,43 +77,42 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { name: "theme-color", content: "#b91c1c" },
+      { name: "robots", content: "max-image-preview:large, max-snippet:-1" },
       { name: "google-site-verification", content: "J-Czc4w4Dto_XXTUZfW8lAMoT45CpTWqZ72Nt91yFbw" },
       { property: "og:site_name", content: SITE_NAME },
-      { property: "og:type", content: "website" },
-      { property: "og:locale", content: "id_ID" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "icon", href: "/favicon.ico", sizes: "any" },
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
-      { rel: "icon", type: "image/svg+xml", href: "/favicon-dark.svg", media: "(prefers-color-scheme: dark)" },
+      {
+        rel: "icon",
+        type: "image/svg+xml",
+        href: "/favicon-dark.svg",
+        media: "(prefers-color-scheme: dark)",
+      },
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
     ],
     scripts: [
       {
-        // Pre-hydration theme apply to prevent FOUC. Honors stored choice,
-        // falls back to prefers-color-scheme. Wrapped in try/catch so blocked
-        // storage (Safari private) cannot break first paint.
+        // Pre-hydration theme apply to prevent FOUC.
         children:
           "(function(){try{var s=localStorage.getItem('theme');var d=s==='dark'||(s==null&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark');}catch(e){}})();",
       },
+      ...(GA_ID
+        ? [
+            { src: `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`, async: true },
+            { children: gaBootstrapScript(GA_ID) },
+          ]
+        : []),
       {
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@graph": [
-            {
-              "@type": "Organization",
-              name: SITE_NAME,
-              url: SITE_URL,
-            },
-            {
-              "@type": "WebSite",
-              name: SITE_NAME,
-              url: SITE_URL,
-            },
+            { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+            { "@type": "WebSite", name: SITE_NAME, url: SITE_URL, inLanguage: ["id", "en"] },
           ],
         }),
       },
@@ -125,11 +125,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
-
 function RootShell({ children }: { children: React.ReactNode }) {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const lang = pathname === "/en" || pathname.startsWith("/en/") ? "en" : "id";
   return (
-    <html lang="id">
+    <html lang={lang}>
       <head>
+        {/* Media-scoped theme-color rendered directly so both variants survive
+            (the head() meta array dedupes by name and would drop one). */}
+        <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#18120f" media="(prefers-color-scheme: dark)" />
         <HeadContent />
       </head>
       <body>
@@ -153,4 +158,3 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
-

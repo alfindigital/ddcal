@@ -15,10 +15,7 @@ const PAGE_DESC =
 
 export const Route = createFileRoute("/preview-meta")({
   head: () => ({
-    meta: [
-      { title: "Meta Preview" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Meta Preview" }, { name: "robots", content: "noindex" }],
   }),
   component: PreviewMeta,
 });
@@ -102,7 +99,10 @@ function downloadText(filename: string, text: string) {
 function Section({ heading, c }: { heading: string; c: Card }) {
   const [device, setDevice] = useState<Device>("desktop");
   const shareText = buildShareText(c);
-  const slug = heading.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const slug = heading
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
 
   const copyAll = async () => {
     try {

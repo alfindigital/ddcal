@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /preview-meta
+Disallow: /embed
 
-Sitemap: https://drawdowncal.lovable.app/sitemap.xml
+Sitemap: https://drawdowncal.alfindigital.com/sitemap.xml

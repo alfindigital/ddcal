@@ -1,24 +1,19 @@
 import { Link } from "@tanstack/react-router";
 import { AboutDialog } from "./AboutDialog";
+import { EmbedDialog } from "./EmbedDialog";
 import { ThemeToggle } from "./ThemeToggle";
 import { LocaleToggle } from "./LocaleToggle";
+import { useLocale } from "@/lib/i18n";
 
-
-
-export function Header({
-  currentDrawdown,
-}: {
-  currentDrawdown: number;
-}) {
+export function Header({ currentDrawdown }: { currentDrawdown: number }) {
+  const locale = useLocale();
+  const home = locale === "en" ? "/en" : "/";
   return (
     <header className="flex h-12 items-center justify-between gap-2">
-      <Link to="/" className="flex min-w-0 items-center gap-3">
+      <Link to={home} className="flex min-w-0 items-center gap-3">
         {/* Architectural mark: rotated soft square halo + solid crimson tile */}
         <div className="relative grid h-9 w-9 shrink-0 place-items-center">
-          <span
-            aria-hidden
-            className="absolute inset-0 rotate-45 rounded-xl bg-primary/10"
-          />
+          <span aria-hidden className="absolute inset-0 rotate-45 rounded-xl bg-primary/10" />
           <span className="relative z-10 grid h-8 w-8 place-items-center overflow-hidden rounded-lg bg-primary text-primary-foreground shadow-sm">
             <RecoveryMark />
           </span>
@@ -35,30 +30,19 @@ export function Header({
         </span>
       </Link>
 
-      <HeaderNav currentDrawdown={currentDrawdown} />
+      <nav className="flex items-center gap-1">
+        <AboutDialog />
+        <EmbedDialog currentDrawdown={currentDrawdown} />
+        <LocaleToggle />
+        <ThemeToggle />
+      </nav>
     </header>
   );
 }
 
-function HeaderNav({
-  currentDrawdown,
-}: {
-  currentDrawdown: number;
-}) {
-  return (
-    <nav className="flex items-center gap-1">
-      <AboutDialog currentDrawdown={currentDrawdown} />
-      <LocaleToggle />
-      <ThemeToggle />
-    </nav>
-  );
-}
-
-
 /**
  * Recovery mark — left & right ticks (market high markers), a central vertical
  * descent into a V (drawdown bottom + reversal), and a baseline rule (floor).
- * Reads as "fell to the floor, found the bottom, ready to recover".
  */
 function RecoveryMark() {
   return (

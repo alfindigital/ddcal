@@ -1,6 +1,7 @@
-import { formatPercent, calcRecovery } from "@/lib/drawdown";
+import { formatPercent, formatPercentSmart, calcRecovery } from "@/lib/drawdown";
+import { takeawayKey } from "@/lib/reference-table";
 import { AnimatedNumber } from "./AnimatedValue";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, Lightbulb } from "lucide-react";
 import { useT } from "@/lib/i18n";
 
 export function ResultCard({
@@ -14,7 +15,14 @@ export function ResultCard({
 }) {
   const t = useT();
   const recovery = calcRecovery(drawdown);
-  const extreme = drawdown >= 90;
+  const severe = drawdown >= 60;
+  const tkey = takeawayKey(drawdown);
+
+  // Normalized widths for the loss-vs-recovery comparison bar.
+  const cap = Number.isFinite(recovery) ? recovery : drawdown;
+  const max = Math.max(drawdown, cap, 1);
+  const lossW = (drawdown / max) * 100;
+  const recW = (cap / max) * 100;
 
   return (
     <div className="overflow-hidden rounded-2xl border bg-primary-soft/50 shadow-[var(--shadow-card)]">
@@ -24,7 +32,7 @@ export function ResultCard({
             value={drawdown}
             duration={animationDuration}
             enabled={smoothEnabled}
-            format={(n) => `-${formatPercent(n)}%`}
+            format={(n) => `-${formatPercentSmart(n)}%`}
           />
         </Cell>
         <Cell label={t("label.recovery_needed")} emphasis>
@@ -37,12 +45,69 @@ export function ResultCard({
         </Cell>
       </div>
 
-      {extreme && (
-        <div className="flex items-start gap-2 border-t bg-destructive/5 px-3 py-2 text-[11px] text-destructive sm:px-4">
+      {/* Loss vs recovery comparison — shows the asymmetry at a glance. */}
+      <div className="space-y-1.5 border-t bg-card/40 px-3 py-2.5 sm:px-4">
+        <CompareBar
+          label={t("label.loss")}
+          width={lossW}
+          value={`-${formatPercentSmart(drawdown)}%`}
+          tone="muted"
+        />
+        <CompareBar
+          label={t("label.recovery")}
+          width={recW}
+          value={`+${formatPercent(recovery)}%`}
+          tone="primary"
+        />
+      </div>
+
+      <div
+        className={`flex items-start gap-2 border-t px-3 py-2 text-[11px] sm:px-4 ${
+          severe ? "bg-destructive/5 text-destructive" : "text-muted-foreground"
+        }`}
+      >
+        {severe ? (
           <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-          <span>{t("warning.extreme")}</span>
-        </div>
-      )}
+        ) : (
+          <Lightbulb className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
+        )}
+        <span>{t(tkey)}</span>
+      </div>
+    </div>
+  );
+}
+
+function CompareBar({
+  label,
+  width,
+  value,
+  tone,
+}: {
+  label: string;
+  width: number;
+  value: string;
+  tone: "muted" | "primary";
+}) {
+  return (
+    <div className="flex items-center gap-2">
+      <span className="w-16 shrink-0 text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">
+        {label}
+      </span>
+      <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
+        <div
+          className={`h-full rounded-full transition-[width] duration-300 ${
+            tone === "primary" ? "bg-primary" : "bg-foreground/50"
+          }`}
+          style={{ width: `${Math.max(2, Math.min(100, width))}%` }}
+        />
+      </div>
+      <span
+        className={`w-16 shrink-0 text-right text-[11px] font-bold tabular ${
+          tone === "primary" ? "text-primary" : "text-foreground"
+        }`}
+      >
+        {value}
+      </span>
     </div>
   );
 }
