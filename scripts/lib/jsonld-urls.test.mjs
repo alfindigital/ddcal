@@ -18,12 +18,7 @@ test("extractUrls finds http(s) urls in nested objects", () => {
 });
 
 test("findForeignUrls ignores schema.org and site urls", () => {
-  const urls = [
-    "https://schema.org",
-    SITE,
-    `${SITE}/og-image.jpg`,
-    "https://example.com/foreign",
-  ];
+  const urls = ["https://schema.org", SITE, `${SITE}/og-image.jpg`, "https://example.com/foreign"];
   const foreign = findForeignUrls(urls, SITE);
   assert.deepEqual(foreign, ["https://example.com/foreign"]);
 });

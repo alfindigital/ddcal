@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Download, X, Share } from "lucide-react";
 import { useT } from "@/lib/i18n";
+import { track } from "@/lib/analytics";
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
@@ -48,12 +49,14 @@ export function InstallPrompt() {
       e.preventDefault();
       setDeferred(e as BeforeInstallPromptEvent);
       setShow(true);
+      track("install_prompt_shown");
     };
     window.addEventListener("beforeinstallprompt", onPrompt);
 
     // iOS fallback (Safari + not standalone)
     const ua = navigator.userAgent;
-    const isIOS = /iPad|iPhone|iPod/.test(ua) && !(window as unknown as { MSStream?: unknown }).MSStream;
+    const isIOS =
+      /iPad|iPhone|iPod/.test(ua) && !(window as unknown as { MSStream?: unknown }).MSStream;
     const isSafari = /Safari/.test(ua) && !/CriOS|FxiOS|EdgiOS/.test(ua);
     if (isIOS && isSafari) {
       const timer = setTimeout(() => {
@@ -71,6 +74,7 @@ export function InstallPrompt() {
 
   const dismiss = () => {
     setShow(false);
+    track("install_dismissed");
     try {
       localStorage.setItem(DISMISS_KEY, "1");
     } catch {
@@ -83,7 +87,13 @@ export function InstallPrompt() {
     await deferred.prompt();
     const choice = await deferred.userChoice;
     if (choice.outcome === "accepted") {
-      dismiss();
+      track("install_accepted");
+      setShow(false);
+      try {
+        localStorage.setItem(DISMISS_KEY, "1");
+      } catch {
+        /* noop */
+      }
     } else {
       setShow(false);
     }
@@ -99,9 +109,7 @@ export function InstallPrompt() {
           {iosHint ? <Share className="h-4 w-4" /> : <Download className="h-4 w-4" />}
         </div>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-xs font-bold text-foreground">
-            {t("install.title")}
-          </p>
+          <p className="truncate text-xs font-bold text-foreground">{t("install.title")}</p>
           <p className="truncate text-[11px] text-muted-foreground">
             {iosHint ? t("install.ios") : t("install.desc")}
           </p>

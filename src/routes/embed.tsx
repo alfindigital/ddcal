@@ -3,34 +3,39 @@ import { fallback, zodValidator } from "@tanstack/zod-adapter";
 import { z } from "zod";
 import { useEffect } from "react";
 import { calcRecovery, formatPercent } from "@/lib/drawdown";
-import { setLocale, useT, type Locale } from "@/lib/i18n";
-import { SITE_URL } from "@/lib/seo";
+import { I18nProvider, useT, type Locale } from "@/lib/i18n";
+import { SITE_URL, SITE_DOMAIN } from "@/lib/seo";
 
 const searchSchema = z.object({
-  dd: fallback(z.number().min(1).max(99), 30).default(30),
-  lang: fallback(z.enum(["id", "en"]), "id").default("id"),
-  transparent: fallback(z.coerce.boolean(), false).default(false),
+  dd: fallback(z.number().min(1).max(99), 30).optional(),
+  lang: fallback(z.enum(["id", "en"]), "id").optional(),
+  transparent: fallback(z.coerce.boolean(), false).optional(),
 });
 
 export const Route = createFileRoute("/embed")({
   validateSearch: zodValidator(searchSchema),
   head: () => ({
-    meta: [
-      { title: "DrawdownCal - Embed" },
-      { name: "robots", content: "noindex,nofollow" },
-    ],
+    meta: [{ title: "DrawdownCal - Embed" }, { name: "robots", content: "noindex,nofollow" }],
   }),
-  component: EmbedWidget,
+  component: EmbedRoute,
 });
 
+function EmbedRoute() {
+  const { lang } = Route.useSearch();
+  return (
+    <I18nProvider locale={(lang ?? "id") as Locale}>
+      <EmbedWidget />
+    </I18nProvider>
+  );
+}
+
 function EmbedWidget() {
-  const { dd, lang, transparent } = Route.useSearch();
+  const search = Route.useSearch();
+  const dd = search.dd ?? 30;
+  const lang = search.lang ?? "id";
+  const transparent = search.transparent ?? false;
   const t = useT();
   const recovery = calcRecovery(dd);
-
-  useEffect(() => {
-    setLocale(lang as Locale);
-  }, [lang]);
 
   // Post height to parent for iframe auto-resize.
   useEffect(() => {
@@ -52,11 +57,7 @@ function EmbedWidget() {
 
   return (
     <div
-      className={
-        transparent
-          ? "p-3"
-          : "min-h-screen bg-background p-3 text-foreground"
-      }
+      className={transparent ? "p-3" : "min-h-screen bg-background p-3 text-foreground"}
       style={transparent ? { background: "transparent" } : undefined}
     >
       <div className="overflow-hidden rounded-2xl border bg-card shadow-[var(--shadow-card)]">
@@ -78,7 +79,7 @@ function EmbedWidget() {
           rel="noopener noreferrer"
           className="block border-t bg-primary/5 px-3 py-2 text-center text-[11px] font-semibold uppercase tracking-wider text-primary hover:bg-primary/10"
         >
-          {t("share.line_try")} · drawdowncal.lovable.app
+          {t("share.line_try")} · {SITE_DOMAIN}
         </a>
       </div>
     </div>
@@ -110,15 +111,7 @@ function Cell({
   );
 }
 
-function Bar({
-  label,
-  width,
-  tone,
-}: {
-  label: string;
-  width: number;
-  tone: "muted" | "primary";
-}) {
+function Bar({ label, width, tone }: { label: string; width: number; tone: "muted" | "primary" }) {
   return (
     <div className="flex items-center gap-2">
       <span className="w-16 shrink-0 text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">

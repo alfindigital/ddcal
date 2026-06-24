@@ -10,8 +10,6 @@ const DEFAULT_DD = 30;
 const DEFAULT_AWAL = 10_000_000;
 const DEFAULT_SISA = 7_000_000;
 
-// Params are optional (no .default) so an empty `/` does NOT redirect to a
-// param-filled URL. Defaults are applied in the component instead.
 const searchSchema = z.object({
   dd: fallback(z.number().int().min(1).max(99), DEFAULT_DD).optional(),
   mode: fallback(z.enum(["pct", "eq"]), "pct").optional(),
@@ -19,23 +17,23 @@ const searchSchema = z.object({
   sisa: fallback(z.number().int().min(0).max(1_000_000_000_000), DEFAULT_SISA).optional(),
 });
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/en/")({
   validateSearch: zodValidator(searchSchema),
   head: () => ({
-    meta: buildMeta({ locale: "id", url: `${SITE_URL}/` }),
-    links: buildAlternateLinks("id", "/", "/en"),
+    meta: buildMeta({ locale: "en", url: `${SITE_URL}/en` }),
+    links: buildAlternateLinks("en", "/", "/en"),
     scripts: [
-      { type: "application/ld+json", children: JSON.stringify(faqJsonLd("id")) },
-      { type: "application/ld+json", children: JSON.stringify(softwareJsonLd("id")) },
+      { type: "application/ld+json", children: JSON.stringify(faqJsonLd("en")) },
+      { type: "application/ld+json", children: JSON.stringify(softwareJsonLd("en")) },
     ],
   }),
-  component: Home,
+  component: HomeEn,
 });
 
-function Home() {
+function HomeEn() {
   const s = Route.useSearch();
   return (
-    <I18nProvider locale="id">
+    <I18nProvider locale="en">
       <HomePage
         initial={{
           dd: s.dd ?? DEFAULT_DD,

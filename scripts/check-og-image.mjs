@@ -4,7 +4,7 @@
 // or 1.5:1 (current asset). Minimum 600x315.
 import { readFileSync, existsSync, statSync } from "node:fs";
 
-const FILE = "public/og-image.jpg";
+const FILE = "public/og.jpg";
 const FALLBACK = "public/og-image-fallback.svg";
 
 function readJpegSize(buf) {
@@ -39,7 +39,9 @@ if (!existsSync(FILE)) {
   try {
     const { width, height } = readJpegSize(buf);
     const ratio = width / height;
-    console.log(`[og-image] ${FILE}: ${width}x${height} (${(size / 1024).toFixed(0)} KB), ratio ${ratio.toFixed(2)}`);
+    console.log(
+      `[og-image] ${FILE}: ${width}x${height} (${(size / 1024).toFixed(0)} KB), ratio ${ratio.toFixed(2)}`,
+    );
     if (width < 600 || height < 315) {
       console.error(`[og-image] too small (min 600x315)`);
       failed = true;

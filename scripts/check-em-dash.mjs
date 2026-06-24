@@ -10,9 +10,7 @@ const EM = "\u2014";
 
 function stripComments(src) {
   // remove /* ... */ and // ... line comments (best effort, ignores strings)
-  return src
-    .replace(/\/\*[\s\S]*?\*\//g, "")
-    .replace(/(^|[^:])\/\/[^\n]*/g, "$1");
+  return src.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:])\/\/[^\n]*/g, "$1");
 }
 
 function walk(dir, out = []) {

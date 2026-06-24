@@ -1,17 +1,19 @@
 import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/utils";
 
-export interface IconButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   active?: boolean;
+  asChild?: boolean;
 }
 
 export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ className, children, ...props }, ref) => {
+  ({ className, children, asChild, active: _active, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button";
     return (
-      <button
+      <Comp
         ref={ref}
-        type="button"
+        {...(asChild ? {} : { type: "button" as const })}
         className={cn(
           "grid h-9 w-9 place-items-center rounded-md text-muted-foreground",
           "transition-all duration-200 ease-out",
@@ -24,7 +26,7 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         {...props}
       >
         {children}
-      </button>
+      </Comp>
     );
   },
 );

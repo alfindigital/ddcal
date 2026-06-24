@@ -1,7 +1,14 @@
-import { Input } from "@/components/ui/input";
-import { formatRupiah, parseRupiah, calcDrawdownFromCapital } from "@/lib/drawdown";
-import { useEffect, useId } from "react";
+import { formatRupiah, calcDrawdownFromCapital } from "@/lib/drawdown";
+import { useEffect, useId, useState } from "react";
 import { useT } from "@/lib/i18n";
+import { track } from "@/lib/analytics";
+
+const MAX_CAP = 1_000_000_000_000;
+const MULTIPLIERS: { label: string; factor: number }[] = [
+  { label: "−10%", factor: 0.9 },
+  { label: "−25%", factor: 0.75 },
+  { label: "−50%", factor: 0.5 },
+];
 
 export function EquityTab({
   initial,
@@ -17,16 +24,44 @@ export function EquityTab({
   onDerivedDrawdown: (d: number) => void;
 }) {
   const t = useT();
+
+  // Precise derived drawdown — keep one decimal, never fake integer precision.
   useEffect(() => {
     const dd = calcDrawdownFromCapital(initial, current);
     const clamped = Math.max(0, Math.min(99, dd));
-    onDerivedDrawdown(Math.round(clamped));
+    onDerivedDrawdown(Math.round(clamped * 10) / 10);
   }, [initial, current, onDerivedDrawdown]);
 
   return (
     <div className="space-y-2">
       <Field label={t("label.initial_capital")} value={initial} onChange={onInitialChange} />
       <Field label={t("label.current_capital")} value={current} onChange={onCurrentChange} />
+
+      <div className="flex items-center gap-1.5 pt-0.5">
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+          {t("equity.simulate")}
+        </span>
+        {MULTIPLIERS.map((m) => (
+          <button
+            key={m.label}
+            type="button"
+            onClick={() => {
+              onCurrentChange(Math.round(current * m.factor));
+              track("equity_multiplier", { factor: m.factor });
+            }}
+            className="rounded-md border bg-background px-2 py-0.5 text-[11px] font-bold tabular text-foreground transition-colors hover:border-primary hover:text-primary"
+          >
+            {m.label}
+          </button>
+        ))}
+        <button
+          type="button"
+          onClick={() => onCurrentChange(initial)}
+          className="ml-auto rounded-md px-2 py-0.5 text-[11px] font-semibold text-muted-foreground transition-colors hover:text-primary"
+        >
+          {t("label.reset")}
+        </button>
+      </div>
     </div>
   );
 }
@@ -41,6 +76,12 @@ function Field({
   onChange: (n: number) => void;
 }) {
   const id = useId();
+  const [focused, setFocused] = useState(false);
+  const [text, setText] = useState("");
+  // While focused: raw digits the user typed (caret-stable). While blurred:
+  // grouped currency for readability.
+  const display = focused ? text : formatRupiah(value).replace(/^Rp/, "");
+
   return (
     <div className="flex items-center justify-between gap-3">
       <label
@@ -49,16 +90,29 @@ function Field({
       >
         {label}
       </label>
-      <Input
-        id={id}
-        inputMode="numeric"
-        value={formatRupiah(value)}
-        onChange={(e) => {
-          const n = parseRupiah(e.target.value);
-          onChange(Math.min(n, 1_000_000_000_000));
-        }}
-        className="h-7 w-32 text-right font-display text-sm font-bold tabular tracking-tight sm:w-40"
-      />
+      <div className="flex h-8 w-32 items-center rounded-md border bg-background px-2 focus-within:ring-2 focus-within:ring-primary/30 sm:w-40">
+        <span className="pr-1 text-xs font-semibold text-muted-foreground">Rp</span>
+        <input
+          id={id}
+          inputMode="numeric"
+          value={display}
+          onFocus={() => {
+            setFocused(true);
+            setText(value ? String(value) : "");
+          }}
+          onBlur={() => {
+            setFocused(false);
+            track("equity_input");
+          }}
+          onChange={(e) => {
+            const digits = e.target.value.replace(/[^\d]/g, "");
+            const n = Math.min(digits ? parseInt(digits, 10) : 0, MAX_CAP);
+            setText(digits);
+            onChange(n);
+          }}
+          className="w-full bg-transparent text-right font-display text-sm font-bold tabular tracking-tight focus:outline-none"
+        />
+      </div>
     </div>
   );
 }

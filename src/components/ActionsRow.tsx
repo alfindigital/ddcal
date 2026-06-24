@@ -1,30 +1,35 @@
-import { useRef, useState } from "react";
-import { Copy, Download, Loader2 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Copy, Download, Loader2, Link2, Send, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import { calcRecovery, formatPercent, formatRupiah } from "@/lib/drawdown";
 import { toast } from "sonner";
 import { ShareCard } from "./ShareCard";
-import { SITE_URL } from "@/lib/seo";
 import { useT } from "@/lib/i18n";
-
-const APP_URL = SITE_URL.replace(/^https?:\/\//, "");
+import { track } from "@/lib/analytics";
 
 export function ActionsRow({
   drawdown,
   mode,
   equityInitial,
   equityCurrent,
+  shareUrl,
 }: {
   drawdown: number;
   mode: "persen" | "equity";
   equityInitial: number;
   equityCurrent: number;
+  shareUrl: string;
 }) {
   const t = useT();
   const shareRef = useRef<HTMLDivElement>(null);
   const [downloading, setDownloading] = useState(false);
   const [mountShare, setMountShare] = useState(false);
+  const [canNativeShare, setCanNativeShare] = useState(false);
+
+  useEffect(() => {
+    setCanNativeShare(typeof navigator !== "undefined" && typeof navigator.share === "function");
+  }, []);
 
   const recovery = calcRecovery(drawdown);
   const ratio = drawdown > 0 && Number.isFinite(recovery) ? recovery / drawdown : 0;
@@ -34,32 +39,54 @@ export function ActionsRow({
       ? `${t("share.line_equity_remaining")}: ${formatRupiah(equityCurrent)} ${t("share.line_from")} ${formatRupiah(equityInitial)}`
       : null;
 
-  const summary = [
+  const summaryBody = [
     t("share.summary_title"),
     "",
     `${t("share.line_drawdown")}: -${formatPercent(drawdown)}%`,
     ...(equityLine ? [equityLine] : []),
     `${t("share.line_recovery")}: +${formatPercent(recovery)}%`,
     `${t("share.line_ratio")}: ${ratio.toFixed(2)}x`,
-    "",
-    `${t("share.line_try")}: ${APP_URL}`,
   ].join("\n");
+
+  const summary = `${summaryBody}\n\n${t("share.line_try")}: ${shareUrl}`;
 
   const onCopy = async () => {
     try {
       await navigator.clipboard.writeText(summary);
       toast.success(t("toast.copied"));
+      track("copy_summary");
     } catch {
       toast.error(t("toast.copy_failed"));
     }
   };
+
+  const onCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      toast.success(t("toast.link_copied"));
+      track("copy_summary", { kind: "link" });
+    } catch {
+      toast.error(t("toast.link_failed"));
+    }
+  };
+
+  const onNativeShare = async () => {
+    try {
+      await navigator.share({ title: t("share.summary_title"), text: summaryBody, url: shareUrl });
+      track("native_share");
+    } catch {
+      /* user cancelled — ignore */
+    }
+  };
+
+  const waHref = `https://wa.me/?text=${encodeURIComponent(summary)}`;
+  const tgHref = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(summaryBody)}`;
 
   const onDownload = async () => {
     if (downloading) return;
     setDownloading(true);
     try {
       setMountShare(true);
-      // Wait one frame so ShareCard mounts before snapshot.
       await new Promise<void>((r) => requestAnimationFrame(() => r()));
       if (!shareRef.current) throw new Error("share card not ready");
       const { toPng } = await import("html-to-image");
@@ -68,9 +95,10 @@ export function ActionsRow({
         pixelRatio: 2,
       });
       const link = document.createElement("a");
-      link.download = `drawdowncal-${drawdown}.png`;
+      link.download = `drawdowncal-${Math.round(drawdown)}.png`;
       link.href = dataUrl;
       link.click();
+      track("download_image");
     } catch {
       toast.error(t("toast.download_failed"));
     } finally {
@@ -80,7 +108,7 @@ export function ActionsRow({
   };
 
   return (
-    <>
+    <div className="space-y-2">
       <div className="grid grid-cols-2 gap-2">
         <Button variant="outline" size="sm" className="h-9 gap-1.5 text-xs" onClick={onCopy}>
           <Copy className="h-3.5 w-3.5" /> {t("label.copy")}
@@ -104,20 +132,51 @@ export function ActionsRow({
         </Button>
       </div>
 
+      <div className="grid grid-cols-3 gap-2">
+        <Button asChild variant="outline" size="sm" className="h-9 gap-1.5 text-xs">
+          <a
+            href={waHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => track("share_whatsapp")}
+          >
+            <Send className="h-3.5 w-3.5" /> {t("share.whatsapp")}
+          </a>
+        </Button>
+        <Button asChild variant="outline" size="sm" className="h-9 gap-1.5 text-xs">
+          <a
+            href={tgHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => track("share_telegram")}
+          >
+            <Send className="h-3.5 w-3.5" /> {t("share.telegram")}
+          </a>
+        </Button>
+        {canNativeShare ? (
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-9 gap-1.5 text-xs"
+            onClick={onNativeShare}
+          >
+            <Share2 className="h-3.5 w-3.5" /> {t("share.native")}
+          </Button>
+        ) : (
+          <Button variant="outline" size="sm" className="h-9 gap-1.5 text-xs" onClick={onCopyLink}>
+            <Link2 className="h-3.5 w-3.5" /> {t("label.copy_link")}
+          </Button>
+        )}
+      </div>
+
       {mountShare && (
         <div
           aria-hidden="true"
-          style={{
-            position: "fixed",
-            left: -10000,
-            top: 0,
-            pointerEvents: "none",
-            opacity: 0,
-          }}
+          style={{ position: "fixed", left: -10000, top: 0, pointerEvents: "none", opacity: 0 }}
         >
           <ShareCard ref={shareRef} drawdown={drawdown} />
         </div>
       )}
-    </>
+    </div>
   );
 }

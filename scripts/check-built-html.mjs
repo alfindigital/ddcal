@@ -9,8 +9,8 @@
 import { existsSync } from "node:fs";
 
 const BASE = process.env.E2E_BASE_URL || "http://localhost:3000";
-const SITE_URL = "https://drawdowncal.lovable.app";
-const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
+const SITE_URL = process.env.VITE_SITE_URL || "https://drawdowncal.alfindigital.com";
+const OG_IMAGE = `${SITE_URL}/og.jpg`;
 const OG_FALLBACK = `${SITE_URL}/og-image-fallback.svg`;
 
 let failed = false;
@@ -24,14 +24,8 @@ function pickMeta(html, sel) {
   const attr = sel.name ? `name` : `property`;
   const val = sel.name ?? sel.property;
   // Try both attribute orderings.
-  const re1 = new RegExp(
-    `<meta[^>]+${attr}=["']${val}["'][^>]*content=["']([^"']*)["']`,
-    "i",
-  );
-  const re2 = new RegExp(
-    `<meta[^>]+content=["']([^"']*)["'][^>]*${attr}=["']${val}["']`,
-    "i",
-  );
+  const re1 = new RegExp(`<meta[^>]+${attr}=["']${val}["'][^>]*content=["']([^"']*)["']`, "i");
+  const re2 = new RegExp(`<meta[^>]+content=["']([^"']*)["'][^>]*${attr}=["']${val}["']`, "i");
   const m = html.match(re1) || html.match(re2);
   return m ? m[1] : null;
 }
@@ -79,17 +73,20 @@ async function checkRoute(path, expect) {
   if (expect.canonical) {
     const m = html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i);
     if (!m) fail(`${path}: missing canonical`);
-    else if (m[1] !== expect.canonical) fail(`${path}: canonical "${m[1]}" expected "${expect.canonical}"`);
+    else if (m[1] !== expect.canonical)
+      fail(`${path}: canonical "${m[1]}" expected "${expect.canonical}"`);
     else ok(`${path}: canonical`);
   }
 
   if (expect.jsonld) {
-    const scripts = pickAll(html, 'script[^>]*type=["\']application/ld\\+json["\']');
+    const scripts = pickAll(html, "script[^>]*type=[\"']application/ld\\+json[\"']");
     // Above regex tag pattern won't quite work since pickAll expects tag name. Use direct:
     const re = /<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
     const blocks = [...html.matchAll(re)].map((m) => m[1]);
     if (blocks.length < expect.jsonld.minBlocks) {
-      fail(`${path}: only ${blocks.length} JSON-LD blocks (expected >= ${expect.jsonld.minBlocks})`);
+      fail(
+        `${path}: only ${blocks.length} JSON-LD blocks (expected >= ${expect.jsonld.minBlocks})`,
+      );
     } else {
       ok(`${path}: ${blocks.length} JSON-LD blocks`);
     }
