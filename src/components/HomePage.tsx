@@ -155,24 +155,10 @@ export function HomePage({ initial }: { initial: HomeInitial }) {
           <Header currentDrawdown={drawdown} />
         </div>
 
-        <header className="dd-fade space-y-1.5" style={{ animationDelay: "60ms" }}>
-          <h1 className="font-display text-xl font-bold leading-tight tracking-tight text-foreground sm:text-2xl">
-            {tr("content.lead")}
-          </h1>
-          <p className="text-sm leading-relaxed text-muted-foreground">{tr("content.sub")}</p>
-        </header>
+        <h1 className="sr-only">{tr("seo.h1")}</h1>
 
-        <div className="grid gap-5 sm:gap-6 lg:grid-cols-2 lg:items-start lg:gap-8">
-          <div className="dd-fade space-y-4" style={{ animationDelay: "120ms" }}>
-            {Calculator}
-            <TimeToRecover drawdown={drawdown} />
-            <CompareScenarios current={drawdown} />
-          </div>
-
-          <div className="dd-fade space-y-6" style={{ animationDelay: "180ms" }}>
-            <ContentSections />
-            <CtaCard />
-          </div>
+        <div className="dd-fade" style={{ animationDelay: "120ms" }}>
+          {Calculator}
         </div>
 
         <p className="text-center text-[11px] leading-relaxed text-muted-foreground">
@@ -180,6 +166,7 @@ export function HomePage({ initial }: { initial: HomeInitial }) {
           <br />
           {tr("disclaimer")}
         </p>
+
 
         <div className="dd-fade mt-auto" style={{ animationDelay: "220ms" }}>
           <Footer />
