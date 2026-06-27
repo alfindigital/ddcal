@@ -24,6 +24,7 @@ const ID = {
   "label.about": "Tentang",
   "label.difficulty": "Tingkat",
   "nav.home": "Kalkulator",
+  "nav.about": "Tentang",
 
   // Accessibility
   "aria.slider": "Persentase drawdown",
@@ -175,6 +176,7 @@ const EN: Record<keyof typeof ID, string> = {
   "label.about": "About",
   "label.difficulty": "Difficulty",
   "nav.home": "Calculator",
+  "nav.about": "About",
 
   "aria.slider": "Drawdown percentage",
   "aria.slider_value": "Drawdown {dd} percent, needs {rec} percent recovery",

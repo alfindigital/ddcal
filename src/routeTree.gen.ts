@@ -9,16 +9,23 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TentangRouteImport } from './routes/tentang'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PreviewMetaRouteImport } from './routes/preview-meta'
 import { Route as EmbedRouteImport } from './routes/embed'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EnIndexRouteImport } from './routes/en/index'
 import { Route as DrawdownIndexRouteImport } from './routes/drawdown/index'
+import { Route as EnAboutRouteImport } from './routes/en/about'
 import { Route as DrawdownDdRouteImport } from './routes/drawdown/$dd'
 import { Route as EnDrawdownIndexRouteImport } from './routes/en/drawdown/index'
 import { Route as EnDrawdownDdRouteImport } from './routes/en/drawdown/$dd'
 
+const TentangRoute = TentangRouteImport.update({
+  id: '/tentang',
+  path: '/tentang',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -49,6 +56,11 @@ const DrawdownIndexRoute = DrawdownIndexRouteImport.update({
   path: '/drawdown/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EnAboutRoute = EnAboutRouteImport.update({
+  id: '/en/about',
+  path: '/en/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DrawdownDdRoute = DrawdownDdRouteImport.update({
   id: '/drawdown/$dd',
   path: '/drawdown/$dd',
@@ -70,7 +82,9 @@ export interface FileRoutesByFullPath {
   '/embed': typeof EmbedRoute
   '/preview-meta': typeof PreviewMetaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/tentang': typeof TentangRoute
   '/drawdown/$dd': typeof DrawdownDdRoute
+  '/en/about': typeof EnAboutRoute
   '/drawdown/': typeof DrawdownIndexRoute
   '/en/': typeof EnIndexRoute
   '/en/drawdown/$dd': typeof EnDrawdownDdRoute
@@ -81,7 +95,9 @@ export interface FileRoutesByTo {
   '/embed': typeof EmbedRoute
   '/preview-meta': typeof PreviewMetaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/tentang': typeof TentangRoute
   '/drawdown/$dd': typeof DrawdownDdRoute
+  '/en/about': typeof EnAboutRoute
   '/drawdown': typeof DrawdownIndexRoute
   '/en': typeof EnIndexRoute
   '/en/drawdown/$dd': typeof EnDrawdownDdRoute
@@ -93,7 +109,9 @@ export interface FileRoutesById {
   '/embed': typeof EmbedRoute
   '/preview-meta': typeof PreviewMetaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/tentang': typeof TentangRoute
   '/drawdown/$dd': typeof DrawdownDdRoute
+  '/en/about': typeof EnAboutRoute
   '/drawdown/': typeof DrawdownIndexRoute
   '/en/': typeof EnIndexRoute
   '/en/drawdown/$dd': typeof EnDrawdownDdRoute
@@ -106,7 +124,9 @@ export interface FileRouteTypes {
     | '/embed'
     | '/preview-meta'
     | '/sitemap.xml'
+    | '/tentang'
     | '/drawdown/$dd'
+    | '/en/about'
     | '/drawdown/'
     | '/en/'
     | '/en/drawdown/$dd'
@@ -117,7 +137,9 @@ export interface FileRouteTypes {
     | '/embed'
     | '/preview-meta'
     | '/sitemap.xml'
+    | '/tentang'
     | '/drawdown/$dd'
+    | '/en/about'
     | '/drawdown'
     | '/en'
     | '/en/drawdown/$dd'
@@ -128,7 +150,9 @@ export interface FileRouteTypes {
     | '/embed'
     | '/preview-meta'
     | '/sitemap.xml'
+    | '/tentang'
     | '/drawdown/$dd'
+    | '/en/about'
     | '/drawdown/'
     | '/en/'
     | '/en/drawdown/$dd'
@@ -140,7 +164,9 @@ export interface RootRouteChildren {
   EmbedRoute: typeof EmbedRoute
   PreviewMetaRoute: typeof PreviewMetaRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TentangRoute: typeof TentangRoute
   DrawdownDdRoute: typeof DrawdownDdRoute
+  EnAboutRoute: typeof EnAboutRoute
   DrawdownIndexRoute: typeof DrawdownIndexRoute
   EnIndexRoute: typeof EnIndexRoute
   EnDrawdownDdRoute: typeof EnDrawdownDdRoute
@@ -149,6 +175,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tentang': {
+      id: '/tentang'
+      path: '/tentang'
+      fullPath: '/tentang'
+      preLoaderRoute: typeof TentangRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -191,6 +224,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DrawdownIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/en/about': {
+      id: '/en/about'
+      path: '/en/about'
+      fullPath: '/en/about'
+      preLoaderRoute: typeof EnAboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/drawdown/$dd': {
       id: '/drawdown/$dd'
       path: '/drawdown/$dd'
@@ -220,7 +260,9 @@ const rootRouteChildren: RootRouteChildren = {
   EmbedRoute: EmbedRoute,
   PreviewMetaRoute: PreviewMetaRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TentangRoute: TentangRoute,
   DrawdownDdRoute: DrawdownDdRoute,
+  EnAboutRoute: EnAboutRoute,
   DrawdownIndexRoute: DrawdownIndexRoute,
   EnIndexRoute: EnIndexRoute,
   EnDrawdownDdRoute: EnDrawdownDdRoute,
