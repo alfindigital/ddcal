@@ -1,13 +1,14 @@
 import { Link } from "@tanstack/react-router";
-import { AboutDialog } from "./AboutDialog";
 import { EmbedDialog } from "./EmbedDialog";
 import { ThemeToggle } from "./ThemeToggle";
 import { LocaleToggle } from "./LocaleToggle";
-import { useLocale } from "@/lib/i18n";
+import { useLocale, useT } from "@/lib/i18n";
 
 export function Header({ currentDrawdown }: { currentDrawdown: number }) {
   const locale = useLocale();
+  const t = useT();
   const home = locale === "en" ? "/en" : "/";
+  const about = locale === "en" ? "/en/about" : "/tentang";
   return (
     <header className="flex h-12 items-center justify-between gap-2">
       <Link to={home} className="flex min-w-0 items-center gap-3">
@@ -31,7 +32,13 @@ export function Header({ currentDrawdown }: { currentDrawdown: number }) {
       </Link>
 
       <nav className="flex items-center gap-1">
-        <AboutDialog />
+        <Link
+          to={about}
+          className="rounded-md px-2.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          activeProps={{ className: "text-foreground" }}
+        >
+          {t("nav.about")}
+        </Link>
         <EmbedDialog currentDrawdown={currentDrawdown} />
         <LocaleToggle />
         <ThemeToggle />
