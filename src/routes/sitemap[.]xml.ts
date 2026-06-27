@@ -17,6 +17,7 @@ export const Route = createFileRoute("/sitemap.xml")({
 
         const entries: Entry[] = [
           { id: "/", en: "/en", priority: "1.0" },
+          { id: "/tentang", en: "/en/about", priority: "0.9" },
           { id: "/drawdown", en: "/en/drawdown", priority: "0.8" },
           ...REFERENCE_BUCKETS.map((b) => ({
             id: `/drawdown/${b}`,
