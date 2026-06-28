@@ -4,11 +4,6 @@ import { useT } from "@/lib/i18n";
 import { track } from "@/lib/analytics";
 
 const MAX_CAP = 1_000_000_000_000;
-const MULTIPLIERS: { label: string; factor: number }[] = [
-  { label: "−10%", factor: 0.9 },
-  { label: "−25%", factor: 0.75 },
-  { label: "−50%", factor: 0.5 },
-];
 
 export function EquityTab({
   initial,
