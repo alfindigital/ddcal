@@ -9,7 +9,7 @@ export const Route = createFileRoute("/en/about")({
     meta: buildMeta({
       locale: "en",
       url: `${SITE_URL}/en/about`,
-      title: "About Drawdown & Recovery — Formula, Table & FAQ | DrawdownCal",
+      title: "About Drawdown & Recovery: Formula, Table & FAQ | DrawdownCal",
       description:
         "Full explanation of drawdown vs recovery: formula, reference table 5%–99%, risk management tips, time-to-break-even estimate, and trader FAQ.",
     }),
