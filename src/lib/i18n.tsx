@@ -317,7 +317,8 @@ export function I18nProvider({ locale, children }: { locale: Locale; children: R
 }
 
 export function useLocale(): Locale {
-  return useContext(LocaleContext);
+  // App is English-only — locale switching is disabled.
+  return "en";
 }
 
 export function useT() {
