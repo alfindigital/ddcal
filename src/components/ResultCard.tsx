@@ -18,12 +18,6 @@ export function ResultCard({
   const severe = drawdown >= 60;
   const tkey = takeawayKey(drawdown);
 
-  // Normalized widths for the loss-vs-recovery comparison bar.
-  const cap = Number.isFinite(recovery) ? recovery : drawdown;
-  const max = Math.max(drawdown, cap, 1);
-  const lossW = (drawdown / max) * 100;
-  const recW = (cap / max) * 100;
-
   return (
     <div className="overflow-hidden rounded-2xl border bg-primary-soft/50 shadow-[var(--shadow-card)]">
       <div className="grid grid-cols-2">
@@ -43,22 +37,6 @@ export function ResultCard({
             format={(n) => `+${formatPercent(n)}%`}
           />
         </Cell>
-      </div>
-
-      {/* Loss vs recovery comparison — shows the asymmetry at a glance. */}
-      <div className="space-y-1.5 border-t bg-card/40 px-3 py-2.5 sm:px-4">
-        <CompareBar
-          label={t("label.loss")}
-          width={lossW}
-          value={`-${formatPercentSmart(drawdown)}%`}
-          tone="muted"
-        />
-        <CompareBar
-          label={t("label.recovery")}
-          width={recW}
-          value={`+${formatPercent(recovery)}%`}
-          tone="primary"
-        />
       </div>
 
       <div
