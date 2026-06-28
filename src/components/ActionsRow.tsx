@@ -132,43 +132,6 @@ export function ActionsRow({
         </Button>
       </div>
 
-      <div className="grid grid-cols-3 gap-2">
-        <Button asChild variant="outline" size="sm" className="h-9 gap-1.5 text-xs">
-          <a
-            href={waHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => track("share_whatsapp")}
-          >
-            <Send className="h-3.5 w-3.5" /> {t("share.whatsapp")}
-          </a>
-        </Button>
-        <Button asChild variant="outline" size="sm" className="h-9 gap-1.5 text-xs">
-          <a
-            href={tgHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => track("share_telegram")}
-          >
-            <Send className="h-3.5 w-3.5" /> {t("share.telegram")}
-          </a>
-        </Button>
-        {canNativeShare ? (
-          <Button
-            variant="outline"
-            size="sm"
-            className="h-9 gap-1.5 text-xs"
-            onClick={onNativeShare}
-          >
-            <Share2 className="h-3.5 w-3.5" /> {t("share.native")}
-          </Button>
-        ) : (
-          <Button variant="outline" size="sm" className="h-9 gap-1.5 text-xs" onClick={onCopyLink}>
-            <Link2 className="h-3.5 w-3.5" /> {t("label.copy_link")}
-          </Button>
-        )}
-      </div>
-
       {mountShare && (
         <div
           aria-hidden="true"
