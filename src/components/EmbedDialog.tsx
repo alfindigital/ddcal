@@ -43,48 +43,70 @@ export function EmbedDialog({ currentDrawdown }: { currentDrawdown: number }) {
           <Code2 className="h-4 w-4" />
         </IconButton>
       </DialogTrigger>
-      <DialogContent className="max-w-lg max-h-[85vh] overflow-y-auto space-y-4">
-        <DialogHeader className="space-y-2 text-left">
-          <DialogTitle className="font-display text-lg font-bold tracking-tight">
-            {t("embed.title")}
-          </DialogTitle>
-          <DialogDescription className="text-sm">{t("embed.desc")}</DialogDescription>
-        </DialogHeader>
+      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto p-0">
+        <div className="space-y-4 p-5 sm:p-6">
+          <DialogHeader className="space-y-1.5 text-left">
+            <DialogTitle className="font-display text-lg font-bold tracking-tight">
+              {t("embed.title")}
+            </DialogTitle>
+            <DialogDescription className="text-sm text-muted-foreground">
+              {t("embed.desc")}
+            </DialogDescription>
+          </DialogHeader>
 
-        <label className="flex cursor-pointer items-center gap-2 text-sm text-foreground">
-          <input
-            type="checkbox"
-            checked={transparent}
-            onChange={(e) => setTransparent(e.target.checked)}
-            className="h-4 w-4 accent-[var(--primary)]"
-          />
-          {t("embed.transparent")}
-        </label>
+          <label className="flex cursor-pointer items-center justify-between gap-3 rounded-lg border bg-muted/30 px-3 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/50">
+            <span>{t("embed.transparent")}</span>
+            <input
+              type="checkbox"
+              checked={transparent}
+              onChange={(e) => setTransparent(e.target.checked)}
+              className="h-4 w-4 accent-[var(--primary)]"
+            />
+          </label>
 
-        <pre className="overflow-x-auto rounded-lg border bg-muted/40 p-3 text-[11px] leading-relaxed text-foreground">
-          <code>{snippet}</code>
-        </pre>
-
-        <button
-          type="button"
-          onClick={copy}
-          className="flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90"
-        >
-          {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />} {t("embed.copy")}
-        </button>
-
-        <div>
-          <div className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-            {t("embed.preview")}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                {t("embed.label")}
+              </div>
+              <button
+                type="button"
+                onClick={copy}
+                className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-[11px] font-semibold text-primary transition-colors hover:bg-primary/10"
+              >
+                {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+                {copied ? t("embed.copied") : t("embed.copy")}
+              </button>
+            </div>
+            <pre className="overflow-hidden rounded-lg border bg-muted/40 p-3 font-mono text-[11px] leading-relaxed text-foreground whitespace-pre-wrap break-all">
+              <code>{snippet}</code>
+            </pre>
           </div>
-          <iframe
-            src={src}
-            width="100%"
-            height={260}
-            style={{ border: 0, borderRadius: 16, maxWidth: 440 }}
-            loading="lazy"
-            title="DrawdownCal embed preview"
-          />
+
+          <button
+            type="button"
+            onClick={copy}
+            className="flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+            {copied ? t("embed.copied") : t("embed.copy")}
+          </button>
+
+          <div className="space-y-1.5">
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              {t("embed.preview")}
+            </div>
+            <div className="overflow-hidden rounded-xl border bg-muted/20 p-2">
+              <iframe
+                src={src}
+                width="100%"
+                height={260}
+                style={{ border: 0, borderRadius: 12, display: "block" }}
+                loading="lazy"
+                title="DrawdownCal embed preview"
+              />
+            </div>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
