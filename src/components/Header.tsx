@@ -1,17 +1,15 @@
 import { Link } from "@tanstack/react-router";
+import { Info } from "lucide-react";
 import { EmbedDialog } from "./EmbedDialog";
 import { ThemeToggle } from "./ThemeToggle";
-import { LocaleToggle } from "./LocaleToggle";
-import { useLocale, useT } from "@/lib/i18n";
+import { IconButton } from "./IconButton";
+import { useT } from "@/lib/i18n";
 
 export function Header({ currentDrawdown }: { currentDrawdown: number }) {
-  const locale = useLocale();
   const t = useT();
-  const home = locale === "en" ? "/en" : "/";
-  const about = locale === "en" ? "/en/about" : "/tentang";
   return (
     <header className="flex h-12 items-center justify-between gap-2">
-      <Link to={home} className="flex min-w-0 items-center gap-3">
+      <Link to="/" className="flex min-w-0 items-center gap-3">
         {/* Architectural mark: rotated soft square halo + solid crimson tile */}
         <div className="relative grid h-9 w-9 shrink-0 place-items-center">
           <span aria-hidden className="absolute inset-0 rotate-45 rounded-xl bg-primary/10" />
@@ -32,15 +30,12 @@ export function Header({ currentDrawdown }: { currentDrawdown: number }) {
       </Link>
 
       <nav className="flex items-center gap-1">
-        <Link
-          to={about}
-          className="rounded-md px-2.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-          activeProps={{ className: "text-foreground" }}
-        >
-          {t("nav.about")}
-        </Link>
+        <IconButton asChild aria-label={t("nav.about")} title={t("nav.about")}>
+          <Link to="/tentang">
+            <Info className="h-4 w-4" />
+          </Link>
+        </IconButton>
         <EmbedDialog currentDrawdown={currentDrawdown} />
-        <LocaleToggle />
         <ThemeToggle />
       </nav>
     </header>

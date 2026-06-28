@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { Copy, Download, Loader2, Link2, Send, Share2 } from "lucide-react";
+import { useRef, useState } from "react";
+import { Copy, Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import { calcRecovery, formatPercent, formatRupiah } from "@/lib/drawdown";
@@ -25,11 +25,6 @@ export function ActionsRow({
   const shareRef = useRef<HTMLDivElement>(null);
   const [downloading, setDownloading] = useState(false);
   const [mountShare, setMountShare] = useState(false);
-  const [canNativeShare, setCanNativeShare] = useState(false);
-
-  useEffect(() => {
-    setCanNativeShare(typeof navigator !== "undefined" && typeof navigator.share === "function");
-  }, []);
 
   const recovery = calcRecovery(drawdown);
   const ratio = drawdown > 0 && Number.isFinite(recovery) ? recovery / drawdown : 0;
@@ -60,27 +55,6 @@ export function ActionsRow({
     }
   };
 
-  const onCopyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(shareUrl);
-      toast.success(t("toast.link_copied"));
-      track("copy_summary", { kind: "link" });
-    } catch {
-      toast.error(t("toast.link_failed"));
-    }
-  };
-
-  const onNativeShare = async () => {
-    try {
-      await navigator.share({ title: t("share.summary_title"), text: summaryBody, url: shareUrl });
-      track("native_share");
-    } catch {
-      /* user cancelled — ignore */
-    }
-  };
-
-  const waHref = `https://wa.me/?text=${encodeURIComponent(summary)}`;
-  const tgHref = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(summaryBody)}`;
 
   const onDownload = async () => {
     if (downloading) return;
@@ -130,43 +104,6 @@ export function ActionsRow({
             </>
           )}
         </Button>
-      </div>
-
-      <div className="grid grid-cols-3 gap-2">
-        <Button asChild variant="outline" size="sm" className="h-9 gap-1.5 text-xs">
-          <a
-            href={waHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => track("share_whatsapp")}
-          >
-            <Send className="h-3.5 w-3.5" /> {t("share.whatsapp")}
-          </a>
-        </Button>
-        <Button asChild variant="outline" size="sm" className="h-9 gap-1.5 text-xs">
-          <a
-            href={tgHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => track("share_telegram")}
-          >
-            <Send className="h-3.5 w-3.5" /> {t("share.telegram")}
-          </a>
-        </Button>
-        {canNativeShare ? (
-          <Button
-            variant="outline"
-            size="sm"
-            className="h-9 gap-1.5 text-xs"
-            onClick={onNativeShare}
-          >
-            <Share2 className="h-3.5 w-3.5" /> {t("share.native")}
-          </Button>
-        ) : (
-          <Button variant="outline" size="sm" className="h-9 gap-1.5 text-xs" onClick={onCopyLink}>
-            <Link2 className="h-3.5 w-3.5" /> {t("label.copy_link")}
-          </Button>
-        )}
       </div>
 
       {mountShare && (

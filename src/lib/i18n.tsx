@@ -248,8 +248,8 @@ const EN: Record<keyof typeof ID, string> = {
   "faq.q3": "How much profit is needed to recover from a 50% loss?",
   "faq.a3":
     "If capital drops 50%, you need a 100% gain on the remaining capital to get back to even, because recovery is calculated from the smaller remaining base, not the original capital.",
-  disclaimer: "Educational tool, not financial advice. Trading carries risk.",
-  privacy: "100% private. Everything runs in your browser, no data is sent to any server.",
+  disclaimer: "Educational tool — not financial advice.",
+  privacy: "Runs locally in your browser. No data leaves your device.",
 
   "equity.simulate": "Simulate further drop",
 
@@ -317,7 +317,8 @@ export function I18nProvider({ locale, children }: { locale: Locale; children: R
 }
 
 export function useLocale(): Locale {
-  return useContext(LocaleContext);
+  // App is English-only — locale switching is disabled.
+  return "en";
 }
 
 export function useT() {

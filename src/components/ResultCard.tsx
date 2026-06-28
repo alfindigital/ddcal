@@ -18,12 +18,6 @@ export function ResultCard({
   const severe = drawdown >= 60;
   const tkey = takeawayKey(drawdown);
 
-  // Normalized widths for the loss-vs-recovery comparison bar.
-  const cap = Number.isFinite(recovery) ? recovery : drawdown;
-  const max = Math.max(drawdown, cap, 1);
-  const lossW = (drawdown / max) * 100;
-  const recW = (cap / max) * 100;
-
   return (
     <div className="overflow-hidden rounded-2xl border bg-primary-soft/50 shadow-[var(--shadow-card)]">
       <div className="grid grid-cols-2">
@@ -45,22 +39,6 @@ export function ResultCard({
         </Cell>
       </div>
 
-      {/* Loss vs recovery comparison — shows the asymmetry at a glance. */}
-      <div className="space-y-1.5 border-t bg-card/40 px-3 py-2.5 sm:px-4">
-        <CompareBar
-          label={t("label.loss")}
-          width={lossW}
-          value={`-${formatPercentSmart(drawdown)}%`}
-          tone="muted"
-        />
-        <CompareBar
-          label={t("label.recovery")}
-          width={recW}
-          value={`+${formatPercent(recovery)}%`}
-          tone="primary"
-        />
-      </div>
-
       <div
         className={`flex items-start gap-2 border-t px-3 py-2 text-[11px] sm:px-4 ${
           severe ? "bg-destructive/5 text-destructive" : "text-muted-foreground"
@@ -77,40 +55,7 @@ export function ResultCard({
   );
 }
 
-function CompareBar({
-  label,
-  width,
-  value,
-  tone,
-}: {
-  label: string;
-  width: number;
-  value: string;
-  tone: "muted" | "primary";
-}) {
-  return (
-    <div className="flex items-center gap-2">
-      <span className="w-16 shrink-0 text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">
-        {label}
-      </span>
-      <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
-        <div
-          className={`h-full rounded-full transition-[width] duration-300 ${
-            tone === "primary" ? "bg-primary" : "bg-foreground/50"
-          }`}
-          style={{ width: `${Math.max(2, Math.min(100, width))}%` }}
-        />
-      </div>
-      <span
-        className={`w-16 shrink-0 text-right text-[11px] font-bold tabular ${
-          tone === "primary" ? "text-primary" : "text-foreground"
-        }`}
-      >
-        {value}
-      </span>
-    </div>
-  );
-}
+
 
 function Cell({
   label,
