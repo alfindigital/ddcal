@@ -9,7 +9,7 @@ export const Route = createFileRoute("/tentang")({
     meta: buildMeta({
       locale: "id",
       url: `${SITE_URL}/tentang`,
-      title: "Tentang Drawdown & Recovery — Rumus, Tabel & FAQ | DrawdownCal",
+      title: "Tentang Drawdown & Recovery: Rumus, Tabel & FAQ | DrawdownCal",
       description:
         "Penjelasan lengkap drawdown vs recovery: rumus, tabel referensi 5%–99%, tips risk management, estimasi waktu balik modal, dan FAQ trader.",
     }),
