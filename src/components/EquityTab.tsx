@@ -31,32 +31,6 @@ export function EquityTab({
     <div className="space-y-2">
       <Field label={t("label.initial_capital")} value={initial} onChange={onInitialChange} />
       <Field label={t("label.current_capital")} value={current} onChange={onCurrentChange} />
-
-      <div className="flex items-center gap-1.5 pt-0.5">
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-          {t("equity.simulate")}
-        </span>
-        {MULTIPLIERS.map((m) => (
-          <button
-            key={m.label}
-            type="button"
-            onClick={() => {
-              onCurrentChange(Math.round(current * m.factor));
-              track("equity_multiplier", { factor: m.factor });
-            }}
-            className="rounded-md border bg-background px-2 py-0.5 text-[11px] font-bold tabular text-foreground transition-colors hover:border-primary hover:text-primary"
-          >
-            {m.label}
-          </button>
-        ))}
-        <button
-          type="button"
-          onClick={() => onCurrentChange(initial)}
-          className="ml-auto rounded-md px-2 py-0.5 text-[11px] font-semibold text-muted-foreground transition-colors hover:text-primary"
-        >
-          {t("label.reset")}
-        </button>
-      </div>
     </div>
   );
 }
