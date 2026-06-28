@@ -55,40 +55,7 @@ export function ResultCard({
   );
 }
 
-function CompareBar({
-  label,
-  width,
-  value,
-  tone,
-}: {
-  label: string;
-  width: number;
-  value: string;
-  tone: "muted" | "primary";
-}) {
-  return (
-    <div className="flex items-center gap-2">
-      <span className="w-16 shrink-0 text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">
-        {label}
-      </span>
-      <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
-        <div
-          className={`h-full rounded-full transition-[width] duration-300 ${
-            tone === "primary" ? "bg-primary" : "bg-foreground/50"
-          }`}
-          style={{ width: `${Math.max(2, Math.min(100, width))}%` }}
-        />
-      </div>
-      <span
-        className={`w-16 shrink-0 text-right text-[11px] font-bold tabular ${
-          tone === "primary" ? "text-primary" : "text-foreground"
-        }`}
-      >
-        {value}
-      </span>
-    </div>
-  );
-}
+
 
 function Cell({
   label,
