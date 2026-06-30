@@ -77,8 +77,7 @@ export function HomePage({ initial }: { initial: HomeInitial }) {
   useEffect(() => {
     if (typeof window !== "undefined") setOrigin(window.location.origin);
   }, []);
-  const pathname = locale === "en" ? "/en" : "/";
-  const shareUrl = `${origin}${pathname}${query ? `?${query}` : ""}`;
+  const shareUrl = `${origin}/${query ? `?${query}` : ""}`;
 
   const Calculator = (
     <main className="overflow-hidden rounded-2xl border bg-card shadow-[var(--shadow-elegant)]">
