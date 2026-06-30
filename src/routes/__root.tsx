@@ -127,13 +127,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: React.ReactNode }) {
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const lang = pathname === "/en" || pathname.startsWith("/en/") ? "en" : "id";
   return (
-    <html lang={lang}>
+    <html lang="en">
       <head>
-        {/* Media-scoped theme-color rendered directly so both variants survive
-            (the head() meta array dedupes by name and would drop one). */}
         <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
         <meta name="theme-color" content="#18120f" media="(prefers-color-scheme: dark)" />
         <HeadContent />
