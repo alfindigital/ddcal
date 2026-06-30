@@ -6,24 +6,23 @@ import { DrawdownChart } from "@/components/DrawdownChart";
 import { ReferenceTable } from "@/components/ReferenceTable";
 import { CtaCard } from "@/components/CtaCard";
 import { Toaster } from "@/components/ui/sonner";
-import { useT, type Locale } from "@/lib/i18n";
+import { useT } from "@/lib/i18n";
 import { calcRecovery, formatPercent, REFERENCE_BUCKETS } from "@/lib/drawdown";
 import { track } from "@/lib/analytics";
 
-export function LandingPage({ dd, locale }: { dd: number; locale: Locale }) {
+export function LandingPage({ dd }: { dd: number }) {
   const t = useT();
   const recovery = calcRecovery(dd);
-  const base = locale === "en" ? "/en" : "";
-  const homeHref = `${locale === "en" ? "/en" : "/"}?dd=${dd}`;
+  const homeHref = `/?dd=${dd}`;
   const related = REFERENCE_BUCKETS.filter((b) => b !== dd);
 
   return (
     <div className="bg-background text-foreground">
       <div className="mx-auto flex min-h-[100svh] max-w-xl flex-col gap-5 px-3 pt-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:gap-6 sm:px-4 sm:pt-6">
-        <Header currentDrawdown={dd} />
+        <Header />
 
         <a
-          href={base === "" ? "/drawdown" : `${base}/drawdown`}
+          href="/drawdown"
           className="inline-flex w-fit items-center gap-1 text-xs font-semibold text-muted-foreground hover:text-primary"
         >
           <ArrowLeft className="h-3.5 w-3.5" /> {t("landing.back")}
@@ -67,7 +66,7 @@ export function LandingPage({ dd, locale }: { dd: number; locale: Locale }) {
             {related.map((b) => (
               <a
                 key={b}
-                href={`${base}/drawdown/${b}`}
+                href={`/drawdown/${b}`}
                 className="rounded-lg border bg-card px-3 py-1.5 text-xs font-bold tabular text-foreground transition-colors hover:border-primary hover:text-primary"
               >
                 -{b}%
