@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PreviewMetaRouteImport } from './routes/preview-meta'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DrawdownIndexRouteImport } from './routes/drawdown/index'
 import { Route as DrawdownDdRouteImport } from './routes/drawdown/$dd'
@@ -23,6 +24,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const PreviewMetaRoute = PreviewMetaRouteImport.update({
   id: '/preview-meta',
   path: '/preview-meta',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -43,6 +49,7 @@ const DrawdownDdRoute = DrawdownDdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/preview-meta': typeof PreviewMetaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/drawdown/$dd': typeof DrawdownDdRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/preview-meta': typeof PreviewMetaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/drawdown/$dd': typeof DrawdownDdRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/preview-meta': typeof PreviewMetaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/drawdown/$dd': typeof DrawdownDdRoute
@@ -67,15 +76,23 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
     | '/preview-meta'
     | '/sitemap.xml'
     | '/drawdown/$dd'
     | '/drawdown/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/preview-meta' | '/sitemap.xml' | '/drawdown/$dd' | '/drawdown'
+  to:
+    | '/'
+    | '/about'
+    | '/preview-meta'
+    | '/sitemap.xml'
+    | '/drawdown/$dd'
+    | '/drawdown'
   id:
     | '__root__'
     | '/'
+    | '/about'
     | '/preview-meta'
     | '/sitemap.xml'
     | '/drawdown/$dd'
@@ -84,6 +101,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
   PreviewMetaRoute: typeof PreviewMetaRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   DrawdownDdRoute: typeof DrawdownDdRoute
@@ -104,6 +122,13 @@ declare module '@tanstack/react-router' {
       path: '/preview-meta'
       fullPath: '/preview-meta'
       preLoaderRoute: typeof PreviewMetaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -132,6 +157,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   PreviewMetaRoute: PreviewMetaRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   DrawdownDdRoute: DrawdownDdRoute,
