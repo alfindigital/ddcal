@@ -17,24 +17,47 @@ export function AboutPage() {
     { q: t("faq.q1"), a: t("faq.a1") },
     { q: t("faq.q2"), a: t("faq.a2") },
     { q: t("faq.q3"), a: t("faq.a3") },
+    {
+      q: "Why does a small loss need a bigger recovery?",
+      a: "Recovery is computed on the smaller remaining capital. A 20% loss leaves 80%; getting back to 100% from 80% takes a 25% gain, not 20%. The deeper the loss, the more disproportionate this becomes.",
+    },
+    {
+      q: "Is drawdown the same as loss?",
+      a: "Not exactly. A loss is a realised result. Drawdown is the peak-to-trough decline of your equity curve, which includes unrealised, floating positions. A trader can hit a large drawdown without closing a single trade.",
+    },
+    {
+      q: "What is an acceptable drawdown?",
+      a: "Most professional traders aim to keep maximum drawdown below 20–25%. Beyond 30% the recovery required starts to compound fast, and beyond 50% it becomes a psychological as well as mathematical problem.",
+    },
   ];
   const tips = [t("about.tip1"), t("about.tip2"), t("about.tip3"), t("about.tip4")];
 
   return (
     <div className="bg-background text-foreground">
       <div className="mx-auto flex min-h-[100svh] max-w-xl flex-col gap-6 px-3 pt-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-4 sm:pt-6">
-        <Header currentDrawdown={dd} />
+        <Header />
 
         <header className="space-y-2">
-          <h1 className="font-display text-xl font-bold leading-tight tracking-tight text-foreground sm:text-2xl">
-            {t("content.lead")}
+          <h1 className="font-display text-2xl font-bold leading-tight tracking-tight text-foreground sm:text-3xl">
+            Drawdown &amp; Recovery in Trading
           </h1>
           <p className="text-sm leading-relaxed text-muted-foreground">{t("content.sub")}</p>
         </header>
 
-        <TimeToRecover drawdown={dd} />
-
-        <CompareScenarios current={dd} />
+        <section className="space-y-3">
+          <h2 className="font-display text-base font-bold tracking-tight">What is drawdown?</h2>
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            Drawdown is the percentage decline of your trading capital from its highest point (peak)
+            to its lowest point (trough) before a new peak is reached. It is the single most honest
+            measure of how painful a strategy can be in real life — far more useful than headline
+            returns alone.
+          </p>
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            Recovery is the gain you need on the remaining capital to climb back to the original
+            peak. Because the base shrinks during a drawdown, recovery is always larger than the
+            drawdown itself — and the relationship is exponential, not linear.
+          </p>
+        </section>
 
         <section className="space-y-3">
           <h2 className="font-display text-base font-bold tracking-tight">
@@ -49,12 +72,24 @@ export function AboutPage() {
             </div>
           </div>
           <p className="text-sm leading-relaxed text-muted-foreground">{t("about.explain")}</p>
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            Worked example: a portfolio of $10,000 drops 40% to $6,000. To return to $10,000 the
+            remaining $6,000 must grow by $4,000 — a 66.7% gain, not 40%. At 50% drawdown the
+            recovery doubles to 100%. At 90% drawdown it explodes to 900%.
+          </p>
         </section>
+
+        <TimeToRecover drawdown={dd} />
+
+        <CompareScenarios current={dd} />
 
         <section className="space-y-2">
           <h2 className="font-display text-base font-bold tracking-tight">
             {t("about.reference")}
           </h2>
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            Quick reference for the most common drawdown levels and the recovery they require.
+          </p>
           <ReferenceTable />
         </section>
 
