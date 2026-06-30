@@ -96,9 +96,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     scripts: [
       {
-        // Pre-hydration theme apply to prevent FOUC.
+        // Pre-hydration theme apply to prevent FOUC. Defaults to LIGHT mode;
+        // dark only applies when explicitly chosen by the user.
         children:
-          "(function(){try{var s=localStorage.getItem('theme');var d=s==='dark'||(s==null&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark');}catch(e){}})();",
+          "(function(){try{var s=localStorage.getItem('theme');if(s==='dark')document.documentElement.classList.add('dark');}catch(e){}})();",
       },
       ...(GA_ID
         ? [
@@ -112,7 +113,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@graph": [
             { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
-            { "@type": "WebSite", name: SITE_NAME, url: SITE_URL, inLanguage: ["id", "en"] },
+            { "@type": "WebSite", name: SITE_NAME, url: SITE_URL, inLanguage: "en" },
           ],
         }),
       },
