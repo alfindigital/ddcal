@@ -1,11 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { Info } from "lucide-react";
-import { EmbedDialog } from "./EmbedDialog";
 import { ThemeToggle } from "./ThemeToggle";
 import { IconButton } from "./IconButton";
 import { useT } from "@/lib/i18n";
 
-export function Header({ currentDrawdown }: { currentDrawdown: number }) {
+export function Header({ currentDrawdown: _ }: { currentDrawdown?: number } = {}) {
   const t = useT();
   return (
     <header className="flex h-12 items-center justify-between gap-2">
@@ -31,11 +30,10 @@ export function Header({ currentDrawdown }: { currentDrawdown: number }) {
 
       <nav className="flex items-center gap-1">
         <IconButton asChild aria-label={t("nav.about")} title={t("nav.about")}>
-          <Link to="/tentang">
+          <Link to="/about">
             <Info className="h-4 w-4" />
           </Link>
         </IconButton>
-        <EmbedDialog currentDrawdown={currentDrawdown} />
         <ThemeToggle />
       </nav>
     </header>

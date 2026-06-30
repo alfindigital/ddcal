@@ -106,7 +106,7 @@ export function PercentTab({ value, onChange }: { value: number; onChange: (n: n
           </button>
         ))}
       </div>
-      <p className="mt-2 text-center text-[10px] text-muted-foreground">{t("slider.hint")}</p>
+      
     </div>
   );
 }
