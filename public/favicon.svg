@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="DrawdownCal">
-  <rect x="8" y="8" width="48" height="48" rx="10" fill="#b91c1c"/>
-  <g fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M18 22h4M42 22h4"/>
-    <path d="M32 18v18"/>
-    <path d="M32 36l-6-6M32 36l6-6"/>
-    <path d="M18 46h28"/>
+  <rect x="4" y="4" width="56" height="56" rx="12" fill="#b91c1c"/>
+  <g fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 20h6M42 20h6"/>
+    <path d="M32 16v22"/>
+    <path d="M22 32l10 10 10-10"/>
+    <path d="M14 50h36"/>
   </g>
 </svg>
