@@ -9,7 +9,7 @@ import { ActionsRow } from "@/components/ActionsRow";
 import { InstallPrompt } from "@/components/InstallPrompt";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Toaster } from "@/components/ui/sonner";
-import { useT, useLocale } from "@/lib/i18n";
+import { useT } from "@/lib/i18n";
 import { SITE_URL } from "@/lib/seo";
 import { calcDrawdownFromCapital, formatPercentSmart } from "@/lib/drawdown";
 import { track } from "@/lib/analytics";
@@ -43,7 +43,6 @@ function buildQuery(
 
 export function HomePage({ initial }: { initial: HomeInitial }) {
   const tr = useT();
-  const locale = useLocale();
 
   const [drawdown, setDrawdown] = useState(initial.dd);
   const [mode, setMode] = useState<"persen" | "equity">(
