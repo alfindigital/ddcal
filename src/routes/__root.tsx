@@ -96,9 +96,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     scripts: [
       {
-        // Pre-hydration theme apply to prevent FOUC.
+        // Pre-hydration theme apply to prevent FOUC. Defaults to LIGHT mode;
+        // dark only applies when explicitly chosen by the user.
         children:
-          "(function(){try{var s=localStorage.getItem('theme');var d=s==='dark'||(s==null&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark');}catch(e){}})();",
+          "(function(){try{var s=localStorage.getItem('theme');if(s==='dark')document.documentElement.classList.add('dark');}catch(e){}})();",
       },
       ...(GA_ID
         ? [
@@ -112,7 +113,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@graph": [
             { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
-            { "@type": "WebSite", name: SITE_NAME, url: SITE_URL, inLanguage: ["id", "en"] },
+            { "@type": "WebSite", name: SITE_NAME, url: SITE_URL, inLanguage: "en" },
           ],
         }),
       },
@@ -126,13 +127,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: React.ReactNode }) {
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const lang = pathname === "/en" || pathname.startsWith("/en/") ? "en" : "id";
   return (
-    <html lang={lang}>
+    <html lang="en">
       <head>
-        {/* Media-scoped theme-color rendered directly so both variants survive
-            (the head() meta array dedupes by name and would drop one). */}
         <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
         <meta name="theme-color" content="#18120f" media="(prefers-color-scheme: dark)" />
         <HeadContent />

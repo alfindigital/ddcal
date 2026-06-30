@@ -2,16 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import { fallback, zodValidator } from "@tanstack/zod-adapter";
 import { z } from "zod";
 import { HomePage } from "@/components/HomePage";
-import { I18nProvider } from "@/lib/i18n";
-import { SITE_URL, buildMeta, buildAlternateLinks } from "@/lib/seo";
+import { SITE_URL, buildMeta, canonical } from "@/lib/seo";
 import { faqJsonLd, softwareJsonLd } from "@/lib/jsonld";
 
 const DEFAULT_DD = 30;
 const DEFAULT_AWAL = 10_000_000;
 const DEFAULT_SISA = 7_000_000;
 
-// Params are optional (no .default) so an empty `/` does NOT redirect to a
-// param-filled URL. Defaults are applied in the component instead.
 const searchSchema = z.object({
   dd: fallback(z.number().int().min(1).max(99), DEFAULT_DD).optional(),
   mode: fallback(z.enum(["pct", "eq"]), "pct").optional(),
@@ -22,11 +19,11 @@ const searchSchema = z.object({
 export const Route = createFileRoute("/")({
   validateSearch: zodValidator(searchSchema),
   head: () => ({
-    meta: buildMeta({ locale: "id", url: `${SITE_URL}/` }),
-    links: buildAlternateLinks("id", "/", "/en"),
+    meta: buildMeta({ url: `${SITE_URL}/` }),
+    links: canonical("/"),
     scripts: [
-      { type: "application/ld+json", children: JSON.stringify(faqJsonLd("id")) },
-      { type: "application/ld+json", children: JSON.stringify(softwareJsonLd("id")) },
+      { type: "application/ld+json", children: JSON.stringify(faqJsonLd()) },
+      { type: "application/ld+json", children: JSON.stringify(softwareJsonLd()) },
     ],
   }),
   component: Home,
@@ -35,15 +32,13 @@ export const Route = createFileRoute("/")({
 function Home() {
   const s = Route.useSearch();
   return (
-    <I18nProvider locale="id">
-      <HomePage
-        initial={{
-          dd: s.dd ?? DEFAULT_DD,
-          mode: s.mode ?? "pct",
-          awal: s.awal ?? DEFAULT_AWAL,
-          sisa: s.sisa ?? DEFAULT_SISA,
-        }}
-      />
-    </I18nProvider>
+    <HomePage
+      initial={{
+        dd: s.dd ?? DEFAULT_DD,
+        mode: s.mode ?? "pct",
+        awal: s.awal ?? DEFAULT_AWAL,
+        sisa: s.sisa ?? DEFAULT_SISA,
+      }}
+    />
   );
 }

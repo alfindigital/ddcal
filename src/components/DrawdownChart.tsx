@@ -220,9 +220,6 @@ function DrawdownChartImpl({
           />
         )}
       </div>
-      {interactive && (
-        <p className="text-center text-[10px] text-muted-foreground">{t("chart.hint")}</p>
-      )}
     </div>
   );
 }
