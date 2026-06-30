@@ -24,35 +24,31 @@ export const ShareCard = forwardRef<HTMLDivElement, { drawdown: number }>(functi
         {/* Title */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br from-primary to-accent text-primary-foreground shadow-sm">
+            <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-primary-foreground shadow-sm">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth={2}
+                strokeWidth={2.5}
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 className="h-5 w-5"
                 aria-hidden="true"
               >
-                <rect
-                  x="10.5"
-                  y="6"
-                  width="3"
-                  height="9"
-                  rx="0.5"
-                  fill="currentColor"
-                  stroke="none"
-                />
-                <path d="M12 4v2" />
-                <path d="M12 15v3" />
-                <path d="M18 8v10" />
-                <path d="M15 15l3 3 3-3" />
+                <path d="M4 6H6M18 6H20" />
+                <path d="M12 4V16" />
+                <path d="M12 16L8 12M12 16L16 12" />
+                <path d="M4 20H20" />
               </svg>
             </div>
-            <div className="font-display text-xl font-bold tracking-tight">
-              Drawdown<span className="text-primary">CAL</span>
+            <div className="font-display flex items-baseline gap-1">
+              <span className="text-lg font-bold lowercase tracking-tight text-foreground">
+                drawdown
+              </span>
+              <span className="rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
+                cal
+              </span>
             </div>
           </div>
           <div className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">

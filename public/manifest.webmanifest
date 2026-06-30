@@ -1,8 +1,8 @@
 {
-  "name": "DrawdownCal — Kalkulator Drawdown & Recovery",
+  "name": "DrawdownCal — Drawdown & Recovery Calculator",
   "short_name": "DrawdownCal",
-  "description": "Hitung berapa persen profit yang dibutuhkan untuk pulih dari drawdown trading.",
-  "lang": "id-ID",
+  "description": "Calculate how much profit you need to recover from a trading drawdown.",
+  "lang": "en",
   "dir": "ltr",
   "start_url": "/",
   "scope": "/",
@@ -12,8 +12,8 @@
   "theme_color": "#b91c1c",
   "categories": ["finance", "productivity", "utilities"],
   "shortcuts": [
-    { "name": "Mode Equity", "short_name": "Equity", "url": "/?mode=eq" },
-    { "name": "Semua level drawdown", "short_name": "Levels", "url": "/drawdown" }
+    { "name": "Equity Mode", "short_name": "Equity", "url": "/?mode=eq" },
+    { "name": "All drawdown levels", "short_name": "Levels", "url": "/drawdown" }
   ],
   "icons": [
     { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
