@@ -9,23 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TentangRouteImport } from './routes/tentang'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PreviewMetaRouteImport } from './routes/preview-meta'
-import { Route as EmbedRouteImport } from './routes/embed'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as EnIndexRouteImport } from './routes/en/index'
 import { Route as DrawdownIndexRouteImport } from './routes/drawdown/index'
-import { Route as EnAboutRouteImport } from './routes/en/about'
 import { Route as DrawdownDdRouteImport } from './routes/drawdown/$dd'
-import { Route as EnDrawdownIndexRouteImport } from './routes/en/drawdown/index'
-import { Route as EnDrawdownDdRouteImport } from './routes/en/drawdown/$dd'
 
-const TentangRoute = TentangRouteImport.update({
-  id: '/tentang',
-  path: '/tentang',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -36,19 +25,9 @@ const PreviewMetaRoute = PreviewMetaRouteImport.update({
   path: '/preview-meta',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EmbedRoute = EmbedRouteImport.update({
-  id: '/embed',
-  path: '/embed',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EnIndexRoute = EnIndexRouteImport.update({
-  id: '/en/',
-  path: '/en/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DrawdownIndexRoute = DrawdownIndexRouteImport.update({
@@ -56,132 +35,63 @@ const DrawdownIndexRoute = DrawdownIndexRouteImport.update({
   path: '/drawdown/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EnAboutRoute = EnAboutRouteImport.update({
-  id: '/en/about',
-  path: '/en/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DrawdownDdRoute = DrawdownDdRouteImport.update({
   id: '/drawdown/$dd',
   path: '/drawdown/$dd',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EnDrawdownIndexRoute = EnDrawdownIndexRouteImport.update({
-  id: '/en/drawdown/',
-  path: '/en/drawdown/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EnDrawdownDdRoute = EnDrawdownDdRouteImport.update({
-  id: '/en/drawdown/$dd',
-  path: '/en/drawdown/$dd',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/embed': typeof EmbedRoute
   '/preview-meta': typeof PreviewMetaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/tentang': typeof TentangRoute
   '/drawdown/$dd': typeof DrawdownDdRoute
-  '/en/about': typeof EnAboutRoute
   '/drawdown/': typeof DrawdownIndexRoute
-  '/en/': typeof EnIndexRoute
-  '/en/drawdown/$dd': typeof EnDrawdownDdRoute
-  '/en/drawdown/': typeof EnDrawdownIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/embed': typeof EmbedRoute
   '/preview-meta': typeof PreviewMetaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/tentang': typeof TentangRoute
   '/drawdown/$dd': typeof DrawdownDdRoute
-  '/en/about': typeof EnAboutRoute
   '/drawdown': typeof DrawdownIndexRoute
-  '/en': typeof EnIndexRoute
-  '/en/drawdown/$dd': typeof EnDrawdownDdRoute
-  '/en/drawdown': typeof EnDrawdownIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/embed': typeof EmbedRoute
   '/preview-meta': typeof PreviewMetaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/tentang': typeof TentangRoute
   '/drawdown/$dd': typeof DrawdownDdRoute
-  '/en/about': typeof EnAboutRoute
   '/drawdown/': typeof DrawdownIndexRoute
-  '/en/': typeof EnIndexRoute
-  '/en/drawdown/$dd': typeof EnDrawdownDdRoute
-  '/en/drawdown/': typeof EnDrawdownIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/embed'
     | '/preview-meta'
     | '/sitemap.xml'
-    | '/tentang'
     | '/drawdown/$dd'
-    | '/en/about'
     | '/drawdown/'
-    | '/en/'
-    | '/en/drawdown/$dd'
-    | '/en/drawdown/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/embed'
-    | '/preview-meta'
-    | '/sitemap.xml'
-    | '/tentang'
-    | '/drawdown/$dd'
-    | '/en/about'
-    | '/drawdown'
-    | '/en'
-    | '/en/drawdown/$dd'
-    | '/en/drawdown'
+  to: '/' | '/preview-meta' | '/sitemap.xml' | '/drawdown/$dd' | '/drawdown'
   id:
     | '__root__'
     | '/'
-    | '/embed'
     | '/preview-meta'
     | '/sitemap.xml'
-    | '/tentang'
     | '/drawdown/$dd'
-    | '/en/about'
     | '/drawdown/'
-    | '/en/'
-    | '/en/drawdown/$dd'
-    | '/en/drawdown/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  EmbedRoute: typeof EmbedRoute
   PreviewMetaRoute: typeof PreviewMetaRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  TentangRoute: typeof TentangRoute
   DrawdownDdRoute: typeof DrawdownDdRoute
-  EnAboutRoute: typeof EnAboutRoute
   DrawdownIndexRoute: typeof DrawdownIndexRoute
-  EnIndexRoute: typeof EnIndexRoute
-  EnDrawdownDdRoute: typeof EnDrawdownDdRoute
-  EnDrawdownIndexRoute: typeof EnDrawdownIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/tentang': {
-      id: '/tentang'
-      path: '/tentang'
-      fullPath: '/tentang'
-      preLoaderRoute: typeof TentangRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -196,25 +106,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PreviewMetaRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/embed': {
-      id: '/embed'
-      path: '/embed'
-      fullPath: '/embed'
-      preLoaderRoute: typeof EmbedRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/en/': {
-      id: '/en/'
-      path: '/en'
-      fullPath: '/en/'
-      preLoaderRoute: typeof EnIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/drawdown/': {
@@ -224,13 +120,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DrawdownIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/en/about': {
-      id: '/en/about'
-      path: '/en/about'
-      fullPath: '/en/about'
-      preLoaderRoute: typeof EnAboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/drawdown/$dd': {
       id: '/drawdown/$dd'
       path: '/drawdown/$dd'
@@ -238,35 +127,15 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DrawdownDdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/en/drawdown/': {
-      id: '/en/drawdown/'
-      path: '/en/drawdown'
-      fullPath: '/en/drawdown/'
-      preLoaderRoute: typeof EnDrawdownIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/en/drawdown/$dd': {
-      id: '/en/drawdown/$dd'
-      path: '/en/drawdown/$dd'
-      fullPath: '/en/drawdown/$dd'
-      preLoaderRoute: typeof EnDrawdownDdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  EmbedRoute: EmbedRoute,
   PreviewMetaRoute: PreviewMetaRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
-  TentangRoute: TentangRoute,
   DrawdownDdRoute: DrawdownDdRoute,
-  EnAboutRoute: EnAboutRoute,
   DrawdownIndexRoute: DrawdownIndexRoute,
-  EnIndexRoute: EnIndexRoute,
-  EnDrawdownDdRoute: EnDrawdownDdRoute,
-  EnDrawdownIndexRoute: EnDrawdownIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
