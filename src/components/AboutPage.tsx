@@ -49,13 +49,13 @@ export function AboutPage() {
           <p className="text-sm leading-relaxed text-muted-foreground">
             Drawdown is the percentage decline of your trading capital from its highest point (peak)
             to its lowest point (trough) before a new peak is reached. It is the single most honest
-            measure of how painful a strategy can be in real life — far more useful than headline
+            measure of how painful a strategy can be in real life - far more useful than headline
             returns alone.
           </p>
           <p className="text-sm leading-relaxed text-muted-foreground">
             Recovery is the gain you need on the remaining capital to climb back to the original
             peak. Because the base shrinks during a drawdown, recovery is always larger than the
-            drawdown itself — and the relationship is exponential, not linear.
+            drawdown itself - and the relationship is exponential, not linear.
           </p>
         </section>
 
@@ -74,7 +74,7 @@ export function AboutPage() {
           <p className="text-sm leading-relaxed text-muted-foreground">{t("about.explain")}</p>
           <p className="text-sm leading-relaxed text-muted-foreground">
             Worked example: a portfolio of $10,000 drops 40% to $6,000. To return to $10,000 the
-            remaining $6,000 must grow by $4,000 — a 66.7% gain, not 40%. At 50% drawdown the
+            remaining $6,000 must grow by $4,000 - a 66.7% gain, not 40%. At 50% drawdown the
             recovery doubles to 100%. At 90% drawdown it explodes to 900%.
           </p>
         </section>
