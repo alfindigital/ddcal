@@ -1,34 +1,34 @@
 # DrawdownCal
 
-> Kalkulator drawdown dan recovery untuk trader. Hitung berapa persen kenaikan yang dibutuhkan untuk pulih dari penurunan modal trading.
+> Drawdown and recovery calculator for traders. Compute the exact percentage gain required to recover from a trading loss.
 
-DrawdownCal adalah kalkulator gratis (Indonesia & English) yang membantu trader memahami asimetri drawdown: makin besar penurunan modal, makin besar persentase kenaikan yang dibutuhkan untuk kembali ke titik awal (recovery). Tools ini menyediakan dua mode input:
+DrawdownCal is a free calculator that helps traders understand the asymmetry of drawdown: the deeper the loss on your capital, the disproportionately larger the gain required to return to the original peak (recovery). The tool offers two input modes:
 
-- **Mode Persentase**: masukkan persentase drawdown langsung (mis. 30%), lewat slider atau ketik angka.
-- **Mode Equity**: hitung otomatis dari modal awal dan modal sekarang.
+- **Percent mode**: enter the drawdown percentage directly (e.g. 30%) via slider or keyboard input.
+- **Equity mode**: derive the drawdown automatically from initial capital and current capital.
 
-Selain hasil recovery, tersedia: grafik visualisasi drawdown vs recovery, estimasi waktu balik modal berdasarkan asumsi profit per bulan, perbandingan beberapa skenario, dan tombol bagikan (gambar, teks, WhatsApp, Telegram). Semua kalkulasi berjalan di browser; tidak ada data yang dikirim ke server.
+Beyond the recovery result, the app provides a drawdown vs recovery chart, a monthly-profit break-even estimator, side-by-side scenario comparisons, and share actions (image, text, WhatsApp, Telegram). All calculations run locally in the browser; no data is sent to any server.
 
-## Rumus inti
+## Core formula
 
 Recovery % = Drawdown / (100 - Drawdown) x 100
 
-Contoh: drawdown 50% membutuhkan recovery 100%. Drawdown 20% hanya butuh recovery 25%.
+Example: a 50% drawdown requires a 100% recovery. A 20% drawdown only requires a 25% recovery.
 
 ## Pages
 
-- [Beranda / Kalkulator (ID)](https://drawdowncal.alfindigital.com/): Kalkulator drawdown interaktif lengkap.
-- [Home / Calculator (EN)](https://drawdowncal.alfindigital.com/en): English version of the calculator.
-- [Semua level drawdown](https://drawdowncal.alfindigital.com/drawdown): Daftar level drawdown 5% sampai 99% dengan recovery masing-masing.
-- Halaman per-level, mis. [Drawdown 50%](https://drawdowncal.alfindigital.com/drawdown/50).
+- [Home / Calculator](https://drawdowncal.alfindigital.com/): Interactive drawdown calculator.
+- [About](https://drawdowncal.alfindigital.com/about): Full guide, formula, reference table, tips and FAQ.
+- [All drawdown levels](https://drawdowncal.alfindigital.com/drawdown): List of drawdown levels from 5% to 99% with their required recovery.
+- Per-level page, e.g. [Drawdown 50%](https://drawdowncal.alfindigital.com/drawdown/50).
 
-## FAQ singkat
+## Quick FAQ
 
-- **Apa itu drawdown?** Persentase penurunan modal dari titik tertinggi (peak) ke titik terendah (trough).
-- **Kenapa recovery lebih besar dari drawdown?** Karena recovery dihitung dari basis modal yang lebih kecil setelah loss.
-- **Apakah data disimpan di server?** Tidak. Semua kalkulasi berjalan lokal di browser, tidak ada data yang dikirim ke server.
+- **What is drawdown?** The percentage decline of your capital from its highest point (peak) to its lowest point (trough).
+- **Why is recovery larger than drawdown?** Because recovery is computed from the smaller capital base left after the loss.
+- **Is any data stored on a server?** No. All calculations run locally in the browser; nothing is transmitted.
 
-## Kontak
+## Contact
 
 Project URL: https://drawdowncal.alfindigital.com
 Telegram: https://t.me/alfidx

@@ -117,13 +117,6 @@ async function main() {
     jsonld: { minBlocks: 2 }, // root WebSite/Organization + index FAQ/WebApp
   });
 
-  await checkRoute("/preview-meta", {
-    meta: {
-      "name:robots": /noindex/,
-      // og:image still inherited from root since preview-meta does not override it
-      "property:og:image": OG_IMAGE,
-    },
-  });
 
   // OG image fetch + fallback presence
   console.log("\n--- OG image reachability ---");

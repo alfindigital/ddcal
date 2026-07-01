@@ -6,7 +6,16 @@
     </linearGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#g)"/>
-  <text x="60" y="320" font-family="Inter, system-ui, sans-serif" font-size="84" font-weight="800" fill="#fff">DrawdownCal</text>
-  <text x="60" y="400" font-family="Inter, system-ui, sans-serif" font-size="36" fill="#b8c1d1">Kalkulator Drawdown &amp; Recovery</text>
-  <rect x="60" y="460" width="120" height="6" rx="3" fill="#b91c1c"/>
+  <g transform="translate(60,180)">
+    <rect width="120" height="120" rx="24" fill="#b91c1c"/>
+    <g transform="translate(24,24)" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 20h8M52 20h8"/>
+      <path d="M36 12v32"/>
+      <path d="M20 40l16 16 16-16"/>
+      <path d="M8 60h56"/>
+    </g>
+  </g>
+  <text x="220" y="270" font-family="Inter, system-ui, sans-serif" font-size="84" font-weight="800" fill="#fff">DrawdownCal</text>
+  <text x="220" y="330" font-family="Inter, system-ui, sans-serif" font-size="32" fill="#b8c1d1">Drawdown &amp; Recovery Calculator for Traders</text>
+  <rect x="220" y="360" width="120" height="6" rx="3" fill="#b91c1c"/>
 </svg>

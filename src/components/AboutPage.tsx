@@ -1,17 +1,13 @@
-import { useState } from "react";
-import { Lightbulb } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ReferenceTable } from "@/components/ReferenceTable";
-import { TimeToRecover } from "@/components/TimeToRecover";
 import { CompareScenarios } from "@/components/CompareScenarios";
-import { CtaCard } from "@/components/CtaCard";
 import { Toaster } from "@/components/ui/sonner";
 import { useT } from "@/lib/i18n";
 
 export function AboutPage() {
   const t = useT();
-  const [dd] = useState(30);
+  const dd = 30;
 
   const faqs = [
     { q: t("faq.q1"), a: t("faq.a1") },
@@ -27,7 +23,7 @@ export function AboutPage() {
     },
     {
       q: "What is an acceptable drawdown?",
-      a: "Most professional traders aim to keep maximum drawdown below 20–25%. Beyond 30% the recovery required starts to compound fast, and beyond 50% it becomes a psychological as well as mathematical problem.",
+      a: "Most professional traders aim to keep maximum drawdown below 20-25%. Beyond 30% the recovery required starts to compound fast, and beyond 50% it becomes a psychological as well as mathematical problem.",
     },
   ];
   const tips = [t("about.tip1"), t("about.tip2"), t("about.tip3"), t("about.tip4")];
@@ -49,13 +45,13 @@ export function AboutPage() {
           <p className="text-sm leading-relaxed text-muted-foreground">
             Drawdown is the percentage decline of your trading capital from its highest point (peak)
             to its lowest point (trough) before a new peak is reached. It is the single most honest
-            measure of how painful a strategy can be in real life - far more useful than headline
+            measure of how painful a strategy can be in real life: far more useful than headline
             returns alone.
           </p>
           <p className="text-sm leading-relaxed text-muted-foreground">
             Recovery is the gain you need on the remaining capital to climb back to the original
             peak. Because the base shrinks during a drawdown, recovery is always larger than the
-            drawdown itself - and the relationship is exponential, not linear.
+            drawdown itself, and the relationship is exponential, not linear.
           </p>
         </section>
 
@@ -68,18 +64,16 @@ export function AboutPage() {
               {t("content.formula_heading")}
             </div>
             <div className="mt-1 font-display text-sm font-bold tabular tracking-tight text-foreground">
-              recovery % = dd / (100 − dd) × 100
+              recovery % = dd / (100 - dd) x 100
             </div>
           </div>
           <p className="text-sm leading-relaxed text-muted-foreground">{t("about.explain")}</p>
           <p className="text-sm leading-relaxed text-muted-foreground">
             Worked example: a portfolio of $10,000 drops 40% to $6,000. To return to $10,000 the
-            remaining $6,000 must grow by $4,000 - a 66.7% gain, not 40%. At 50% drawdown the
+            remaining $6,000 must grow by $4,000, a 66.7% gain, not 40%. At 50% drawdown the
             recovery doubles to 100%. At 90% drawdown it explodes to 900%.
           </p>
         </section>
-
-        <TimeToRecover drawdown={dd} />
 
         <CompareScenarios current={dd} />
 
@@ -98,7 +92,10 @@ export function AboutPage() {
           <ul className="space-y-1.5 text-[13px] leading-relaxed text-muted-foreground">
             {tips.map((tip, i) => (
               <li key={i} className="flex items-start gap-2">
-                <Lightbulb className="h-3.5 w-3.5 text-primary mt-0.5 shrink-0" />
+                <span
+                  aria-hidden
+                  className="mt-2 inline-block h-1 w-1 shrink-0 rounded-full bg-primary"
+                />
                 <span>{tip}</span>
               </li>
             ))}
@@ -121,8 +118,6 @@ export function AboutPage() {
             ))}
           </div>
         </section>
-
-        <CtaCard />
 
         <p className="text-center text-[11px] leading-relaxed text-muted-foreground">
           {t("privacy")}

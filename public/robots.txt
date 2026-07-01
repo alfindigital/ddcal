@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /preview-meta
+
 
 Sitemap: https://drawdowncal.alfindigital.com/sitemap.xml
