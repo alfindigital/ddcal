@@ -24,7 +24,7 @@ test("findForeignUrls ignores schema.org and site urls", () => {
 });
 
 test("findForeignUrls returns empty when all urls match site", () => {
-  const urls = [SITE, `${SITE}/`, `${SITE}/preview-meta`];
+  const urls = [SITE, `${SITE}/`, `${SITE}/about`];
   assert.deepEqual(findForeignUrls(urls, SITE), []);
 });
 
