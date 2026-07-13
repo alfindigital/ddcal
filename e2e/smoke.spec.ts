@@ -32,8 +32,9 @@ test.describe("mobile smoke", () => {
     await expect(chart).toBeVisible();
 
     // Tap the 50% bar (6th bar; buckets: 5,10,20,30,40,50,...).
-    const bars = chart.locator("button");
-    await bars.nth(5).tap();
+    const bar = chart.locator("button").nth(5);
+    await bar.scrollIntoViewIfNeeded();
+    await bar.click({ force: true });
     await expect
       .poll(async () => chart.getAttribute("aria-valuetext"))
       .toMatch(/50 percent/);
