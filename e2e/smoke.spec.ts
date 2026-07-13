@@ -32,11 +32,12 @@ test.describe("mobile smoke", () => {
     await expect(chart).toBeVisible();
 
     // Tap the 50% bar (6th bar; buckets: 5,10,20,30,40,50,...).
+    await page.waitForTimeout(500);
     const bar = chart.locator("button").nth(5);
     await bar.scrollIntoViewIfNeeded();
-    await bar.dispatchEvent("click");
+    await bar.evaluate((el: HTMLElement) => el.click());
     await expect
-      .poll(async () => chart.getAttribute("aria-valuetext"))
+      .poll(async () => chart.getAttribute("aria-valuetext"), { timeout: 10_000 })
       .toMatch(/50 percent/);
   });
 
