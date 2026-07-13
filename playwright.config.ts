@@ -16,5 +16,17 @@ export default defineConfig({
         reuseExistingServer: true,
         timeout: 120_000,
       },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  projects: [
+    {
+      name: "chromium",
+      use: {
+        ...devices["Desktop Chrome"],
+        launchOptions: {
+          executablePath:
+            process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE ||
+            "/chromium-1194/chrome-linux/chrome",
+        },
+      },
+    },
+  ],
 });
