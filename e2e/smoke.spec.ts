@@ -24,20 +24,19 @@ test.describe("mobile smoke", () => {
     await expect(page.getByRole("heading", { level: 1 })).toBeAttached();
   });
 
-  test("drawdown chart keyboard selection updates active value", async ({ page }) => {
+  test("drawdown chart bar selection updates active value", async ({ page }) => {
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
 
     const chart = page.getByRole("group", { name: /chart|drawdown/i }).first();
     await expect(chart).toBeVisible();
 
-    // Default is 30%. Focus the chart and step right; active bucket should change.
-    await chart.focus();
-    const before = await chart.getAttribute("aria-valuetext");
-    await page.keyboard.press("ArrowRight");
+    // Tap the 50% bar (6th bar; buckets: 5,10,20,30,40,50,...).
+    const bars = chart.locator("button");
+    await bars.nth(5).tap();
     await expect
       .poll(async () => chart.getAttribute("aria-valuetext"))
-      .not.toBe(before);
+      .toMatch(/50 percent/);
   });
 
   test("about page loads in light mode on mobile", async ({ page }) => {
