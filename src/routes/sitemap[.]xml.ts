@@ -7,7 +7,6 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
-        const today = new Date().toISOString().slice(0, 10);
         const entries: { path: string; priority: string }[] = [
           { path: "/", priority: "1.0" },
           { path: "/about", priority: "0.9" },
@@ -18,11 +17,12 @@ export const Route = createFileRoute("/sitemap.xml")({
           })),
         ];
 
+        // No <lastmod>: this is a static tool with no page-specific change
+        // timestamps, and a generation-time date would be misleading.
         const urls = entries.map((e) =>
           [
             `  <url>`,
             `    <loc>${SITE_URL}${e.path}</loc>`,
-            `    <lastmod>${today}</lastmod>`,
             `    <priority>${e.priority}</priority>`,
             `  </url>`,
           ].join("\n"),
