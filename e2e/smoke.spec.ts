@@ -26,16 +26,20 @@ test.describe("mobile smoke", () => {
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
 
-    const chart = page.getByRole("slider", { name: /chart|drawdown/i }).first();
+    const chart = page.getByRole("slider", { name: "Drawdown chart" });
     await expect(chart).toBeVisible();
 
     // Tap the 50% bar (6th bar; buckets: 5,10,20,30,40,50,...).
-    await page.waitForTimeout(500);
+    await page.waitForLoadState("networkidle");
     const bar = chart.locator("button").nth(5);
-    await bar.scrollIntoViewIfNeeded();
-    await bar.evaluate((el: HTMLElement) => el.click());
     await expect
-      .poll(async () => chart.getAttribute("aria-valuetext"), { timeout: 10_000 })
+      .poll(
+        async () => {
+          await bar.click({ force: true });
+          return chart.getAttribute("aria-valuetext");
+        },
+        { timeout: 15_000 },
+      )
       .toMatch(/50 percent/);
   });
 

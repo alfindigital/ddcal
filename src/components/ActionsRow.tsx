@@ -80,7 +80,6 @@ export function ActionsRow({
     }
   };
 
-
   return (
     <div className="space-y-2">
       <div className="grid grid-cols-2 gap-2">
@@ -105,7 +104,6 @@ export function ActionsRow({
           )}
         </Button>
       </div>
-
 
       {mountShare && (
         <div
