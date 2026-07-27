@@ -4,11 +4,6 @@ import { useT } from "@/lib/i18n";
 import { track } from "@/lib/analytics";
 
 const MAX_CAP = 1_000_000_000_000;
-const QUICK_MULTIPLIERS = [
-  { label: "× 0.5", factor: 0.5 },
-  { label: "× 0.7", factor: 0.7 },
-  { label: "× 0.9", factor: 0.9 },
-] as const;
 
 export function EquityTab({
   initial,
@@ -34,32 +29,6 @@ export function EquityTab({
     <div className="space-y-2">
       <Field label={t("label.initial_capital")} value={initial} onChange={onInitialChange} />
       <Field label={t("label.current_capital")} value={current} onChange={onCurrentChange} />
-      <div className="flex flex-wrap items-center justify-end gap-1.5 pt-0.5">
-        {QUICK_MULTIPLIERS.map((q) => (
-          <button
-            key={q.label}
-            type="button"
-            onClick={() => {
-              const next = Math.min(Math.round(initial * q.factor), MAX_CAP);
-              onCurrentChange(next);
-              track("equity_multiplier", { factor: q.factor });
-            }}
-            className="rounded-md border bg-background px-2 py-0.5 text-[11px] font-bold tabular text-muted-foreground transition-colors hover:border-primary hover:text-primary"
-          >
-            {q.label}
-          </button>
-        ))}
-        <button
-          type="button"
-          onClick={() => {
-            onCurrentChange(initial);
-            track("equity_multiplier", { factor: 1 });
-          }}
-          className="rounded-md border bg-background px-2 py-0.5 text-[11px] font-bold text-muted-foreground transition-colors hover:border-primary hover:text-primary"
-        >
-          {t("label.reset")}
-        </button>
-      </div>
     </div>
   );
 }
