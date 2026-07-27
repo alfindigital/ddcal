@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Copy, Download, Loader2, Share2 } from "lucide-react";
+import { Copy, Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import { calcRecovery, formatPercent, formatRupiah } from "@/lib/drawdown";
@@ -25,7 +25,6 @@ export function ActionsRow({
   const shareRef = useRef<HTMLDivElement>(null);
   const [downloading, setDownloading] = useState(false);
   const [mountShare, setMountShare] = useState(false);
-  const canNativeShare = typeof navigator !== "undefined" && typeof navigator.share === "function";
 
   const recovery = calcRecovery(drawdown);
   const ratio = drawdown > 0 && Number.isFinite(recovery) ? recovery / drawdown : 0;
@@ -56,17 +55,6 @@ export function ActionsRow({
     }
   };
 
-  const onNativeShare = async () => {
-    try {
-      await navigator.share({ title: t("share.summary_title"), text: summary, url: shareUrl });
-      track("native_share");
-    } catch (err) {
-      // User cancel is fine; anything else fall back to copy.
-      if (err instanceof DOMException && err.name === "AbortError") return;
-      await onCopy();
-    }
-  };
-
   const onDownload = async () => {
     if (downloading) return;
     setDownloading(true);
@@ -92,9 +80,6 @@ export function ActionsRow({
     }
   };
 
-  const waHref = `https://wa.me/?text=${encodeURIComponent(summary)}`;
-  const tgHref = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(summaryBody)}`;
-  const xHref = `https://twitter.com/intent/tweet?text=${encodeURIComponent(summary)}`;
 
   return (
     <div className="space-y-2">
