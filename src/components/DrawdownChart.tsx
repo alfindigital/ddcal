@@ -156,10 +156,7 @@ function DrawdownChartImpl({
         </div>
 
         {/* Bars — pointer targets only; keyboard/SR live on the container slider. */}
-        <div
-          className="absolute bottom-0 left-9 right-1 top-2 flex items-stretch gap-[2px]"
-          aria-hidden
-        >
+        <div className="absolute bottom-0 left-9 right-1 top-2 flex items-stretch gap-[2px]">
           {BARS.map((b, i) => {
             const isActive = i === activeIdx;
             const color = bucketColor(b.dd, isDark);
@@ -168,6 +165,7 @@ function DrawdownChartImpl({
                 key={b.label}
                 type="button"
                 tabIndex={-1}
+                aria-hidden
                 disabled={!interactive}
                 onPointerEnter={interactive ? () => setHoverIdx(i) : undefined}
                 onPointerLeave={interactive ? () => setHoverIdx(null) : undefined}
