@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Copy, Download, Loader2, Share2 } from "lucide-react";
+import { Copy, Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import { calcRecovery, formatPercent, formatRupiah } from "@/lib/drawdown";
@@ -25,7 +25,6 @@ export function ActionsRow({
   const shareRef = useRef<HTMLDivElement>(null);
   const [downloading, setDownloading] = useState(false);
   const [mountShare, setMountShare] = useState(false);
-  const canNativeShare = typeof navigator !== "undefined" && typeof navigator.share === "function";
 
   const recovery = calcRecovery(drawdown);
   const ratio = drawdown > 0 && Number.isFinite(recovery) ? recovery / drawdown : 0;
@@ -56,17 +55,6 @@ export function ActionsRow({
     }
   };
 
-  const onNativeShare = async () => {
-    try {
-      await navigator.share({ title: t("share.summary_title"), text: summary, url: shareUrl });
-      track("native_share");
-    } catch (err) {
-      // User cancel is fine; anything else fall back to copy.
-      if (err instanceof DOMException && err.name === "AbortError") return;
-      await onCopy();
-    }
-  };
-
   const onDownload = async () => {
     if (downloading) return;
     setDownloading(true);
@@ -92,9 +80,6 @@ export function ActionsRow({
     }
   };
 
-  const waHref = `https://wa.me/?text=${encodeURIComponent(summary)}`;
-  const tgHref = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(summaryBody)}`;
-  const xHref = `https://twitter.com/intent/tweet?text=${encodeURIComponent(summary)}`;
 
   return (
     <div className="space-y-2">
@@ -121,45 +106,6 @@ export function ActionsRow({
         </Button>
       </div>
 
-      <div className="flex flex-wrap items-center gap-1.5">
-        {canNativeShare && (
-          <Button
-            variant="outline"
-            size="sm"
-            className="h-8 gap-1.5 text-[11px]"
-            onClick={onNativeShare}
-          >
-            <Share2 className="h-3.5 w-3.5" /> {t("label.share")}
-          </Button>
-        )}
-        <a
-          href={waHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => track("share_whatsapp")}
-          className="inline-flex h-8 items-center rounded-md border border-input bg-background px-2.5 text-[11px] font-medium text-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
-        >
-          WhatsApp
-        </a>
-        <a
-          href={tgHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => track("share_telegram")}
-          className="inline-flex h-8 items-center rounded-md border border-input bg-background px-2.5 text-[11px] font-medium text-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
-        >
-          Telegram
-        </a>
-        <a
-          href={xHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => track("share_x")}
-          className="inline-flex h-8 items-center rounded-md border border-input bg-background px-2.5 text-[11px] font-medium text-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
-        >
-          X
-        </a>
-      </div>
 
       {mountShare && (
         <div
