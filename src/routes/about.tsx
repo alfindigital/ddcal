@@ -9,7 +9,7 @@ export const Route = createFileRoute("/about")({
       url: `${SITE_URL}/about`,
       title: "About Drawdown & Recovery: Formula, Table, Tips & FAQ | DrawdownCal",
       description:
-        "Complete guide to trading drawdown vs recovery: formula, reference table 5%–99%, risk management tips, time-to-break-even estimator, and FAQ.",
+        "Complete guide to trading drawdown vs recovery: the formula, a reference table from 5% to 99%, risk management tips, and FAQ.",
     }),
     links: canonical("/about"),
     scripts: [{ type: "application/ld+json", children: JSON.stringify(faqJsonLd()) }],
