@@ -16,6 +16,7 @@ export function ResultCard({
   const t = useT();
   const recovery = calcRecovery(drawdown);
   const severe = drawdown >= 60;
+  const extreme = drawdown >= 90;
   const tkey = takeawayKey(drawdown);
 
   return (
@@ -49,13 +50,11 @@ export function ResultCard({
         ) : (
           <Lightbulb className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
         )}
-        <span>{t(tkey)}</span>
+        <span>{extreme ? t("warning.extreme") : t(tkey)}</span>
       </div>
     </div>
   );
 }
-
-
 
 function Cell({
   label,

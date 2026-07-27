@@ -3,9 +3,11 @@
  * analytics later touches only this file. No-ops entirely when VITE_GA_ID is
  * unset, so dev/preview never sends events and the snippet never loads.
  *
- * The gtag <script> is injected in __root.tsx head (guarded by the same id),
- * with Consent Mode defaulting analytics_storage to "denied" until granted —
- * keeps cookieless pings working without a blocking consent wall.
+ * The gtag <script> is injected in __root.tsx head (guarded by the same id).
+ * Consent Mode defaults analytics_storage to "granted" because the primary
+ * audience is Indonesia (no GDPR consent wall required). If you expand to the
+ * EU/UK, flip analytics_storage to "denied" here and gate `granted` behind an
+ * explicit consent UI before calling gtag('consent','update',...).
  */
 
 export const GA_ID: string | undefined =

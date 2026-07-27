@@ -117,7 +117,6 @@ async function main() {
     jsonld: { minBlocks: 2 }, // root WebSite/Organization + index FAQ/WebApp
   });
 
-
   // OG image fetch + fallback presence
   console.log("\n--- OG image reachability ---");
   const status = await head(OG_IMAGE);

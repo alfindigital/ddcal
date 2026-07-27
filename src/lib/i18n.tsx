@@ -33,8 +33,7 @@ const DICT = {
   "toast.copy_failed": "Failed to copy",
   "toast.download_failed": "Download failed",
 
-  "warning.extreme":
-    "Recovery is extremely hard at this level. Reassess risk management.",
+  "warning.extreme": "Recovery is extremely hard at this level. Reassess risk management.",
   "takeaway.easy": "Still manageable. Keep cutting losses to stay in this zone.",
   "takeaway.medium": "Getting heavy: recovery now costs more than the loss.",
   "takeaway.hard": "You need a far bigger gain than the loss. Cut position size.",

@@ -1,10 +1,8 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
-  createRootRouteWithContext,
+  createRootRoute,
   useRouter,
-  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -38,7 +36,9 @@ function NotFoundComponent() {
 }
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
-  console.error(error);
+  if (import.meta.env.DEV) {
+    console.error(error);
+  }
   const router = useRouter();
 
   return (
@@ -72,7 +72,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -96,10 +96,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     scripts: [
       {
-        // Pre-hydration theme apply to prevent FOUC. Defaults to LIGHT mode;
-        // dark only applies when explicitly chosen by the user.
+        // Pre-hydration theme apply to prevent FOUC. Light-default: dark only
+        // when the user explicitly chose it. Syncs theme-color to that choice.
         children:
-          "(function(){try{var s=localStorage.getItem('theme');if(s==='dark')document.documentElement.classList.add('dark');}catch(e){}})();",
+          "(function(){try{var d=localStorage.getItem('theme')==='dark';if(d)document.documentElement.classList.add('dark');var c=d?'#18120f':'#ffffff';document.querySelectorAll('meta[name=\"theme-color\"]').forEach(function(m){m.setAttribute('content',c);});}catch(e){}})();",
       },
       ...(GA_ID
         ? [
@@ -130,8 +130,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-        <meta name="theme-color" content="#18120f" media="(prefers-color-scheme: dark)" />
+        <meta name="theme-color" content="#ffffff" />
         <HeadContent />
       </head>
       <body>
@@ -143,15 +142,25 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
-
   useEffect(() => {
     registerPWA();
   }, []);
 
-  return (
-    <QueryClientProvider client={queryClient}>
-      <Outlet />
-    </QueryClientProvider>
-  );
+  // Keep theme-color in sync when the user toggles dark/light after load.
+  useEffect(() => {
+    const sync = () => {
+      const dark = document.documentElement.classList.contains("dark");
+      const color = dark ? "#18120f" : "#ffffff";
+      document.querySelectorAll('meta[name="theme-color"]').forEach((m) => {
+        m.setAttribute("content", color);
+        m.removeAttribute("media");
+      });
+    };
+    sync();
+    const mo = new MutationObserver(sync);
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    return () => mo.disconnect();
+  }, []);
+
+  return <Outlet />;
 }

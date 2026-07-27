@@ -36,17 +36,6 @@ const SOCIALS: Social[] = [
   },
 ];
 
-// Keyframes only — layout/colors via Tailwind tokens below.
-const KEYFRAMES = `
-@keyframes afd-blink{50%{opacity:0}}
-@keyframes afd-ripple{0%{box-shadow:0 0 0 0 color-mix(in oklch, var(--primary) 50%, transparent)}100%{box-shadow:0 0 0 16px color-mix(in oklch, var(--primary) 0%, transparent)}}
-.afd-glow{background:radial-gradient(closest-side, color-mix(in oklch, var(--primary) 22%, transparent), transparent);transition:left 6s ease-in-out, top 6s ease-in-out;}
-.afd-ico-bg{background:color-mix(in oklch, var(--primary) 11%, transparent);}
-.afd-rot:hover .afd-item-active .afd-ico-bg{background:var(--primary);color:var(--card);}
-.afd-rot:hover .afd-item-active .afd-ico-bg::after{content:"";position:absolute;inset:0;border-radius:9999px;animation:afd-ripple 1.3s ease-out infinite;}
-.afd-caret{animation:afd-blink 1.1s step-end infinite;}
-`;
-
 export function Footer() {
   const [active, setActive] = useState(0);
   const pausedRef = useRef(false);
@@ -79,63 +68,56 @@ export function Footer() {
   }, [reduced]);
 
   return (
-    <>
-      <style dangerouslySetInnerHTML={{ __html: KEYFRAMES }} />
-      <footer className="relative flex items-center justify-between gap-2.5 overflow-hidden rounded-b-xl border-t border-border bg-card px-3.5 py-2 sm:px-3 sm:py-1.5">
-        <div
-          ref={glowRef}
-          className="afd-glow pointer-events-none absolute -top-[40%] -bottom-[40%] left-[-48%] z-0 w-[48%] rounded-full blur-lg"
-        />
-        <span className="relative z-10 inline-flex shrink min-w-0 items-center whitespace-nowrap border-l-2 border-primary pl-2 text-[11px] text-muted-foreground sm:pl-1.5 sm:text-[10px]">
-          © {year}
-          <a
-            href="https://alfindigital.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ml-1 font-semibold text-primary hover:underline"
-          >
-            alfindigital
-          </a>
-          <span
-            className={`${reduced ? "" : "afd-caret"} ml-[3px] inline-block h-3 w-[6px] bg-primary sm:h-2.5 sm:w-[5px]`}
-          />
-        </span>
-        <div
-          className="afd-rot relative z-10 h-[26px] min-w-[150px] shrink-0 sm:h-[22px] sm:min-w-[120px]"
-          onMouseEnter={() => (pausedRef.current = true)}
-          onMouseLeave={() => (pausedRef.current = false)}
+    <footer className="relative flex items-center justify-between gap-2.5 overflow-hidden rounded-b-xl border-t border-border bg-card px-3.5 py-2 sm:px-3 sm:py-1.5">
+      <div
+        ref={glowRef}
+        className="afd-glow pointer-events-none absolute -top-[40%] -bottom-[40%] left-[-48%] z-0 w-[48%] rounded-full blur-lg"
+      />
+      <span className="relative z-10 inline-flex shrink min-w-0 items-center whitespace-nowrap border-l-2 border-primary pl-2 text-[11px] text-muted-foreground sm:pl-1.5 sm:text-[10px]">
+        © {year}
+        <a
+          href="https://alfindigital.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="ml-1 font-semibold text-primary hover:underline"
         >
-          {SOCIALS.map((s, idx) => {
-            const isActive = idx === active;
-            return (
-              <a
-                key={s.label}
-                className={`absolute right-0 top-0 flex h-[26px] items-center gap-2 whitespace-nowrap text-xs text-foreground no-underline transition-[opacity,transform] duration-500 sm:h-[22px] sm:gap-1.5 sm:text-[10.5px] ${
-                  isActive
-                    ? "afd-item-active translate-y-0 opacity-100 pointer-events-auto"
-                    : "translate-y-1.5 opacity-0 pointer-events-none"
-                }`}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={s.label}
-                onClick={() => track("social_click", { label: s.label })}
-              >
-                <span className="afd-ico-bg relative inline-flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full text-primary transition-all duration-200 sm:h-[22px] sm:w-[22px]">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="h-3.5 w-3.5 sm:h-3 sm:w-3"
-                  >
-                    <path d={s.path} />
-                  </svg>
-                </span>
-                <b className="font-semibold text-primary">{s.handle}</b>
-              </a>
-            );
-          })}
-        </div>
-      </footer>
-    </>
+          alfindigital
+        </a>
+        <span
+          className={`${reduced ? "" : "afd-caret"} ml-[3px] inline-block h-3 w-[6px] bg-primary sm:h-2.5 sm:w-[5px]`}
+        />
+      </span>
+      <div
+        className="afd-rot relative z-10 h-[26px] min-w-[150px] shrink-0 sm:h-[22px] sm:min-w-[120px]"
+        onMouseEnter={() => (pausedRef.current = true)}
+        onMouseLeave={() => (pausedRef.current = false)}
+      >
+        {SOCIALS.map((s, idx) => {
+          const isActive = idx === active;
+          return (
+            <a
+              key={s.label}
+              className={`absolute right-0 top-0 flex h-[26px] items-center gap-2 whitespace-nowrap text-xs text-foreground no-underline transition-[opacity,transform] duration-500 sm:h-[22px] sm:gap-1.5 sm:text-[10.5px] ${
+                isActive
+                  ? "afd-item-active translate-y-0 opacity-100 pointer-events-auto"
+                  : "translate-y-1.5 opacity-0 pointer-events-none"
+              }`}
+              href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={s.label}
+              onClick={() => track("social_click", { label: s.label })}
+            >
+              <span className="afd-ico-bg relative inline-flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full text-primary transition-all duration-200 sm:h-[22px] sm:w-[22px]">
+                <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5 sm:h-3 sm:w-3">
+                  <path d={s.path} />
+                </svg>
+              </span>
+              <b className="font-semibold text-primary">{s.handle}</b>
+            </a>
+          );
+        })}
+      </div>
+    </footer>
   );
 }

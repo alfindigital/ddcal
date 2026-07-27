@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PercentTab } from "@/components/PercentTab";
@@ -7,15 +8,19 @@ import { ResultCard } from "@/components/ResultCard";
 import { DrawdownChart } from "@/components/DrawdownChart";
 import { ActionsRow } from "@/components/ActionsRow";
 import { InstallPrompt } from "@/components/InstallPrompt";
+import { TimeToRecover } from "@/components/TimeToRecover";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Toaster } from "@/components/ui/sonner";
 import { useT } from "@/lib/i18n";
 import { SITE_URL } from "@/lib/seo";
-import { calcDrawdownFromCapital, formatPercentSmart } from "@/lib/drawdown";
+import { calcCapitalChangePct, formatPercentSmart, isInProfit } from "@/lib/drawdown";
 import { track } from "@/lib/analytics";
 import { PartyPopper } from "lucide-react";
 
 const ANIM = 350;
+const DEFAULT_DD = 30;
+const DEFAULT_AWAL = 10_000_000;
+const DEFAULT_SISA = 7_000_000;
 
 export type HomeInitial = {
   dd: number;
@@ -24,25 +29,26 @@ export type HomeInitial = {
   sisa: number;
 };
 
-function buildQuery(
+function buildSearch(
   drawdown: number,
   mode: "persen" | "equity",
   awal: number,
   sisa: number,
-): string {
-  const p = new URLSearchParams();
+): { dd?: number; mode?: "pct" | "eq"; awal?: number; sisa?: number } {
   if (mode === "equity") {
-    p.set("mode", "eq");
-    p.set("awal", String(awal));
-    p.set("sisa", String(sisa));
-  } else if (Math.round(drawdown) !== 30) {
-    p.set("dd", String(Math.round(drawdown)));
+    const search: { mode: "eq"; awal?: number; sisa?: number } = { mode: "eq" };
+    if (awal !== DEFAULT_AWAL) search.awal = awal;
+    if (sisa !== DEFAULT_SISA) search.sisa = sisa;
+    return search;
   }
-  return p.toString();
+  const rounded = Math.round(drawdown);
+  if (rounded !== DEFAULT_DD) return { dd: rounded };
+  return {};
 }
 
 export function HomePage({ initial }: { initial: HomeInitial }) {
   const tr = useT();
+  const navigate = useNavigate({ from: "/" });
 
   const [drawdown, setDrawdown] = useState(initial.dd);
   const [mode, setMode] = useState<"persen" | "equity">(
@@ -55,28 +61,37 @@ export function HomePage({ initial }: { initial: HomeInitial }) {
   const handleChartActive = (n: number) => setDrawdown(n);
   const handleEquityChange = useCallback((n: number) => setDrawdown(n), []);
 
-  const inProfit = mode === "equity" && equityCurrent > equityInitial && equityInitial > 0;
-  const profitPct = inProfit ? Math.abs(calcDrawdownFromCapital(equityInitial, equityCurrent)) : 0;
+  const inProfit = mode === "equity" && isInProfit(equityInitial, equityCurrent);
+  const profitPct = inProfit ? Math.abs(calcCapitalChangePct(equityInitial, equityCurrent)) : 0;
 
-  // URL state sync (replaceState — no router churn) + share deep link.
-  const query = useMemo(
-    () => buildQuery(drawdown, mode, equityInitial, equityCurrent),
+  // URL state sync via the router (keeps history + router search in sync).
+  const search = useMemo(
+    () => buildSearch(drawdown, mode, equityInitial, equityCurrent),
     [drawdown, mode, equityInitial, equityCurrent],
   );
   useEffect(() => {
     if (typeof window === "undefined") return;
     const id = setTimeout(() => {
-      const url = window.location.pathname + (query ? `?${query}` : "");
-      window.history.replaceState(window.history.state, "", url);
+      void navigate({ search, replace: true });
     }, 300);
     return () => clearTimeout(id);
-  }, [query]);
+  }, [search, navigate]);
 
   const [origin, setOrigin] = useState(SITE_URL);
   useEffect(() => {
     if (typeof window !== "undefined") setOrigin(window.location.origin);
   }, []);
-  const shareUrl = `${origin}/${query ? `?${query}` : ""}`;
+
+  const queryString = useMemo(() => {
+    const p = new URLSearchParams();
+    if (search.mode) p.set("mode", search.mode);
+    if (search.dd != null) p.set("dd", String(search.dd));
+    if (search.awal != null) p.set("awal", String(search.awal));
+    if (search.sisa != null) p.set("sisa", String(search.sisa));
+    return p.toString();
+  }, [search]);
+  // Avoid trailing slash before "?" (canonical-friendly share URLs).
+  const shareUrl = queryString ? `${origin}/?${queryString}` : `${origin}/`;
 
   const Calculator = (
     <main className="overflow-hidden rounded-2xl border bg-card shadow-[var(--shadow-elegant)]">
@@ -122,7 +137,10 @@ export function HomePage({ initial }: { initial: HomeInitial }) {
               {tr("profit.banner", { n: formatPercentSmart(profitPct) })}
             </div>
           ) : (
-            <ResultCard drawdown={drawdown} animationDuration={ANIM} smoothEnabled />
+            <>
+              <ResultCard drawdown={drawdown} animationDuration={ANIM} smoothEnabled />
+              <TimeToRecover drawdown={drawdown} />
+            </>
           )}
         </div>
       </Tabs>
@@ -164,7 +182,6 @@ export function HomePage({ initial }: { initial: HomeInitial }) {
           <br />
           {tr("disclaimer")}
         </p>
-
 
         <div className="dd-fade mt-auto" style={{ animationDelay: "220ms" }}>
           <Footer />

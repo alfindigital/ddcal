@@ -5,18 +5,20 @@ import { useT } from "@/lib/i18n";
 import { track } from "@/lib/analytics";
 
 const MILESTONES = [25, 50, 75, 90];
-const clampDd = (n: number) => Math.max(1, Math.min(99, n));
+/** Percent mode is integer-only so slider thumb and typed input never disagree. */
+const clampDd = (n: number) => Math.max(1, Math.min(99, Math.round(n)));
 
 export function PercentTab({ value, onChange }: { value: number; onChange: (n: number) => void }) {
   const t = useT();
   const ticks = [1, 25, 50, 75, 99];
   const prevRef = useRef(value);
-  // Local text state for the numeric input so typing decimals doesn't fight the
+  const display = clampDd(value);
+  // Local text state for the numeric input so typing doesn't fight the
   // controlled value / cause caret jumps.
-  const [text, setText] = useState(String(value));
+  const [text, setText] = useState(String(display));
   useEffect(() => {
-    setText((prev) => (Number(prev) === value ? prev : String(value)));
-  }, [value]);
+    setText((prev) => (Number(prev) === display ? prev : String(display)));
+  }, [display]);
 
   const handleSlider = (n: number) => {
     const prev = prevRef.current;
@@ -42,12 +44,14 @@ export function PercentTab({ value, onChange }: { value: number; onChange: (n: n
   const commitText = (raw: string) => {
     const n = parseFloat(raw.replace(",", "."));
     if (Number.isFinite(n)) {
-      const c = clampDd(Math.round(n * 10) / 10);
+      const c = clampDd(n);
       prevRef.current = c;
       onChange(c);
       track("slider_input");
+      setText(String(c));
+      return;
     }
-    setText(String(clampDd(Number.isFinite(n) ? Math.round(n * 10) / 10 : value)));
+    setText(String(display));
   };
 
   return (
@@ -56,13 +60,13 @@ export function PercentTab({ value, onChange }: { value: number; onChange: (n: n
         <SliderPrimitive.Root
           aria-label={t("aria.slider")}
           aria-valuetext={t("aria.slider_value", {
-            dd: value,
-            rec: formatPercent(calcRecovery(value)),
+            dd: display,
+            rec: formatPercent(calcRecovery(display)),
           })}
           min={1}
           max={99}
           step={1}
-          value={[Math.round(value)]}
+          value={[display]}
           onValueChange={(v) => handleSlider(v[0])}
           className="relative flex h-4 flex-1 touch-none select-none items-center"
         >
@@ -75,10 +79,10 @@ export function PercentTab({ value, onChange }: { value: number; onChange: (n: n
         <div className="relative shrink-0">
           <input
             type="text"
-            inputMode="decimal"
+            inputMode="numeric"
             aria-label={t("aria.slider")}
             value={text}
-            onChange={(e) => setText(e.target.value.replace(/[^\d.,]/g, ""))}
+            onChange={(e) => setText(e.target.value.replace(/[^\d]/g, ""))}
             onBlur={(e) => commitText(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") (e.target as HTMLInputElement).blur();
@@ -106,7 +110,6 @@ export function PercentTab({ value, onChange }: { value: number; onChange: (n: n
           </button>
         ))}
       </div>
-      
     </div>
   );
 }

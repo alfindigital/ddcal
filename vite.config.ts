@@ -22,8 +22,20 @@ export default defineConfig({
       manifest: false, // We ship public/manifest.webmanifest manually.
       workbox: {
         globPatterns: ["**/*.{js,css,html,svg,png,ico,webp,woff2}"],
+        // Don't precache the on-demand share-image chunk (html-to-image).
+        globIgnores: ["**/html-to-image*.js", "**/vendor-html-to-image*.js"],
+        // App-shell fallback only for unknown navigations — never for real routes
+        // like /drawdown/:dd or /about (those must hit the network/cache as themselves).
         navigateFallback: "/",
-        navigateFallbackDenylist: [/^\/~oauth/, /^\/api\//],
+        navigateFallbackDenylist: [
+          /^\/~oauth/,
+          /^\/api\//,
+          /^\/drawdown/,
+          /^\/about/,
+          /^\/sitemap\.xml/,
+          /^\/robots\.txt/,
+          /^\/manifest\.webmanifest/,
+        ],
         runtimeCaching: [
           {
             urlPattern: ({ request }) => request.mode === "navigate",

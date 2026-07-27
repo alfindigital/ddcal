@@ -26,13 +26,9 @@ export function ThemeToggle() {
   const [dark, setDark] = useState(false);
 
   useEffect(() => {
-    // Sync state with whatever the pre-hydration script already applied.
-    const stored = safeGet();
-    const isDark =
-      stored === "dark" ||
-      (stored == null &&
-        typeof window !== "undefined" &&
-        window.matchMedia?.("(prefers-color-scheme: dark)").matches);
+    // Light-default product: dark only when the user explicitly chose it.
+    // Matches the pre-hydration script in __root.tsx (no OS-preference auto-dark).
+    const isDark = safeGet() === "dark";
     setDark(isDark);
     document.documentElement.classList.toggle("dark", isDark);
 

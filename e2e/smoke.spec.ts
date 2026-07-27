@@ -8,9 +8,7 @@ test.describe("mobile smoke", () => {
     await page.waitForLoadState("domcontentloaded");
 
     // Default light mode: <html> should NOT have `dark` class.
-    const isDark = await page.evaluate(() =>
-      document.documentElement.classList.contains("dark"),
-    );
+    const isDark = await page.evaluate(() => document.documentElement.classList.contains("dark"));
     expect(isDark).toBe(false);
 
     // No horizontal overflow at mobile width.
@@ -28,7 +26,7 @@ test.describe("mobile smoke", () => {
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
 
-    const chart = page.getByRole("group", { name: /chart|drawdown/i }).first();
+    const chart = page.getByRole("slider", { name: /chart|drawdown/i }).first();
     await expect(chart).toBeVisible();
 
     // Tap the 50% bar (6th bar; buckets: 5,10,20,30,40,50,...).
@@ -45,9 +43,7 @@ test.describe("mobile smoke", () => {
     await page.goto("/about");
     await page.waitForLoadState("domcontentloaded");
 
-    const isDark = await page.evaluate(() =>
-      document.documentElement.classList.contains("dark"),
-    );
+    const isDark = await page.evaluate(() => document.documentElement.classList.contains("dark"));
     expect(isDark).toBe(false);
 
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();

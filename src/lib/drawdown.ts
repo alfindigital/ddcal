@@ -9,6 +9,22 @@ export function calcDrawdownFromCapital(initial: number, current: number): numbe
   return ((initial - current) / initial) * 100;
 }
 
+/** Signed capital change as a percentage of starting capital. Positive = profit. */
+export function calcCapitalChangePct(initial: number, current: number): number {
+  if (initial <= 0) return 0;
+  return ((current - initial) / initial) * 100;
+}
+
+export function isInProfit(initial: number, current: number): boolean {
+  return initial > 0 && current > initial;
+}
+
+/** Clamp drawdown to the interactive range used by the UI (0–99, 1 decimal). */
+export function clampDrawdown(dd: number): number {
+  const c = Math.max(0, Math.min(99, dd));
+  return Math.round(c * 10) / 10;
+}
+
 /**
  * Number of equal periods (e.g. months) to recover a given drawdown, assuming a
  * constant per-period return. Returns Infinity when recovery is impossible.

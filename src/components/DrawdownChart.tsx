@@ -106,6 +106,12 @@ function DrawdownChartImpl({
       } else if (e.key === "ArrowRight" && activeIdx < REFERENCE_BUCKETS.length - 1) {
         e.preventDefault();
         onActiveChange(REFERENCE_BUCKETS[activeIdx + 1], 0);
+      } else if (e.key === "Home") {
+        e.preventDefault();
+        onActiveChange(REFERENCE_BUCKETS[0], 0);
+      } else if (e.key === "End") {
+        e.preventDefault();
+        onActiveChange(REFERENCE_BUCKETS[REFERENCE_BUCKETS.length - 1], 0);
       }
     },
     [onActiveChange, activeIdx],
@@ -113,6 +119,8 @@ function DrawdownChartImpl({
 
   const tipIdx = hoverIdx ?? activeIdx;
   const n = BARS.length;
+  const activeDd = REFERENCE_BUCKETS[activeIdx];
+  const activeRec = formatPercent(calcRecovery(activeDd));
 
   return (
     <div className="space-y-1.5">
@@ -121,15 +129,13 @@ function DrawdownChartImpl({
         className="relative w-full rounded-md outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         style={{ height: chartHeight }}
         tabIndex={interactive ? 0 : -1}
-        role={interactive ? "group" : undefined}
+        role={interactive ? "slider" : undefined}
         aria-label={interactive ? t("chart.aria") : undefined}
+        aria-valuemin={interactive ? REFERENCE_BUCKETS[0] : undefined}
+        aria-valuemax={interactive ? REFERENCE_BUCKETS[REFERENCE_BUCKETS.length - 1] : undefined}
+        aria-valuenow={interactive ? activeDd : undefined}
         aria-valuetext={
-          interactive
-            ? t("aria.slider_value", {
-                dd: REFERENCE_BUCKETS[activeIdx],
-                rec: formatPercent(calcRecovery(REFERENCE_BUCKETS[activeIdx])),
-              })
-            : undefined
+          interactive ? t("aria.slider_value", { dd: activeDd, rec: activeRec }) : undefined
         }
         onKeyDown={interactive ? handleKeyDown : undefined}
       >
@@ -149,8 +155,11 @@ function DrawdownChartImpl({
           ))}
         </div>
 
-        {/* Bars */}
-        <div className="absolute bottom-0 left-9 right-1 top-2 flex items-stretch gap-[2px]">
+        {/* Bars — pointer targets only; keyboard/SR live on the container slider. */}
+        <div
+          className="absolute bottom-0 left-9 right-1 top-2 flex items-stretch gap-[2px]"
+          aria-hidden
+        >
           {BARS.map((b, i) => {
             const isActive = i === activeIdx;
             const color = bucketColor(b.dd, isDark);
@@ -159,7 +168,6 @@ function DrawdownChartImpl({
                 key={b.label}
                 type="button"
                 tabIndex={-1}
-                aria-hidden
                 disabled={!interactive}
                 onPointerEnter={interactive ? () => setHoverIdx(i) : undefined}
                 onPointerLeave={interactive ? () => setHoverIdx(null) : undefined}
