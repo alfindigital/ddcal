@@ -121,45 +121,6 @@ export function ActionsRow({
         </Button>
       </div>
 
-      <div className="flex flex-wrap items-center gap-1.5">
-        {canNativeShare && (
-          <Button
-            variant="outline"
-            size="sm"
-            className="h-8 gap-1.5 text-[11px]"
-            onClick={onNativeShare}
-          >
-            <Share2 className="h-3.5 w-3.5" /> {t("label.share")}
-          </Button>
-        )}
-        <a
-          href={waHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => track("share_whatsapp")}
-          className="inline-flex h-8 items-center rounded-md border border-input bg-background px-2.5 text-[11px] font-medium text-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
-        >
-          WhatsApp
-        </a>
-        <a
-          href={tgHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => track("share_telegram")}
-          className="inline-flex h-8 items-center rounded-md border border-input bg-background px-2.5 text-[11px] font-medium text-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
-        >
-          Telegram
-        </a>
-        <a
-          href={xHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => track("share_x")}
-          className="inline-flex h-8 items-center rounded-md border border-input bg-background px-2.5 text-[11px] font-medium text-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
-        >
-          X
-        </a>
-      </div>
 
       {mountShare && (
         <div
