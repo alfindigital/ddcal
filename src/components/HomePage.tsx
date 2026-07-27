@@ -8,7 +8,7 @@ import { ResultCard } from "@/components/ResultCard";
 import { DrawdownChart } from "@/components/DrawdownChart";
 import { ActionsRow } from "@/components/ActionsRow";
 import { InstallPrompt } from "@/components/InstallPrompt";
-import { TimeToRecover } from "@/components/TimeToRecover";
+
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Toaster } from "@/components/ui/sonner";
 import { useT } from "@/lib/i18n";
@@ -139,7 +139,6 @@ export function HomePage({ initial }: { initial: HomeInitial }) {
           ) : (
             <>
               <ResultCard drawdown={drawdown} animationDuration={ANIM} smoothEnabled />
-              <TimeToRecover drawdown={drawdown} />
             </>
           )}
         </div>
