@@ -38,20 +38,22 @@ export function monthsToRecover(recoveryPct: number, perPeriodReturnPct: number)
   return Math.log(growth) / Math.log(rate);
 }
 
-const pctFmt = new Intl.NumberFormat("id-ID", {
+const pctFmt = new Intl.NumberFormat("en-US", {
   minimumFractionDigits: 1,
   maximumFractionDigits: 1,
 });
 
+// Rupiah grouping stays Indonesian (10.000.000) — equity inputs are IDR.
 const intFmt = new Intl.NumberFormat("id-ID", { maximumFractionDigits: 0 });
+const pctIntFmt = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
 
 export const formatPercent = (v: number) => (Number.isFinite(v) ? pctFmt.format(v) : "∞");
 
-// Drops the trailing ".0" for whole numbers (e.g. "30" not "30,0"), keeps one
+// Drops the trailing ".0" for whole numbers (e.g. "30" not "30.0"), keeps one
 // decimal otherwise. Used where integer inputs shouldn't show fake precision.
 export const formatPercentSmart = (v: number) => {
   if (!Number.isFinite(v)) return "∞";
-  return Number.isInteger(v) ? intFmt.format(v) : pctFmt.format(v);
+  return Number.isInteger(v) ? pctIntFmt.format(v) : pctFmt.format(v);
 };
 
 export const formatRupiah = (v: number) => `Rp${intFmt.format(v)}`;

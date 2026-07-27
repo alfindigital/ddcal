@@ -1,7 +1,7 @@
 {
   "ci": {
     "collect": {
-      "url": ["https://drawdowncal.lovable.app/"],
+      "url": ["https://ddcal.lotmetrik.my.id/"],
       "numberOfRuns": 3,
       "settings": {
         "preset": "desktop"

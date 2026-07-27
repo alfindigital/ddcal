@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { extractUrls, findForeignUrls, isSchemaOrgVocab } from "./jsonld-urls.mjs";
 
-const SITE = "https://drawdowncal.lovable.app";
+const SITE = "https://ddcal.lotmetrik.my.id";
 
 test("extractUrls finds http(s) urls in nested objects", () => {
   const obj = {
@@ -29,12 +29,12 @@ test("findForeignUrls returns empty when all urls match site", () => {
 });
 
 test("findForeignUrls does NOT treat lookalike domains as site (no false positive)", () => {
-  const urls = ["https://drawdowncal.lovable.app.evil.com/x"];
+  const urls = ["https://ddcal.lotmetrik.my.id.evil.com/x"];
   // startsWith match means evil subdomain pretending. Confirm it's flagged.
   // Note: startsWith would actually MATCH here since the string starts with the site.
   // That's a real false negative we want to harden — switch matcher to origin-based.
   const foreign = findForeignUrls(urls, SITE);
-  assert.deepEqual(foreign, ["https://drawdowncal.lovable.app.evil.com/x"]);
+  assert.deepEqual(foreign, ["https://ddcal.lotmetrik.my.id.evil.com/x"]);
 });
 
 test("isSchemaOrgVocab true for schema.org urls only", () => {

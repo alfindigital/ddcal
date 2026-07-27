@@ -17,10 +17,10 @@ Example: a 50% drawdown requires a 100% recovery. A 20% drawdown only requires a
 
 ## Pages
 
-- [Home / Calculator](https://drawdowncal.alfindigital.com/): Interactive drawdown calculator.
-- [About](https://drawdowncal.alfindigital.com/about): Full guide, formula, reference table, tips and FAQ.
-- [All drawdown levels](https://drawdowncal.alfindigital.com/drawdown): List of drawdown levels from 5% to 99% with their required recovery.
-- Per-level page, e.g. [Drawdown 50%](https://drawdowncal.alfindigital.com/drawdown/50).
+- [Home / Calculator](https://ddcal.lotmetrik.my.id/): Interactive drawdown calculator.
+- [About](https://ddcal.lotmetrik.my.id/about): Full guide, formula, reference table, tips and FAQ.
+- [All drawdown levels](https://ddcal.lotmetrik.my.id/drawdown): List of drawdown levels from 5% to 99% with their required recovery.
+- Per-level page, e.g. [Drawdown 50%](https://ddcal.lotmetrik.my.id/drawdown/50).
 
 ## Quick FAQ
 
@@ -30,5 +30,5 @@ Example: a 50% drawdown requires a 100% recovery. A 20% drawdown only requires a
 
 ## Contact
 
-Project URL: https://drawdowncal.alfindigital.com
+Project URL: https://ddcal.lotmetrik.my.id
 Telegram: https://t.me/alfidx

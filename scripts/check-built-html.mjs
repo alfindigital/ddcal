@@ -4,12 +4,12 @@
 //
 // Usage:
 //   node scripts/check-built-html.mjs                      # uses http://localhost:3000
-//   E2E_BASE_URL=https://drawdowncal.lovable.app node ...  # against deployed
+//   E2E_BASE_URL=https://ddcal.lotmetrik.my.id node ...  # against deployed
 
 import { existsSync } from "node:fs";
 
 const BASE = process.env.E2E_BASE_URL || "http://localhost:3000";
-const SITE_URL = process.env.VITE_SITE_URL || "https://drawdowncal.alfindigital.com";
+const SITE_URL = process.env.VITE_SITE_URL || "https://ddcal.lotmetrik.my.id";
 const OG_IMAGE = `${SITE_URL}/og.jpg`;
 const OG_FALLBACK = `${SITE_URL}/og-image-fallback.svg`;
 

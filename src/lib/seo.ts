@@ -3,7 +3,7 @@ import { calcRecovery, formatPercent } from "@/lib/drawdown";
 
 export const SITE_URL = (
   (typeof import.meta !== "undefined" && import.meta.env?.VITE_SITE_URL) ||
-  "https://drawdowncal.alfindigital.com"
+  "https://ddcal.lotmetrik.my.id"
 ).replace(/\/$/, "");
 
 export const SITE_NAME = "DrawdownCal";

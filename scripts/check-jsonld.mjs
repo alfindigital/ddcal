@@ -3,7 +3,7 @@
 import { readFileSync } from "node:fs";
 import { extractUrls, findForeignUrls } from "./lib/jsonld-urls.mjs";
 
-const SITE_URL = process.env.VITE_SITE_URL || "https://drawdowncal.alfindigital.com";
+const SITE_URL = process.env.VITE_SITE_URL || "https://ddcal.lotmetrik.my.id";
 // Route-level JSON-LD now comes from helper builders in src/lib/jsonld.ts (not
 // inline literals), so we only statically validate the root graph here. The
 // rendered-HTML check (check-built-html.mjs) covers the per-route blocks.

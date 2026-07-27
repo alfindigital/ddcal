@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 
-Sitemap: https://drawdowncal.alfindigital.com/sitemap.xml
+Sitemap: https://ddcal.lotmetrik.my.id/sitemap.xml
