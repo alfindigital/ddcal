@@ -176,11 +176,6 @@ export function HomePage({ initial }: { initial: HomeInitial }) {
           {Calculator}
         </div>
 
-        <p className="text-center text-[11px] leading-relaxed text-muted-foreground">
-          {tr("privacy")}
-          <br />
-          {tr("disclaimer")}
-        </p>
 
         <div className="dd-fade mt-auto" style={{ animationDelay: "220ms" }}>
           <Footer />
