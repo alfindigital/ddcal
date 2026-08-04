@@ -78,7 +78,7 @@ export const Route = createRootRoute({
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "robots", content: "max-image-preview:large, max-snippet:-1" },
-      { name: "google-site-verification", content: "J-Czc4w4Dto_XXTUZfW8lAMoT45CpTWqZ72Nt91yFbw" },
+      { name: "google-site-verification", content: "7EO77GIvBUN_mJX4xEfJTJlEgb9G5nfcDDBgyiBulVw" },
       { property: "og:site_name", content: SITE_NAME },
     ],
     links: [
