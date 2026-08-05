@@ -7,7 +7,7 @@ export const Route = createFileRoute("/about")({
   head: () => ({
     meta: buildMeta({
       url: `${SITE_URL}/about`,
-      title: "About Drawdown & Recovery: Formula, Table, Tips & FAQ | DrawdownCal",
+      title: "Trading Drawdown & Recovery Guide | DrawdownCal",
       description:
         "Complete guide to trading drawdown vs recovery: the formula, a reference table from 5% to 99%, risk management tips, and FAQ.",
     }),
