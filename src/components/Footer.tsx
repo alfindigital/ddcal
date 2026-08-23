@@ -77,13 +77,14 @@ export function Footer() {
       <span className="relative z-10 inline-flex shrink min-w-0 items-center whitespace-nowrap border-l-2 border-primary pl-2 text-[11px] text-muted-foreground sm:pl-1.5 sm:text-[10px]">
         © {year}
         <a
-          href="https://alfindigital.com"
+          href="https://t.me/lotmetrik"
           target="_blank"
           rel="noopener noreferrer"
           className="ml-1 font-semibold text-primary hover:underline"
         >
-          alfindigital
+          lotmetrik
         </a>
+
         <span
           className={`${reduced ? "" : "afd-caret"} ml-[3px] inline-block h-3 w-[6px] bg-primary sm:h-2.5 sm:w-[5px]`}
         />
