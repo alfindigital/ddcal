@@ -17,15 +17,21 @@ export function Header({ currentDrawdown: _ }: { currentDrawdown?: number } = {}
           </span>
         </div>
 
-        {/* Wordmark — unified 'drawdown' wordmark with crimson 'cal' lockup */}
-        <span className="font-display flex items-baseline gap-1 truncate">
-          <span className="text-[15px] sm:text-[17px] font-bold lowercase tracking-tight text-foreground">
-            drawdown
+        {/* Wordmark - unified 'drawdown' wordmark with crimson 'cal' lockup */}
+        <span className="font-display flex min-w-0 flex-col">
+          <span className="flex items-baseline gap-1 truncate">
+            <span className="text-[15px] font-bold lowercase tracking-tight text-foreground sm:text-[17px]">
+              drawdown
+            </span>
+            <span className="rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
+              cal
+            </span>
           </span>
-          <span className="rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
-            cal
+          <span className="truncate text-[10px] font-medium leading-tight text-muted-foreground">
+            by @lotmetrik
           </span>
         </span>
+
       </Link>
 
       <nav className="flex items-center gap-1">
