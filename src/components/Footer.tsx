@@ -80,10 +80,12 @@ export function Footer() {
           href="https://t.me/lotmetrik"
           target="_blank"
           rel="noopener noreferrer"
-          className="ml-1 font-semibold text-primary hover:underline"
+          className="mx-1 font-semibold text-primary hover:underline"
         >
           lotmetrik
         </a>
+        <span className="hidden sm:inline">- all rights reserved</span>
+
 
         <span
           className={`${reduced ? "" : "afd-caret"} ml-[3px] inline-block h-3 w-[6px] bg-primary sm:h-2.5 sm:w-[5px]`}
