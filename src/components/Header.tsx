@@ -18,16 +18,16 @@ export function Header({ currentDrawdown: _ }: { currentDrawdown?: number } = {}
         </div>
 
         {/* Wordmark - unified 'drawdown' wordmark with crimson 'cal' lockup */}
-        <span className="font-display flex min-w-0 flex-col">
+        <span className="font-display flex min-w-0 flex-col justify-center leading-none">
           <span className="flex items-baseline gap-1 truncate">
             <span className="text-[15px] font-bold lowercase tracking-tight text-foreground sm:text-[17px]">
               drawdown
             </span>
-            <span className="rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
+            <span className="rounded-md bg-primary/10 px-1.5 py-px text-[10px] font-bold uppercase leading-[1.4] tracking-[0.2em] text-primary">
               cal
             </span>
           </span>
-          <span className="truncate text-[10px] font-medium leading-tight text-muted-foreground">
+          <span className="mt-1 truncate text-[10px] font-medium leading-none text-muted-foreground sm:text-[11px]">
             by @lotmetrik
           </span>
         </span>
