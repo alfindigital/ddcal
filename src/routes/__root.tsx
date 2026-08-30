@@ -10,6 +10,7 @@ import { useEffect } from "react";
 
 import appCss from "../styles.css?url";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
+import { siteGraphJsonLd } from "@/lib/jsonld";
 import { registerPWA } from "@/lib/pwa-register";
 import { GA_ID, gaBootstrapScript } from "@/lib/analytics";
 
