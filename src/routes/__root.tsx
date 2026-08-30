@@ -109,13 +109,7 @@ export const Route = createRootRoute({
         : []),
       {
         type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@graph": [
-            { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
-            { "@type": "WebSite", name: SITE_NAME, url: SITE_URL, inLanguage: "en" },
-          ],
-        }),
+        children: JSON.stringify(siteGraphJsonLd()),
       },
     ],
   }),
