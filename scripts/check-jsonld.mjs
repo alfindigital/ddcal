@@ -7,9 +7,16 @@ const SITE_URL = process.env.VITE_SITE_URL || "https://ddcal.lotmetrik.my.id";
 // Route-level JSON-LD now comes from helper builders in src/lib/jsonld.ts (not
 // inline literals), so we only statically validate the root graph here. The
 // rendered-HTML check (check-built-html.mjs) covers the per-route blocks.
-const FILES = ["src/routes/__root.tsx"];
+const FILES = ["src/lib/jsonld.ts"];
 // alfindigital.com is the legitimate author/creator URL in the app schema.
-const ALLOWLIST = ["https://schema.org", "https://alfindigital.com"];
+const ALLOWLIST = [
+  "https://schema.org",
+  "https://alfindigital.com",
+  "https://t.me",
+  "https://instagram.com",
+  "https://tiktok.com",
+  "https://x.com",
+];
 
 let failed = false;
 

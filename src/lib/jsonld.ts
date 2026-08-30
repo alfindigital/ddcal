@@ -3,6 +3,49 @@ import { SITE_URL, SITE_NAME, OG_IMAGE } from "@/lib/seo";
 
 const AUTHOR_URL = "https://alfindigital.com";
 
+/** Verified lotmetrik social profiles (also linked in the site footer). */
+export const SOCIAL_URLS = [
+  "https://t.me/lotmetrik",
+  "https://instagram.com/lotmetrik",
+  "https://tiktok.com/@lotmetrik",
+  "https://x.com/lotmetrik",
+];
+
+/** Sitewide Organization + Person + WebSite graph. */
+export function siteGraphJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": `${SITE_URL}/#organization`,
+        name: "lotmetrik",
+        alternateName: SITE_NAME,
+        url: SITE_URL,
+        logo: `${SITE_URL}/icon-512.png`,
+        sameAs: SOCIAL_URLS,
+        founder: { "@id": `${SITE_URL}/#person` },
+      },
+      {
+        "@type": "Person",
+        "@id": `${SITE_URL}/#person`,
+        name: "lotmetrik",
+        alternateName: "@lotmetrik",
+        url: SITE_URL,
+        sameAs: SOCIAL_URLS,
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${SITE_URL}/#website`,
+        name: SITE_NAME,
+        url: SITE_URL,
+        inLanguage: "en",
+        publisher: { "@id": `${SITE_URL}/#organization` },
+      },
+    ],
+  };
+}
+
 /** FAQPage schema — content is rendered visibly in the About page. */
 export function faqJsonLd() {
   const pairs: [Parameters<typeof t>[0], Parameters<typeof t>[0]][] = [

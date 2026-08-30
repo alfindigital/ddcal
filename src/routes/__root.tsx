@@ -10,6 +10,7 @@ import { useEffect } from "react";
 
 import appCss from "../styles.css?url";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
+import { siteGraphJsonLd } from "@/lib/jsonld";
 import { registerPWA } from "@/lib/pwa-register";
 import { GA_ID, gaBootstrapScript } from "@/lib/analytics";
 
@@ -109,13 +110,7 @@ export const Route = createRootRoute({
         : []),
       {
         type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@graph": [
-            { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
-            { "@type": "WebSite", name: SITE_NAME, url: SITE_URL, inLanguage: "en" },
-          ],
-        }),
+        children: JSON.stringify(siteGraphJsonLd()),
       },
     ],
   }),
