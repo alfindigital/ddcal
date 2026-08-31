@@ -31,7 +31,6 @@ export function Header({ currentDrawdown: _ }: { currentDrawdown?: number } = {}
             by @lotmetrik
           </span>
         </span>
-
       </Link>
 
       <nav className="flex items-center gap-1">
