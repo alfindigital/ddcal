@@ -23,7 +23,8 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
         launchOptions: {
           executablePath:
-            process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE || "/chromium-1194/chrome-linux/chrome",
+            process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE ||
+            "/opt/ms-playwright/chromium-1194/chrome-linux/chrome",
         },
       },
     },
