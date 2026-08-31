@@ -36,7 +36,6 @@ const SOCIALS: Social[] = [
   },
 ];
 
-
 export function Footer() {
   const [active, setActive] = useState(0);
   const pausedRef = useRef(false);
@@ -85,8 +84,6 @@ export function Footer() {
           lotmetrik
         </a>
         <span className="hidden sm:inline">- all rights reserved</span>
-
-
         <span
           className={`${reduced ? "" : "afd-caret"} ml-[3px] inline-block h-3 w-[6px] bg-primary sm:h-2.5 sm:w-[5px]`}
         />

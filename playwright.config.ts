@@ -5,14 +5,14 @@ export default defineConfig({
   fullyParallel: true,
   reporter: "list",
   use: {
-    baseURL: process.env.E2E_BASE_URL || "http://localhost:3000",
+    baseURL: process.env.E2E_BASE_URL || "http://localhost:8080",
     trace: "off",
   },
   webServer: process.env.E2E_BASE_URL
     ? undefined
     : {
         command: "bun run dev",
-        url: "http://localhost:3000",
+        url: "http://localhost:8080",
         reuseExistingServer: true,
         timeout: 120_000,
       },
@@ -23,7 +23,8 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
         launchOptions: {
           executablePath:
-            process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE || "/chromium-1194/chrome-linux/chrome",
+            process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE ||
+            "/opt/ms-playwright/chromium-1194/chrome-linux/chrome",
         },
       },
     },
