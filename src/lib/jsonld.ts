@@ -1,8 +1,6 @@
 import { t } from "@/lib/i18n";
 import { SITE_URL, SITE_NAME, OG_IMAGE } from "@/lib/seo";
 
-const AUTHOR_URL = "https://alfindigital.com";
-
 /** Verified lotmetrik social profiles (also linked in the site footer). */
 export const SOCIAL_URLS = [
   "https://t.me/lotmetrik",
@@ -86,7 +84,7 @@ export function softwareJsonLd() {
       "Scenario comparison",
       "Shareable result image",
     ],
-    author: { "@type": "Person", name: "alfindigital", url: AUTHOR_URL },
-    creator: { "@type": "Organization", name: "alfindigital", url: AUTHOR_URL },
+    author: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    creator: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
   };
 }

@@ -1,6 +1,23 @@
 {
-  "name": "tanstack_start_ts",
-  "private": true,
+  "name": "ddcal",
+  "private": false,
+  "description": "Drawdown & recovery calculator for traders — find out how much profit you need to break even after a loss.",
+  "license": "MIT",
+  "homepage": "https://github.com/alfindigital/ddcal#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alfindigital/ddcal.git"
+  },
+  "keywords": [
+    "drawdown",
+    "recovery",
+    "calculator",
+    "trading",
+    "finance",
+    "pwa",
+    "react",
+    "tanstack"
+  ],
   "sideEffects": false,
   "type": "module",
   "scripts": {

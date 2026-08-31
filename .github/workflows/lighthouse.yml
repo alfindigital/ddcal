@@ -22,7 +22,7 @@ jobs:
       - name: Run Lighthouse CI (mobile preset)
         run: |
           npx -y @lhci/cli@0.14.x autorun \
-            --collect.url=https://ddcal.lotmetrik.my.id/ \
+            --collect.url=${{ vars.SITE_URL || 'http://localhost:3000' }}/ \
             --collect.numberOfRuns=3 \
             --collect.settings.preset=mobile \
             --upload.target=filesystem \

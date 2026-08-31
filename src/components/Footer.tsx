@@ -76,14 +76,14 @@ export function Footer() {
       <span className="relative z-10 inline-flex shrink min-w-0 items-center whitespace-nowrap border-l-2 border-primary pl-2 text-[11px] text-muted-foreground sm:pl-1.5 sm:text-[10px]">
         © {year}
         <a
-          href="https://t.me/lotmetrik"
+          href="https://github.com/alfindigital/ddcal"
           target="_blank"
           rel="noopener noreferrer"
           className="mx-1 font-semibold text-primary hover:underline"
         >
-          lotmetrik
+          DrawdownCal
         </a>
-        <span className="hidden sm:inline">- all rights reserved</span>
+        <span className="hidden sm:inline">contributors</span>
         <span
           className={`${reduced ? "" : "afd-caret"} ml-[3px] inline-block h-3 w-[6px] bg-primary sm:h-2.5 sm:w-[5px]`}
         />
