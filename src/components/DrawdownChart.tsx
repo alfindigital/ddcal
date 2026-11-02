@@ -147,7 +147,7 @@ function DrawdownChartImpl({
               className="absolute left-0 right-0 flex items-center"
               style={{ bottom: `${yFrac(tk) * 100}%` }}
             >
-              <span className="w-9 shrink-0 pr-1 text-right text-[9px] leading-none text-muted-foreground tabular">
+              <span className="w-11 shrink-0 pr-1 text-right text-[11px] leading-none text-muted-foreground tabular">
                 {tk}%
               </span>
               <span className="h-px flex-1 bg-border/70" />
@@ -156,7 +156,7 @@ function DrawdownChartImpl({
         </div>
 
         {/* Bars — pointer targets only; keyboard/SR live on the container slider. */}
-        <div className="absolute bottom-0 left-9 right-1 top-2 flex items-stretch gap-[2px]">
+        <div className="absolute bottom-0 left-11 right-1 top-2 flex items-stretch gap-[2px]">
           {BARS.map((b, i) => {
             const isActive = i === activeIdx;
             const color = bucketColor(b.dd, isDark);
@@ -191,7 +191,7 @@ function DrawdownChartImpl({
                   }}
                 />
                 <span
-                  className={`absolute inset-x-0 bottom-0 text-center text-[9px] leading-6 tabular ${
+                  className={`absolute inset-x-0 bottom-0 text-center text-[11px] leading-6 tabular ${
                     isActive ? "font-bold text-foreground" : "text-muted-foreground"
                   }`}
                 >
@@ -207,7 +207,7 @@ function DrawdownChartImpl({
           aria-hidden
           className="pointer-events-none absolute top-2 bottom-6"
           style={{
-            left: `calc(2.25rem + (100% - 2.25rem - 0.25rem) * ${(activeIdx + 0.5) / n})`,
+            left: `calc(2.75rem + (100% - 2.75rem - 0.25rem) * ${(activeIdx + 0.5) / n})`,
             width: 0,
             borderLeft: "1.5px dashed var(--primary)",
             transform: "translateX(-0.75px)",
@@ -249,7 +249,7 @@ function ChartTooltip({
     <div
       className="pointer-events-none absolute -translate-x-1/2 rounded-lg border bg-background px-2.5 py-1.5 shadow-lg"
       style={{
-        left: `calc(2.25rem + (100% - 2.25rem - 0.25rem) * ${leftPct / 100})`,
+        left: `calc(2.75rem + (100% - 2.75rem - 0.25rem) * ${leftPct / 100})`,
         top: 0,
         transition: "left 140ms ease-out",
       }}

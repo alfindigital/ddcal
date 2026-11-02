@@ -176,13 +176,14 @@ export function HomePage({ initial }: { initial: HomeInitial }) {
           {Calculator}
         </div>
 
+        <InstallPrompt />
+
         <div className="dd-fade mt-auto" style={{ animationDelay: "220ms" }}>
           <Footer />
         </div>
       </div>
 
       <Toaster />
-      <InstallPrompt />
     </div>
   );
 }

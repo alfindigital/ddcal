@@ -103,8 +103,9 @@ export function InstallPrompt() {
   if (!show) return null;
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-      <div className="pointer-events-auto flex w-full max-w-md items-center gap-3 rounded-2xl border bg-card/95 px-3 py-2.5 shadow-[var(--shadow-elegant)] backdrop-blur-md">
+    // In page flow (above the footer), not a fixed overlay: a fixed bar covered the chart.
+    <div className="flex justify-center">
+      <div className="flex w-full max-w-md items-center gap-3 rounded-2xl border bg-card/95 px-3 py-2.5 shadow-[var(--shadow-elegant)] backdrop-blur-md">
         <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
           {iosHint ? <Share className="h-4 w-4" /> : <Download className="h-4 w-4" />}
         </div>

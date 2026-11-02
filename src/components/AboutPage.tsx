@@ -109,8 +109,11 @@ export function AboutPage() {
               <details key={f.q} className="group">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-3 py-2.5 text-sm font-semibold text-foreground marker:hidden">
                   {f.q}
-                  <span className="text-muted-foreground transition-transform group-open:rotate-45">
+                  <span aria-hidden className="text-muted-foreground group-open:hidden">
                     +
+                  </span>
+                  <span aria-hidden className="hidden text-muted-foreground group-open:inline">
+                    −
                   </span>
                 </summary>
                 <p className="px-3 pb-3 text-sm leading-relaxed text-muted-foreground">{f.a}</p>
