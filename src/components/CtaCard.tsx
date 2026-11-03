@@ -2,7 +2,7 @@ import { Send } from "lucide-react";
 import { useT } from "@/lib/i18n";
 import { track } from "@/lib/analytics";
 
-const TELEGRAM_URL = "https://t.me/alfidx";
+const TELEGRAM_URL = "https://t.me/lotmetrik";
 
 export function CtaCard() {
   const t = useT();

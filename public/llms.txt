@@ -31,4 +31,4 @@ Example: a 50% drawdown requires a 100% recovery. A 20% drawdown only requires a
 ## Contact
 
 Project URL: https://ddcal.lotmetrik.my.id
-Telegram: https://t.me/alfidx
+Telegram: https://t.me/lotmetrik?direct
